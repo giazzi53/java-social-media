@@ -10,11 +10,8 @@ public class JobRoleDomain {
 	
 	private String companyName;
 
-	public JobRoleDomain(String jobRoleID, String professionalID, double salary, String companyName) {
-		this.jobRoleID = jobRoleID;
-		this.professionalID = professionalID;
-		this.salary = salary;
-		this.companyName = companyName;
+	public JobRoleDomain() {
+
 	}
 
 	public String getJobRoleID() {

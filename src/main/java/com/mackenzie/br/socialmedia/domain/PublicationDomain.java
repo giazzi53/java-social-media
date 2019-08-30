@@ -16,10 +16,8 @@ public class PublicationDomain {
 	
 	private Date publicationDate;
 
-	public PublicationDomain(String author, String text, Date publicationDate) {
-		this.authorID = author;
-		this.text = text;
-		this.publicationDate = publicationDate;
+	public PublicationDomain() {
+
 	}
 
 	public String getPublicationID() {
