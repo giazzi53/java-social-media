@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 //import com.mackenzie.br.socialmedia.enums.InstructionLevelEnum;
 //import com.mackenzie.br.socialmedia.enums.ProfileTypeEnum;
 
-@Document(collection = "waterFlowCollection")
+@Document(collection = "ProfessionalCollection")
 public class ProfessionalDomain {
 
 	@Id
