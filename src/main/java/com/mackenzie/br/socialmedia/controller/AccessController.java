@@ -1,5 +1,7 @@
 package com.mackenzie.br.socialmedia.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,16 +30,16 @@ public class AccessController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(@RequestBody ProfessionalDomain professional) {
 		
-		String userLoginInput = professionalDAO.findByUserLogin(professional.getUserLogin());
-		String passwordInput = professionalDAO.findByPassword(professional.getPassword());
-		
-		if (!userLoginInput.equals(professional.getUserLogin())) {
-			return "Usuario incorreto";
-		} else if(!passwordInput.equals(professional.getPassword())) {
-			return "Senha incorreta";
+		List<ProfessionalDomain> userLoginProfessional = professionalDAO.findByUserLogin(professional.getUserLogin());
+		List<ProfessionalDomain> passwordProfessional = professionalDAO.findByPassword(professional.getPassword());
+	
+		if((!(userLoginProfessional.size() == 1)) || passwordProfessional.isEmpty()) { 
+			// login query list must return only one object
+			// password query list must return one or more objects (same password can be used for different users)
+			return "Usuario ou senha incorretos";
 		}
 		
-		return "Bem vindo, " + professional.getName();
+		return "Bem vindo, " + userLoginProfessional.get(0).getName();
 	}
 
 	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
