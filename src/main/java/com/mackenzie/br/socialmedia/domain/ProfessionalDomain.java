@@ -1,7 +1,12 @@
 package com.mackenzie.br.socialmedia.domain;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,7 +23,8 @@ public class ProfessionalDomain {
 	private String professionalID;
 
 	private String name;
-
+	
+	@Size(min=6, message="Enter at least 10 Characters")
 	private String userLogin;
 
 	//@JsonIgnore
@@ -34,6 +40,10 @@ public class ProfessionalDomain {
 	
 	//@JsonProperty
 	private JobRoleDomain jobRole;
+	
+	private List<ProfessionalDomain> listOfFriends = new ArrayList<ProfessionalDomain>();
+	
+	private List<ProfessionalDomain> listOfFriendRequests = new ArrayList<ProfessionalDomain>();
 
 //	private InstructionLevelEnum instructionLevel;
 
@@ -105,6 +115,22 @@ public class ProfessionalDomain {
 
 	public void setJobRole(JobRoleDomain jobRole) {
 		this.jobRole = jobRole;
+	}
+
+	public List<ProfessionalDomain> getListOfFriends() {
+		return listOfFriends;
+	}
+
+	public void setListOfFriends(List<ProfessionalDomain> listOfFriends) {
+		this.listOfFriends = listOfFriends;
+	}
+
+	public List<ProfessionalDomain> getListOfFriendRequests() {
+		return listOfFriendRequests;
+	}
+
+	public void setListOfFriendRequests(List<ProfessionalDomain> listOfFriendRequests) {
+		this.listOfFriendRequests = listOfFriendRequests;
 	}
 
 //	public InstructionLevelEnum getInstructionLevel() {
