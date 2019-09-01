@@ -10,5 +10,5 @@ import com.mackenzie.br.socialmedia.domain.PublicationDomain;
 @Repository
 public interface PublicationDAO extends MongoRepository<PublicationDomain, String>{
 	
-	List<PublicationDomain> deleteByPulicationDate(PublicationDomain publicationDomain);
+	List<PublicationDomain> deleteByPublicationDate(PublicationDomain publicationDomain);
 }

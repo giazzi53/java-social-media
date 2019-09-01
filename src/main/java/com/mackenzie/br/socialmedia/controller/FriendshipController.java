@@ -26,12 +26,11 @@ public class FriendshipController {
 	@RequestMapping(value = "/sendFriendshipRequest", method = RequestMethod.POST)
 	public String sendFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
 		
-		List<ProfessionalDomain> professional0 =  professionalDAO.findByUserLogin(professionals.get(0).getUserLogin());
-		List<ProfessionalDomain> professional1 =  professionalDAO.findByUserLogin(professionals.get(1).getUserLogin());
+		List<ProfessionalDomain> professional0 = professionalDAO.findByUserLogin(professionals.get(0).getUserLogin());
+		List<ProfessionalDomain> professional1 = professionalDAO.findByUserLogin(professionals.get(1).getUserLogin());
 		
 		professional1.get(0).getListOfFriendRequests().add(professional0.get(0));
 		professionalDAO.save(professional1.get(0));
-		
 		
 		return "Solicitação de amizade enviada";
 	}
@@ -39,11 +38,11 @@ public class FriendshipController {
 	@RequestMapping(value = "/acceptFriendshipRequest", method = RequestMethod.POST)
 	public String acceptFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
 
-			List<ProfessionalDomain> professional0 =  professionalDAO.findByUserLogin(professionals.get(0).getUserLogin());
+			List<ProfessionalDomain> professional0 = professionalDAO.findByUserLogin(professionals.get(0).getUserLogin());
 			professional0.get(0).getListOfFriends().add(professionalDAO.findByUserLogin(professionals.get(1).getUserLogin()).get(0));
 			professionalDAO.save(professional0.get(0));
 			
-			List<ProfessionalDomain> professional1 =  professionalDAO.findByUserLogin(professionals.get(1).getUserLogin());
+			List<ProfessionalDomain> professional1 = professionalDAO.findByUserLogin(professionals.get(1).getUserLogin());
 			professional1.get(0).getListOfFriends().add(professionalDAO.findByUserLogin(professionals.get(0).getUserLogin()).get(0));
 			professionalDAO.save(professional1.get(0));
 			
@@ -53,8 +52,8 @@ public class FriendshipController {
 	@RequestMapping(value = "/rejectFriendshipRequest", method = RequestMethod.POST)
 	public String rejectFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
 		
-		List<ProfessionalDomain> professional0 =  professionalDAO.findByUserLogin(professionals.get(0).getUserLogin());
-		List<ProfessionalDomain> professional1 =  professionalDAO.findByUserLogin(professionals.get(1).getUserLogin());
+		List<ProfessionalDomain> professional0 = professionalDAO.findByUserLogin(professionals.get(0).getUserLogin());
+		List<ProfessionalDomain> professional1 = professionalDAO.findByUserLogin(professionals.get(1).getUserLogin());
 		
 		List<ProfessionalDomain> listRequest = professional0.get(0).getListOfFriendRequests();
 		
@@ -63,11 +62,8 @@ public class FriendshipController {
 				listRequest.remove(request);
 				professionalDAO.save(professional0.get(0));
 				break;
-				
 			}
 		}
-		
-		
 		
 		return "Solicitação de amizade recusada";
 	}

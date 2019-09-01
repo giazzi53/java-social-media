@@ -48,10 +48,7 @@ public class AccessController {
 		List<ProfessionalDomain> profissional = professionalDAO.findByUserLogin(professional.getUserLogin());
 		profissional.get(0).setName(professional.getName());
 		professionalDAO.save(profissional.get(0));
-	
-		
-		
+
 		return "Dados atualizados com sucesso";
-		
 	}
 }
