@@ -43,10 +43,15 @@ public class AccessController {
 	}
 
 	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
-	public String updateProfile(@RequestBody ProfessionalDomain professional) {
+	public String updateProfilePost(@RequestBody ProfessionalDomain professional) {
 		
-		professionalDAO.save(professional);
-
+		List<ProfessionalDomain> profissional = professionalDAO.findByUserLogin(professional.getUserLogin());
+		profissional.get(0).setName(professional.getName());
+		professionalDAO.save(profissional.get(0));
+	
+		
+		
 		return "Dados atualizados com sucesso";
+		
 	}
 }
