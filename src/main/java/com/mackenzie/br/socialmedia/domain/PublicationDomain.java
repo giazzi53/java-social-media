@@ -2,14 +2,16 @@ package com.mackenzie.br.socialmedia.domain;
 
 import java.util.Date;
 
-import org.springframework.stereotype.Service;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Service
+@Document(collection = "PublicationCollection")
 public class PublicationDomain {
 	
+	@Id	
 	private String publicationID;
 	
-	private String authorID;
+	private String author;
 	
 	private String text;
 	
@@ -27,12 +29,12 @@ public class PublicationDomain {
 		this.publicationID = publicationID;
 	}
 
-	public String getAuthorID() {
-		return authorID;
+	public String getAuthor() {
+		return author;
 	}
 
-	public void setAuthorID(String authorID) {
-		this.authorID = authorID;
+	public void setAuthorID(String author) {
+		this.author = author;
 	}
 
 	public String getText() {

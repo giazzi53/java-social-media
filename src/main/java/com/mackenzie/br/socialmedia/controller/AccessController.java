@@ -17,7 +17,7 @@ import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 public class AccessController {
 
 	@Autowired
-	ProfessionalDAO professionalDAO;
+	private ProfessionalDAO professionalDAO;
 
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
 	public String signUp(@RequestBody ProfessionalDomain professional) {
@@ -36,7 +36,7 @@ public class AccessController {
 		if((!(userLoginProfessional.size() == 1)) || passwordProfessional.isEmpty()) { 
 			// login query list must return only one object
 			// password query list must return one or more objects (same password can be used for different users)
-			return "Usuario ou senha incorretos";
+			return "Usuário ou senha incorretos";
 		}
 		
 		return "Bem vindo, " + userLoginProfessional.get(0).getName();

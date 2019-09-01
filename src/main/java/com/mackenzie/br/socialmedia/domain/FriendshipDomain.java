@@ -1,14 +1,21 @@
 package com.mackenzie.br.socialmedia.domain;
 
-//import com.mackenzie.br.socialmedia.enums.FriendshipStatusEnum;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.mackenzie.br.socialmedia.enums.FriendshipStatusEnum;
+
+@Document(collection = "FriendshipCollection")
 public class FriendshipDomain {
+	
+	@Id
+	private String friendshipId;
 	
 	private ProfessionalDomain professional1;
 	
 	private ProfessionalDomain professional2;
 	
-//	private FriendshipStatusEnum friendShipStatus;
+	private FriendshipStatusEnum friendShipStatus;
 
 	public FriendshipDomain() {
 
@@ -30,12 +37,11 @@ public class FriendshipDomain {
 		this.professional2 = professional2;
 	}
 
-//	public FriendshipStatusEnum getFriendShipStatus() {
-//		return friendShipStatus;
-//	}
-//
-//	public void setFriendShipStatus(FriendshipStatusEnum friendShipStatus) {
-//		this.friendShipStatus = friendShipStatus;
+	public FriendshipStatusEnum getFriendShipStatus() {
+		return friendShipStatus;
 	}
 
-//}
+	public void setFriendShipStatus(FriendshipStatusEnum friendShipStatus) {
+		this.friendShipStatus = friendShipStatus;
+	}
+}
