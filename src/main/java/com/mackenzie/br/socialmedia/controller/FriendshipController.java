@@ -1,5 +1,6 @@
 package com.mackenzie.br.socialmedia.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,34 +35,56 @@ public class FriendshipController {
 		
 		for (ProfessionalDomain request : listRequest0){
 			if (request.getUserLogin().equalsIgnoreCase(professional1.get(0).getUserLogin())) {
-				return "O usuário " + professional1.get(0).getName() + " já lhe enviou uma requisição de amizade";
+				return "O usuário " + professional1.get(0).getName() + " já lhe enviou uma requisição de amizade.";
 			}
 		}
 		
 		for (ProfessionalDomain request : listRequest1){
 			if (request.getUserLogin().equalsIgnoreCase(professional0.get(0).getUserLogin())) {
-				return "A solicitação de amizade para " +  professional1.get(0).getName() + " está pendente";
+				return "A solicitação de amizade para " +  professional1.get(0).getName() + " está pendente.";
 			}
 		}
 		
 		professional1.get(0).getListOfFriendRequests().add(professional0.get(0));
 		professionalDAO.save(professional1.get(0));
 		
-		return "Solicitação de amizade enviada";
+		return "Solicitação de amizade enviada.";
 	}
 	
 	@RequestMapping(value = "/acceptFriendshipRequest", method = RequestMethod.POST)
 	public String acceptFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
-
-			List<ProfessionalDomain> professional0 = professionalDAO.findByUserLogin(professionals.get(0).getUserLogin());
-			professional0.get(0).getListOfFriends().add(professionalDAO.findByUserLogin(professionals.get(1).getUserLogin()).get(0));
-			professionalDAO.save(professional0.get(0));
-			
-			List<ProfessionalDomain> professional1 = professionalDAO.findByUserLogin(professionals.get(1).getUserLogin());
-			professional1.get(0).getListOfFriends().add(professionalDAO.findByUserLogin(professionals.get(0).getUserLogin()).get(0));
-			professionalDAO.save(professional1.get(0));
-			
-		return "Solicitação de amizade aceita";
+		
+		List<ProfessionalDomain> professional0 = professionalDAO.findByUserLogin(professionals.get(0).getUserLogin());
+		List<ProfessionalDomain> professional1 = professionalDAO.findByUserLogin(professionals.get(1).getUserLogin());
+		
+		List<ProfessionalDomain> listRequest0 = professional0.get(0).getListOfFriendRequests();
+		List<ProfessionalDomain> listFriends0 = professional0.get(0).getListOfFriends();
+		
+		
+		List<ProfessionalDomain> professionalsList = new ArrayList<ProfessionalDomain>();
+		professionalsList.add(professional0.get(0));
+		professionalsList.add(professional1.get(0));
+		
+		for (ProfessionalDomain request : listFriends0){
+			if (request.getUserLogin().equalsIgnoreCase(professional1.get(0).getUserLogin())) {
+				return "O usuário " + professional1.get(0).getName() + " já é seu amigo.";
+			}
+		}
+		
+		for (ProfessionalDomain request : listRequest0){
+			if (request.getUserLogin().equalsIgnoreCase(professional1.get(0).getUserLogin())) {
+				
+				professional0.get(0).getListOfFriends().add(professionalDAO.findByUserLogin(professionals.get(1).getUserLogin()).get(0));
+				professional0.get(0).getListOfFriendRequests().remove(request);
+				professional1.get(0).getListOfFriends().add(professionalDAO.findByUserLogin(professionals.get(0).getUserLogin()).get(0));
+				
+				professionalDAO.saveAll(professionalsList);
+				
+				return "O usuário " + professional1.get(0).getName() + " foi adicionado a sua lista de amigos.";
+			}
+		}
+		
+		return "Não existe nenhuma requisição de amizade de : " + professional1.get(0).getName() + ".";
 	}
 	
 	@RequestMapping(value = "/rejectFriendshipRequest", method = RequestMethod.POST)
@@ -76,10 +99,10 @@ public class FriendshipController {
 			if (request.getUserLogin().equalsIgnoreCase(professional1.get(0).getUserLogin())) {
 				listRequest.remove(request);
 				professionalDAO.save(professional0.get(0));
-				break;
+				return "Solicitação de amizade recusada.";
 			}
 		}
 		
-		return "Solicitação de amizade recusada";
+		return "Nenhuma solicitação de " + professional1.get(0).getName() + ", foi encontrada.";
 	}
 }
