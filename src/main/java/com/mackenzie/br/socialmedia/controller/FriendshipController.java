@@ -29,6 +29,21 @@ public class FriendshipController {
 		List<ProfessionalDomain> professional0 = professionalDAO.findByUserLogin(professionals.get(0).getUserLogin());
 		List<ProfessionalDomain> professional1 = professionalDAO.findByUserLogin(professionals.get(1).getUserLogin());
 		
+		List<ProfessionalDomain> listRequest0 = professional0.get(0).getListOfFriendRequests();
+		List<ProfessionalDomain> listRequest1 = professional1.get(0).getListOfFriendRequests();
+		
+		for (ProfessionalDomain request : listRequest0){
+			if (request.getUserLogin().equalsIgnoreCase(professional1.get(0).getUserLogin())) {
+				return "O usuário " + professional1.get(0).getName() + " já lhe enviou uma requisição de amizade";
+			}
+		}
+		
+		for (ProfessionalDomain request : listRequest1){
+			if (request.getUserLogin().equalsIgnoreCase(professional0.get(0).getUserLogin())) {
+				return "A solicitação de amizade para " +  professional1.get(0).getName() + " está pendente";
+			}
+		}
+		
 		professional1.get(0).getListOfFriendRequests().add(professional0.get(0));
 		professionalDAO.save(professional1.get(0));
 		
