@@ -3,6 +3,7 @@ package com.mackenzie.br.socialmedia.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +20,7 @@ public class AccessController {
 	@Autowired
 	private ProfessionalDAO professionalDAO;
 
+	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
 	public String signUp(@RequestBody ProfessionalDomain professional) {
 
