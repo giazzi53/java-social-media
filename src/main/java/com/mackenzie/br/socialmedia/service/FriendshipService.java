@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mackenzie.br.socialmedia.DAO.FriendshipDAO;
 import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
+import com.mackenzie.br.socialmedia.domain.FriendshipDomain;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 
 @Service
@@ -18,6 +20,9 @@ public class FriendshipService {
 
 	@Autowired
 	ProfessionalDAO professionalDAO;
+	
+	@Autowired
+	FriendshipDAO friendshipDAO;
 	
 	public String sendFriendshipRequest(List<ProfessionalDomain> professionals) {
 		
@@ -80,6 +85,11 @@ public class FriendshipService {
 				professional0.get(0).getListOfFriendRequests().remove(request);
 				professional1.get(0).getListOfFriends().add(professionalDAO.findByUserLogin(professionals.get(0).getUserLogin()).get(0));
 				
+				FriendshipDomain friendRelationship = new FriendshipDomain();
+				friendRelationship.setProfessional1(professional0.get(0));
+				friendRelationship.setProfessional2(professional1.get(0));
+
+				friendshipDAO.save(friendRelationship);
 				professionalDAO.saveAll(professionalsList);
 				
 				return "O usuário " + professional1.get(0).getName() + " foi adicionado a sua lista de amigos.";
