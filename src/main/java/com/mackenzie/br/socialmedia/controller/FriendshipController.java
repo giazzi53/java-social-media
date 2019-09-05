@@ -3,6 +3,7 @@ package com.mackenzie.br.socialmedia.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +31,11 @@ public class FriendshipController {
 	@RequestMapping(value = "/rejectFriendshipRequest", method = RequestMethod.POST)
 	public String rejectFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
 		return friendshipService.rejectFriendshipRequest(professionals);
+	}
+	
+	@RequestMapping(value = "/returnListFriends", method = RequestMethod.POST)
+	public ResponseEntity<List<ProfessionalDomain>> returnListFriends(@RequestBody ProfessionalDomain professional) {
+		return friendshipService.returnListFriends(professional);
 	}
 
 }

@@ -16,42 +16,27 @@ import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 //import com.mackenzie.br.socialmedia.enums.InstructionLevelEnum;
 //import com.mackenzie.br.socialmedia.enums.ProfileTypeEnum;
+import com.mackenzie.br.socialmedia.service.AccessService;
 
 @RestController
 public class AccessController {
 
 	@Autowired
-	private ProfessionalDAO professionalDAO;
+	AccessService accessService;
 
 	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
 	public ResponseEntity<ProfessionalDomain> signUp(@RequestBody ProfessionalDomain professional) {
-		professionalDAO.insert(professional);
-		return new ResponseEntity<>(professional, HttpStatus.CREATED);
+		return accessService.signUp(professional);
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(@RequestBody ProfessionalDomain professional) {
-		
-		List<ProfessionalDomain> userLoginProfessional = professionalDAO.findByUserLogin(professional.getUserLogin());
-		List<ProfessionalDomain> passwordProfessional = professionalDAO.findByPassword(professional.getPassword());
-	
-		if((!(userLoginProfessional.size() == 1)) || passwordProfessional.isEmpty()) { 
-			// login query list must return only one object
-			// password query list must return one or more objects (same password can be used for different users)
-			return "Usuário ou senha incorretos";
-		}
-		
-		return "Bem vindo, " + userLoginProfessional.get(0).getName();
+		return accessService.login(professional);
 	}
 
 	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
-	public ResponseEntity<ProfessionalDomain> updateProfilePost(@RequestBody ProfessionalDomain professional) {
-		
-		List<ProfessionalDomain> profissional = professionalDAO.findByUserLogin(professional.getUserLogin());
-		profissional.get(0).setName(professional.getName());
-		professionalDAO.save(profissional.get(0));
-
-		return new ResponseEntity<>(professional,HttpStatus.OK);
+	public ResponseEntity<ProfessionalDomain> updateProfile(@RequestBody ProfessionalDomain professional) {
+		return accessService.updateProfile(professional);
 	}
 }

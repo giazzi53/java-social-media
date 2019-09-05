@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.mackenzie.br.socialmedia.DAO.FriendshipDAO;
@@ -12,6 +14,7 @@ import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
 import com.mackenzie.br.socialmedia.domain.FriendshipDomain;
 import com.mackenzie.br.socialmedia.domain.FriendshipRequestDomain;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
+import com.mackenzie.br.socialmedia.map.FriendshipMapper;
 
 @Service
 public class FriendshipService {
@@ -29,6 +32,9 @@ public class FriendshipService {
 	@Autowired
 	FriendshipRequestDAO friendshipRequestDAO;
 	
+	@Autowired
+	FriendshipMapper friendshipMapper;
+	
 	public String sendFriendshipRequest(List<ProfessionalDomain> professionals) {
 
 		if (validateUser(professionals.get(0).getUserLogin()) && validateUser(professionals.get(1).getUserLogin())) {
@@ -38,6 +44,16 @@ public class FriendshipService {
 
 		List<ProfessionalDomain> professional0 = professionalDAO.findByUserLogin(professionals.get(0).getUserLogin());
 		List<ProfessionalDomain> professional1 = professionalDAO.findByUserLogin(professionals.get(1).getUserLogin());
+		
+		List<String> listFriendsID = friendshipMapper.mapListFriendsId(professional0.get(0).getProfessionalID(),
+				friendshipDAO.findByProfessionalID1(professional0.get(0).getProfessionalID()), 
+				friendshipDAO.findByProfessionalID2(professional0.get(0).getProfessionalID()));
+		
+		for (String friendID : listFriendsID) {
+			if (friendID.equalsIgnoreCase(professional1.get(0).getProfessionalID())) {
+				return "Esse usuario ja é seu amigo.";
+			}
+		}
 		
 		if (professional0.get(0).getProfessionalID().equalsIgnoreCase(professional1.get(0).getProfessionalID()) ) {
 			return "Você não pode enviar um request de amizade para você mesmo.";
@@ -83,23 +99,17 @@ public class FriendshipService {
 		}
 		
 		List<FriendshipRequestDomain> listRequestReceived = friendshipRequestDAO.findByProfessionalID2(professional0.get(0).getProfessionalID());
-		List<FriendshipDomain> listFriendships1 = friendshipDAO.findByProfessionalID1(professional0.get(0).getProfessionalID());
-		List<FriendshipDomain> listFriendships2 = friendshipDAO.findByProfessionalID2(professional0.get(0).getProfessionalID());
 		
-		List<FriendshipDomain> listFriendships = new ArrayList<FriendshipDomain>();
-		listFriendships.addAll(listFriendships1);
-		listFriendships.addAll(listFriendships2);
+		List<String> listFriendsID = friendshipMapper.mapListFriendsId(professional0.get(0).getProfessionalID(),
+				friendshipDAO.findByProfessionalID1(professional0.get(0).getProfessionalID()), 
+				friendshipDAO.findByProfessionalID2(professional0.get(0).getProfessionalID()));
 		
-		List<String> listFriendsID = new ArrayList<String>();
-		
-		for (FriendshipDomain friendship : listFriendships){
-			if (friendship.getProfessionalID1().equalsIgnoreCase(professional0.get(0).getProfessionalID())) {
-				listFriendsID.add(friendship.getProfessionalID2());
-			}else {
-				listFriendsID.add(friendship.getProfessionalID1());
+		for (String friendID : listFriendsID) {
+			if (friendID.equalsIgnoreCase(professional1.get(0).getProfessionalID())) {
+				return "Esse usuario ja é seu amigo.";
 			}
 		}
-
+		
 		for (FriendshipRequestDomain request : listRequestReceived){
 			if (request.getProfessionalID1().equalsIgnoreCase(professional1.get(0).getProfessionalID())) {
 				
@@ -151,6 +161,28 @@ public class FriendshipService {
 			}
 		}
 		return false;
+	}
+
+	public ResponseEntity<List<ProfessionalDomain>> returnListFriends(ProfessionalDomain professional) {
+		
+		if (validateUser(professional.getUserLogin())) {
+		}else {
+			return new ResponseEntity<List<ProfessionalDomain>>(HttpStatus.BAD_REQUEST);
+		}
+		
+		List<ProfessionalDomain> professional0 = professionalDAO.findByUserLogin(professional.getUserLogin());
+		
+		List<String> listFriendsID = friendshipMapper.mapListFriendsId(professional0.get(0).getProfessionalID(),
+				friendshipDAO.findByProfessionalID1(professional0.get(0).getProfessionalID()), 
+				friendshipDAO.findByProfessionalID2(professional0.get(0).getProfessionalID()));
+		
+		List<ProfessionalDomain> listFriends = new ArrayList<ProfessionalDomain>();
+		
+		for( String id : listFriendsID) {
+			listFriends.add(professionalDAO.findByProfessionalID(id).get(0));
+		}
+		
+		return new ResponseEntity<List<ProfessionalDomain>>(listFriends, HttpStatus.OK);
 	}
 
 }
