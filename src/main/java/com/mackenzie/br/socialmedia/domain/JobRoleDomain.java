@@ -3,9 +3,7 @@ package com.mackenzie.br.socialmedia.domain;
 public class JobRoleDomain {
 	
 	private String jobRoleID;
-	
-	private String professionalID;
-	
+
 	private double salary;
 	
 	private String companyName;
@@ -20,14 +18,6 @@ public class JobRoleDomain {
 
 	public void setJobRoleID(String jobRoleID) {
 		this.jobRoleID = jobRoleID;
-	}
-
-	public String getProfessionalID() {
-		return professionalID;
-	}
-
-	public void setProfessionalID(String professionalID) {
-		this.professionalID = professionalID;
 	}
 
 	public double getSalary() {

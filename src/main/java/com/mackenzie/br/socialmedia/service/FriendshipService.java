@@ -31,9 +31,6 @@ public class FriendshipService {
 			return "Usuário Inválido";
 		}
 		
-		System.out.println(professionalDAO.existsByUserLogin(professionals.get(0).getUserLogin()));
-		System.out.println(professionalDAO.existsByUserLogin(professionals.get(1).getUserLogin()));
-		
 		List<ProfessionalDomain> professional0 = professionalDAO.findByUserLogin(professionals.get(0).getUserLogin());
 		List<ProfessionalDomain> professional1 = professionalDAO.findByUserLogin(professionals.get(1).getUserLogin());
 		
@@ -60,6 +57,11 @@ public class FriendshipService {
 	}
 	
 	public String acceptFriendshipRequest(List<ProfessionalDomain> professionals) {
+		
+		if (validateUser(professionals.get(0).getUserLogin()) && validateUser(professionals.get(1).getUserLogin())) {
+		}else {
+			return "Usuário Inválido";
+		}
 		
 		List<ProfessionalDomain> professional0 = professionalDAO.findByUserLogin(professionals.get(0).getUserLogin());
 		List<ProfessionalDomain> professional1 = professionalDAO.findByUserLogin(professionals.get(1).getUserLogin());
@@ -100,6 +102,11 @@ public class FriendshipService {
 		}
 
 	public String rejectFriendshipRequest(List<ProfessionalDomain> professionals) {
+		
+		if (validateUser(professionals.get(0).getUserLogin()) && validateUser(professionals.get(1).getUserLogin())) {
+		}else {
+			return "Usuário Inválido";
+		}
 		
 		List<ProfessionalDomain> professional0 = professionalDAO.findByUserLogin(professionals.get(0).getUserLogin());
 		List<ProfessionalDomain> professional1 = professionalDAO.findByUserLogin(professionals.get(1).getUserLogin());

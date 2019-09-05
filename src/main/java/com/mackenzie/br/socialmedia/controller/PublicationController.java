@@ -23,8 +23,8 @@ public class PublicationController {
 		return "Publicação realizada com sucesso";
 	}
 	
-	@RequestMapping(value = "/deletePublicaton", method = RequestMethod.DELETE)
-	public String deletePublicaton(@RequestBody PublicationDomain publicationDomain) {
+	@RequestMapping(value = "/deletePublication", method = RequestMethod.DELETE)
+	public String deletePublication(@RequestBody PublicationDomain publicationDomain) {
 		
 		publicationDAO.deleteByPublicationDate(publicationDomain);
 		

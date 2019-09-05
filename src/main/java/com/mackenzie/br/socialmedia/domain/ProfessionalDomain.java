@@ -12,6 +12,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mackenzie.br.socialmedia.enums.InstructionLevelEnum;
+import com.mackenzie.br.socialmedia.enums.ProfileTypeEnum;
 
 //import com.mackenzie.br.socialmedia.enums.InstructionLevelEnum;
 //import com.mackenzie.br.socialmedia.enums.ProfileTypeEnum;
@@ -45,12 +47,32 @@ public class ProfessionalDomain {
 	
 	private List<ProfessionalDomain> listOfFriendRequests = new ArrayList<ProfessionalDomain>();
 
-//	private InstructionLevelEnum instructionLevel;
+	private InstructionLevelEnum instructionLevel;
 
-//	private ProfileTypeEnum profileType;
+	private ProfileTypeEnum profileType;
 
 	public ProfessionalDomain() {
 		
+	}
+
+	public InstructionLevelEnum getInstructionLevel() {
+		return instructionLevel;
+	}
+
+	public void setInstructionLevel(InstructionLevelEnum instructionLevel) {
+		this.instructionLevel = instructionLevel;
+	}
+
+	public ProfileTypeEnum getProfileType() {
+		return profileType;
+	}
+
+	public void setProfileType(ProfileTypeEnum profileType) {
+		this.profileType = profileType;
+	}
+
+	public JobRoleDomain getJobRole() {
+		return jobRole;
 	}
 
 	public String getProfessionalID() {

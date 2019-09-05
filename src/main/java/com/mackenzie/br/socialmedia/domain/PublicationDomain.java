@@ -11,7 +11,7 @@ public class PublicationDomain {
 	@Id	
 	private String publicationID;
 	
-	private String author;
+	private String professionalID;
 	
 	private String text;
 	
@@ -29,14 +29,6 @@ public class PublicationDomain {
 		this.publicationID = publicationID;
 	}
 
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthorID(String author) {
-		this.author = author;
-	}
-
 	public String getText() {
 		return text;
 	}
@@ -51,5 +43,13 @@ public class PublicationDomain {
 
 	public void setPublicationDate(Date publicationDate) {
 		this.publicationDate = publicationDate;
+	}
+
+	public String getProfessionalID() {
+		return professionalID;
+	}
+
+	public void setProfessionalID(String professionalID) {
+		this.professionalID = professionalID;
 	}
 }
