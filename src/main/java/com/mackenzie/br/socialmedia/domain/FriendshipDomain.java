@@ -11,30 +11,13 @@ public class FriendshipDomain {
 	@Id
 	private String friendshipId;
 	
-	private ProfessionalDomain professional1;
+	private String professionalID1;
 	
-	private ProfessionalDomain professional2;
+	private String professionalID2;
 	
 	private FriendshipStatusEnum friendShipStatus;
 
 	public FriendshipDomain() {
-
-	}
-
-	public ProfessionalDomain getProfessional1() {
-		return professional1;
-	}
-
-	public void setProfessional1(ProfessionalDomain professional1) {
-		this.professional1 = professional1;
-	}
-
-	public ProfessionalDomain getProfessional2() {
-		return professional2;
-	}
-
-	public void setProfessional2(ProfessionalDomain professional2) {
-		this.professional2 = professional2;
 	}
 
 	public FriendshipStatusEnum getFriendShipStatus() {
@@ -44,4 +27,29 @@ public class FriendshipDomain {
 	public void setFriendShipStatus(FriendshipStatusEnum friendShipStatus) {
 		this.friendShipStatus = friendShipStatus;
 	}
+
+	public String getFriendshipId() {
+		return friendshipId;
+	}
+
+	public void setFriendshipId(String friendshipId) {
+		this.friendshipId = friendshipId;
+	}
+
+	public String getProfessionalID1() {
+		return professionalID1;
+	}
+
+	public void setProfessionalID1(String professionalID1) {
+		this.professionalID1 = professionalID1;
+	}
+
+	public String getProfessionalID2() {
+		return professionalID2;
+	}
+
+	public void setProfessionalID2(String professionalID2) {
+		this.professionalID2 = professionalID2;
+	}
+	
 }

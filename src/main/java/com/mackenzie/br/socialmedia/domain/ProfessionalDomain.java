@@ -42,10 +42,6 @@ public class ProfessionalDomain {
 	
 	//@JsonProperty
 	private JobRoleDomain jobRole;
-	
-	private List<ProfessionalDomain> listOfFriends = new ArrayList<ProfessionalDomain>();
-	
-	private List<ProfessionalDomain> listOfFriendRequests = new ArrayList<ProfessionalDomain>();
 
 	private InstructionLevelEnum instructionLevel;
 
@@ -138,36 +134,5 @@ public class ProfessionalDomain {
 	public void setJobRole(JobRoleDomain jobRole) {
 		this.jobRole = jobRole;
 	}
-
-	public List<ProfessionalDomain> getListOfFriends() {
-		return listOfFriends;
-	}
-
-	public void setListOfFriends(List<ProfessionalDomain> listOfFriends) {
-		this.listOfFriends = listOfFriends;
-	}
-
-	public List<ProfessionalDomain> getListOfFriendRequests() {
-		return listOfFriendRequests;
-	}
-
-	public void setListOfFriendRequests(List<ProfessionalDomain> listOfFriendRequests) {
-		this.listOfFriendRequests = listOfFriendRequests;
-	}
-
-//	public InstructionLevelEnum getInstructionLevel() {
-//		return instructionLevel;
-//	}
-//
-//	public void setInstructionLevel(InstructionLevelEnum instructionLevel) {
-//		this.instructionLevel = instructionLevel;
-//	}
-//
-//	public ProfileTypeEnum getProfileType() {
-//		return profileType;
-//	}
-//
-//	public void setProfileType(ProfileTypeEnum profileType) {
-//		this.profileType = profileType;
-//	}
+	
 }
