@@ -3,6 +3,9 @@ package com.mackenzie.br.socialmedia.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,13 +23,11 @@ public class AccessController {
 	@Autowired
 	private ProfessionalDAO professionalDAO;
 
-	@CrossOrigin(origins = "http://localhost:4200")
+	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
-	public String signUp(@RequestBody ProfessionalDomain professional) {
-
+	public ResponseEntity<ProfessionalDomain> signUp(@RequestBody ProfessionalDomain professional) {
 		professionalDAO.insert(professional);
-				 
-		return "Cadastro realizado com sucesso";
+		return new ResponseEntity<>(professional, HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -45,12 +46,12 @@ public class AccessController {
 	}
 
 	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
-	public String updateProfilePost(@RequestBody ProfessionalDomain professional) {
+	public ResponseEntity<ProfessionalDomain> updateProfilePost(@RequestBody ProfessionalDomain professional) {
 		
 		List<ProfessionalDomain> profissional = professionalDAO.findByUserLogin(professional.getUserLogin());
 		profissional.get(0).setName(professional.getName());
 		professionalDAO.save(profissional.get(0));
 
-		return "Dados atualizados com sucesso";
+		return new ResponseEntity<>(professional,HttpStatus.OK);
 	}
 }
