@@ -1,33 +1,33 @@
 package com.mackenzie.br.socialmedia.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mackenzie.br.socialmedia.DAO.PublicationDAO;
 import com.mackenzie.br.socialmedia.domain.PublicationDomain;
+import com.mackenzie.br.socialmedia.service.PublicationService;
 
 @RestController
 public class PublicationController {
 	
 	@Autowired
-	private PublicationDAO publicationDAO;
+	private PublicationService publicationService;
 
-	@RequestMapping(value = "/publicate", method = RequestMethod.POST)
-	public String publicate(@RequestBody PublicationDomain publicationDomain) {
+	@PostMapping(value = "/publicate")
+	public ResponseEntity<PublicationDomain> publicate(@RequestBody PublicationDomain publicationDomain) {
+		PublicationDomain databasePublication = publicationService.publicate(publicationDomain);
 		
-		publicationDAO.insert(publicationDomain);
-		
-		return "Publicação realizada com sucesso";
+		return new ResponseEntity<>(databasePublication, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/deletePublication", method = RequestMethod.DELETE)
-	public String deletePublication(@RequestBody PublicationDomain publicationDomain) {
+	@DeleteMapping(value = "/deletePublication")
+	public ResponseEntity<PublicationDomain> deletePublication(@RequestBody PublicationDomain publicationDomain) {
+		PublicationDomain databasePublication = publicationService.deleteByPublicationDate(publicationDomain);
 		
-		publicationDAO.deleteByPublicationDate(publicationDomain);
-		
-		return "Publicação deletada com sucesso";
+		return new ResponseEntity<>(databasePublication, HttpStatus.OK);
 	}
 }

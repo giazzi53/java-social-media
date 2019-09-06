@@ -15,6 +15,8 @@ public interface ProfessionalDAO extends MongoRepository<ProfessionalDomain, Str
 	List<ProfessionalDomain> findByPassword(String passsword);
 	
 	List<ProfessionalDomain> findByProfessionalID(String professionalID);
+	
+	List<ProfessionalDomain> findByUserLoginAndPassword(String userLogin, String password);
 
 	boolean existsByUserLogin(String userLogin);
 

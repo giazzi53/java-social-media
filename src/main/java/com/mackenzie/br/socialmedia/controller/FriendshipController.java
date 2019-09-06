@@ -3,12 +3,14 @@ package com.mackenzie.br.socialmedia.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mackenzie.br.socialmedia.domain.FriendshipDomain;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 import com.mackenzie.br.socialmedia.service.FriendshipService;
 
@@ -16,26 +18,37 @@ import com.mackenzie.br.socialmedia.service.FriendshipService;
 public class FriendshipController {
 	
 	@Autowired
-	FriendshipService friendshipService;
+	private FriendshipService friendshipService;
 
-	@RequestMapping(value = "/sendFriendshipRequest", method = RequestMethod.POST)
-	public String sendFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
-		return friendshipService.sendFriendshipRequest(professionals);
+	@PostMapping(value = "/sendFriendshipRequest")
+	public ResponseEntity<ProfessionalDomain> sendFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
+	//public ResponseEntity<FriendshipDomain> sendFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
+		//FriendshipDomain databaseFriendship = friendshipService.sendFriendshipRequest(professionals);
+		friendshipService.sendFriendshipRequest(professionals);
+		
+		return new ResponseEntity<>(professionals.get(0), HttpStatus.OK);
+		//return new ResponseEntity<>(databaseFriendship, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/acceptFriendshipRequest", method = RequestMethod.POST)
-	public String acceptFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
-		return friendshipService.acceptFriendshipRequest(professionals);
+	@PostMapping(value = "/acceptFriendshipRequest")
+	public ResponseEntity<ProfessionalDomain> acceptFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
+		friendshipService.acceptFriendshipRequest(professionals);
+		
+		return new ResponseEntity<>(professionals.get(0), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/rejectFriendshipRequest", method = RequestMethod.POST)
-	public String rejectFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
-		return friendshipService.rejectFriendshipRequest(professionals);
+	@PostMapping(value = "/rejectFriendshipRequest")
+	public ResponseEntity<ProfessionalDomain> rejectFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
+		friendshipService.rejectFriendshipRequest(professionals);
+		
+		return new ResponseEntity<>(professionals.get(0), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/returnListFriends", method = RequestMethod.POST)
+	@GetMapping(value = "/returnListFriends")
 	public ResponseEntity<List<ProfessionalDomain>> returnListFriends(@RequestBody ProfessionalDomain professional) {
-		return friendshipService.returnListFriends(professional);
+		List<ProfessionalDomain> list = friendshipService.returnListFriends(professional);
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 }

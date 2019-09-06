@@ -1,18 +1,15 @@
 package com.mackenzie.br.socialmedia.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 //import com.mackenzie.br.socialmedia.enums.InstructionLevelEnum;
 //import com.mackenzie.br.socialmedia.enums.ProfileTypeEnum;
@@ -25,18 +22,30 @@ public class AccessController {
 	AccessService accessService;
 
 	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
-	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
+	@PostMapping(value = "/signUp")
 	public ResponseEntity<ProfessionalDomain> signUp(@RequestBody ProfessionalDomain professional) {
-		return accessService.signUp(professional);
+		ProfessionalDomain databaseProfessional = accessService.signUp(professional);
+		
+		return new ResponseEntity<>(databaseProfessional, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(@RequestBody ProfessionalDomain professional) {
-		return accessService.login(professional);
+	@GetMapping(value = "/login")
+	public ResponseEntity<ProfessionalDomain> login(@RequestBody ProfessionalDomain professional) {
+		ProfessionalDomain databaseProfessional;
+		
+		try {
+			databaseProfessional = accessService.login(professional);
+		} catch (IllegalAccessException e) {
+			return new ResponseEntity<>(professional, HttpStatus.UNAUTHORIZED);
+		}
+		
+		return new ResponseEntity<>(databaseProfessional, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
+	@PutMapping(value = "/updateProfile")
 	public ResponseEntity<ProfessionalDomain> updateProfile(@RequestBody ProfessionalDomain professional) {
-		return accessService.updateProfile(professional);
+		ProfessionalDomain databaseProfessional = accessService.updateProfile(professional);
+		
+		return new ResponseEntity<>(databaseProfessional, HttpStatus.OK);
 	}
 }

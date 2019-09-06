@@ -24,16 +24,16 @@ public class FriendshipService {
 	}
 
 	@Autowired
-	ProfessionalDAO professionalDAO;
+	private ProfessionalDAO professionalDAO;
 	
 	@Autowired
-	FriendshipDAO friendshipDAO;
+	private FriendshipDAO friendshipDAO;
 	
 	@Autowired
-	FriendshipRequestDAO friendshipRequestDAO;
+	private FriendshipRequestDAO friendshipRequestDAO;
 	
 	@Autowired
-	FriendshipMapper friendshipMapper;
+	private FriendshipMapper friendshipMapper;
 	
 	public String sendFriendshipRequest(List<ProfessionalDomain> professionals) {
 
@@ -80,8 +80,8 @@ public class FriendshipService {
 		friendshipRequest.setProfessionalID2(professional1.get(0).getProfessionalID());
 		friendshipRequestDAO.insert(friendshipRequest);
 		
-		return "Solicitação de amizade enviada.";
-		
+		return "Amizade criada com sucesso";
+		//return friendshipRequest;
 	}
 
 	public String acceptFriendshipRequest(List<ProfessionalDomain> professionals) {
@@ -163,11 +163,12 @@ public class FriendshipService {
 		return false;
 	}
 
-	public ResponseEntity<List<ProfessionalDomain>> returnListFriends(ProfessionalDomain professional) {
+	public List<ProfessionalDomain> returnListFriends(ProfessionalDomain professional) {
 		
 		if (validateUser(professional.getUserLogin())) {
 		}else {
-			return new ResponseEntity<List<ProfessionalDomain>>(HttpStatus.BAD_REQUEST);
+			//return new ResponseEntity<List<ProfessionalDomain>>(HttpStatus.BAD_REQUEST);
+			throw new IllegalArgumentException();
 		}
 		
 		List<ProfessionalDomain> professional0 = professionalDAO.findByUserLogin(professional.getUserLogin());
@@ -182,7 +183,7 @@ public class FriendshipService {
 			listFriends.add(professionalDAO.findByProfessionalID(id).get(0));
 		}
 		
-		return new ResponseEntity<List<ProfessionalDomain>>(listFriends, HttpStatus.OK);
+		return listFriends;
 	}
 
 }

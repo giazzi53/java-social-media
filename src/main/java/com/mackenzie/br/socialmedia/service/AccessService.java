@@ -1,6 +1,5 @@
 package com.mackenzie.br.socialmedia.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.mackenzie.br.socialmedia.DAO.FriendshipDAO;
-import com.mackenzie.br.socialmedia.DAO.FriendshipRequestDAO;
 import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
-import com.mackenzie.br.socialmedia.domain.FriendshipDomain;
-import com.mackenzie.br.socialmedia.domain.FriendshipRequestDomain;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 
 @Service
@@ -23,35 +18,35 @@ public class AccessService {
 	}
 
 	@Autowired
-	ProfessionalDAO professionalDAO;
+	private ProfessionalDAO professionalDAO;
 
-	public ResponseEntity<ProfessionalDomain> signUp(ProfessionalDomain professional) {
-		professionalDAO.insert(professional);
-		return new ResponseEntity<>(professional, HttpStatus.CREATED);
+	public ProfessionalDomain signUp(ProfessionalDomain professional) {
+		ProfessionalDomain databaseProfessional = professionalDAO.insert(professional);	
 		
+		return databaseProfessional;
 	}
 
-	public String login(ProfessionalDomain professional) {
+	public ProfessionalDomain login(ProfessionalDomain professional) throws IllegalAccessException {
 		
-		List<ProfessionalDomain> userLoginProfessional = professionalDAO.findByUserLogin(professional.getUserLogin());
-		List<ProfessionalDomain> passwordProfessional = professionalDAO.findByPassword(professional.getPassword());
+		List<ProfessionalDomain> databaseProfessional = professionalDAO.findByUserLoginAndPassword(professional.getUserLogin(), professional.getPassword());
+		//List<ProfessionalDomain> passwordProfessional = professionalDAO.findByPassword(professional.getPassword());
 	
-		if((!(userLoginProfessional.size() == 1)) || passwordProfessional.isEmpty()) { 
+		if(databaseProfessional.size() != 1) { 
 			// login query list must return only one object
 			// password query list must return one or more objects (same password can be used for different users)
-			return "Usuário ou senha incorretos";
+			
+			throw new IllegalAccessException("Usuário ou senha incorretos");
 		}
 		
-		return "Bem vindo, " + userLoginProfessional.get(0).getName();
+		return databaseProfessional.get(0);
 	}
 
-	public ResponseEntity<ProfessionalDomain> updateProfile(ProfessionalDomain professional) {
-		
+	public ProfessionalDomain updateProfile(ProfessionalDomain professional) {
 		List<ProfessionalDomain> profissional = professionalDAO.findByUserLogin(professional.getUserLogin());
 		profissional.get(0).setName(professional.getName());
 		professionalDAO.save(profissional.get(0));
 
-		return new ResponseEntity<>(profissional.get(0),HttpStatus.OK);
+		return profissional.get(0);
 	}
 
 }
