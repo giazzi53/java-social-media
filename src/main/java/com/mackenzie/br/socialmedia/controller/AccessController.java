@@ -24,8 +24,12 @@ public class AccessController {
 	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@PostMapping(value = "/signUp")
 	public ResponseEntity<ProfessionalDomain> signUp(@RequestBody ProfessionalDomain professional) {
-		ProfessionalDomain databaseProfessional = accessService.signUp(professional);
-		
+		ProfessionalDomain databaseProfessional;
+		try {
+			databaseProfessional = accessService.login(professional);
+		} catch (IllegalAccessException e) {
+			return new ResponseEntity<>(professional, HttpStatus.UNAUTHORIZED);
+		}
 		return new ResponseEntity<>(databaseProfessional, HttpStatus.CREATED);
 	}
 

@@ -1,5 +1,7 @@
 package com.mackenzie.br.socialmedia.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 import com.mackenzie.br.socialmedia.domain.PublicationDomain;
 import com.mackenzie.br.socialmedia.service.PublicationService;
 
@@ -30,4 +33,10 @@ public class PublicationController {
 		
 		return new ResponseEntity<>(databasePublication, HttpStatus.OK);
 	}
+	
+	@PostMapping(value = "/retrieveListPublication")
+	public ResponseEntity<List<PublicationDomain>> retrieveListPublication(@RequestBody ProfessionalDomain professional) throws IllegalAccessException{
+		return new ResponseEntity<>(publicationService.retrieveListPublication(professional), HttpStatus.OK);
+	}
+	
 }

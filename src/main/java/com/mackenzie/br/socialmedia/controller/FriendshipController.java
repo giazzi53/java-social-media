@@ -44,7 +44,7 @@ public class FriendshipController {
 		return new ResponseEntity<>(professionals.get(0), HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/returnListFriends")
+	@PostMapping(value = "/returnListFriends")
 	public ResponseEntity<List<ProfessionalDomain>> returnListFriends(@RequestBody ProfessionalDomain professional) {
 		List<ProfessionalDomain> list = friendshipService.returnListFriends(professional);
 		
