@@ -12,11 +12,10 @@ public class AccessService {
 	@Autowired
 	private ProfessionalDAO professionalDAO;
 
-	public AccessService() {
-
-	}
-	
 	public ProfessionalDomain signUp(ProfessionalDomain professional) {
+//		if (validateUser(professional.getUserLogin())) {
+//			throw new IllegalAccessException("Usuário já em uso");
+//		}
 		ProfessionalDomain databaseProfessional = professionalDAO.insert(professional);	
 		
 		return databaseProfessional;
@@ -47,6 +46,15 @@ public class AccessService {
 		professionalDAO.save(databaseProfessional);
 
 		return databaseProfessional;
+	}
+	
+	public boolean validateUser(String userLogin) {
+		for (ProfessionalDomain professional : professionalDAO.findAll()){
+			if (professional.getUserLogin().equalsIgnoreCase(userLogin)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
