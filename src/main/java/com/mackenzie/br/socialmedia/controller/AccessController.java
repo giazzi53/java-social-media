@@ -36,7 +36,7 @@ public class AccessController {
 		try {
 			databaseProfessional = accessService.login(professional);
 		} catch (IllegalAccessException e) {
-			return new ResponseEntity<>(professional, HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 		}
 		
 		return new ResponseEntity<>(databaseProfessional, HttpStatus.OK);
@@ -44,7 +44,13 @@ public class AccessController {
 
 	@PutMapping(value = "/updateProfile")
 	public ResponseEntity<ProfessionalDomain> updateProfile(@RequestBody ProfessionalDomain professional) {
-		ProfessionalDomain databaseProfessional = accessService.updateProfile(professional);
+		ProfessionalDomain databaseProfessional;
+		
+		try{
+			databaseProfessional = accessService.updateProfile(professional);
+		} catch(IllegalArgumentException i) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
 		
 		return new ResponseEntity<>(databaseProfessional, HttpStatus.OK);
 	}

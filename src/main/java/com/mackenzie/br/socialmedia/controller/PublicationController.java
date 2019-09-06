@@ -19,15 +19,25 @@ public class PublicationController {
 
 	@PostMapping(value = "/publicate")
 	public ResponseEntity<PublicationDomain> publicate(@RequestBody PublicationDomain publicationDomain) {
-		PublicationDomain databasePublication = publicationService.publicate(publicationDomain);
+		PublicationDomain databasePublication;
+				
+		try{
+			databasePublication = publicationService.publicate(publicationDomain);
+		} catch(IllegalArgumentException i) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
 		
-		return new ResponseEntity<>(databasePublication, HttpStatus.OK);
+		return new ResponseEntity<>(databasePublication, HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping(value = "/deletePublication")
-	public ResponseEntity<PublicationDomain> deletePublication(@RequestBody PublicationDomain publicationDomain) {
-		PublicationDomain databasePublication = publicationService.deleteByPublicationDate(publicationDomain);
+	public ResponseEntity<PublicationDomain> deletePublication(@RequestBody PublicationDomain publicationDomain) {				
+		try{
+			publicationService.deletePublication(publicationDomain);
+		} catch(IllegalArgumentException i) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
 		
-		return new ResponseEntity<>(databasePublication, HttpStatus.OK);
+		return new ResponseEntity<>(null, HttpStatus.OK);
 	}
 }

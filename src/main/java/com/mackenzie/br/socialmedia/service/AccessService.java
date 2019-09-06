@@ -1,10 +1,6 @@
 package com.mackenzie.br.socialmedia.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
@@ -13,13 +9,13 @@ import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 @Service
 public class AccessService {
 	
-	public AccessService() {
-		super();
-	}
-
 	@Autowired
 	private ProfessionalDAO professionalDAO;
 
+	public AccessService() {
+
+	}
+	
 	public ProfessionalDomain signUp(ProfessionalDomain professional) {
 		ProfessionalDomain databaseProfessional = professionalDAO.insert(professional);	
 		
@@ -27,26 +23,30 @@ public class AccessService {
 	}
 
 	public ProfessionalDomain login(ProfessionalDomain professional) throws IllegalAccessException {
-		
-		List<ProfessionalDomain> databaseProfessional = professionalDAO.findByUserLoginAndPassword(professional.getUserLogin(), professional.getPassword());
-		//List<ProfessionalDomain> passwordProfessional = professionalDAO.findByPassword(professional.getPassword());
-	
-		if(databaseProfessional.size() != 1) { 
-			// login query list must return only one object
-			// password query list must return one or more objects (same password can be used for different users)
-			
+		boolean existsProfessional = professionalDAO.existsByUserLoginAndPassword(professional.getUserLogin(), professional.getPassword());
+
+		if(!existsProfessional) { 
 			throw new IllegalAccessException("Usuário ou senha incorretos");
 		}
 		
-		return databaseProfessional.get(0);
+		ProfessionalDomain databaseProfessional = professionalDAO.findByUserLoginAndPassword(professional.getUserLogin(), professional.getPassword());
+		
+		return databaseProfessional;
 	}
 
-	public ProfessionalDomain updateProfile(ProfessionalDomain professional) {
-		List<ProfessionalDomain> profissional = professionalDAO.findByUserLogin(professional.getUserLogin());
-		profissional.get(0).setName(professional.getName());
-		professionalDAO.save(profissional.get(0));
+	public ProfessionalDomain updateProfile(ProfessionalDomain professional) throws IllegalArgumentException{
+		boolean existsProfessional = professionalDAO.existsByProfessionalID(professional.getProfessionalID());
 
-		return profissional.get(0);
+		if(!existsProfessional) {
+			throw new IllegalArgumentException("Usuário não encontrado");
+		}
+		
+		ProfessionalDomain databaseProfessional = professionalDAO.findByProfessionalID(professional.getProfessionalID());
+
+		databaseProfessional.setName(professional.getName());
+		professionalDAO.save(databaseProfessional);
+
+		return databaseProfessional;
 	}
 
 }
