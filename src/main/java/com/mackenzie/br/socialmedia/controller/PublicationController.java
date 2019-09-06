@@ -22,7 +22,7 @@ public class PublicationController {
 	@Autowired
 	private PublicationService publicationService;
 
-	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	// @CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@PostMapping(value = "/publicate")
 	public ResponseEntity<PublicationDomain> publicate(@RequestBody PublicationDomain publicationDomain) {
 		PublicationDomain databasePublication;
@@ -36,7 +36,7 @@ public class PublicationController {
 		return new ResponseEntity<>(databasePublication, HttpStatus.CREATED);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	// @CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@DeleteMapping(value = "/deletePublication")
 	public ResponseEntity<PublicationDomain> deletePublication(@RequestBody PublicationDomain publicationDomain) {				
 		try{
@@ -48,7 +48,7 @@ public class PublicationController {
 		return new ResponseEntity<>(null, HttpStatus.OK);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	// @CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@GetMapping(value = "/retrievePublicationList")
 	public ResponseEntity<List<PublicationDomain>> retrievePublicationList(@RequestBody ProfessionalDomain professionalDomain) {
 		List<PublicationDomain> publicationList = null;
