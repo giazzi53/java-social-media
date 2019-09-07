@@ -14,18 +14,8 @@ public class FriendshipDomain {
 	private String professionalID1;
 	
 	private String professionalID2;
-	
-	private FriendshipStatusEnum friendShipStatus;
 
 	public FriendshipDomain() {
-	}
-
-	public FriendshipStatusEnum getFriendShipStatus() {
-		return friendShipStatus;
-	}
-
-	public void setFriendShipStatus(FriendshipStatusEnum friendShipStatus) {
-		this.friendShipStatus = friendShipStatus;
 	}
 
 	public String getFriendshipId() {
