@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,8 @@ public class FriendshipController {
 	
 	@Autowired
 	private FriendshipService friendshipService;
-
+	
+	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@PostMapping(value = "/sendFriendshipRequest")
 	public ResponseEntity<FriendshipRequestDomain> sendFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
 		FriendshipRequestDomain friendshipRequest;
@@ -32,6 +34,7 @@ public class FriendshipController {
 		return new ResponseEntity<>(friendshipRequest, HttpStatus.OK);
 	}
 	
+	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@PostMapping(value = "/acceptFriendshipRequest")
 	public ResponseEntity<FriendshipDomain> acceptFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
 		FriendshipDomain friendship;
@@ -44,6 +47,7 @@ public class FriendshipController {
 		return new ResponseEntity<>(friendship, HttpStatus.OK);
 	}
 	
+	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@PostMapping(value = "/rejectFriendshipRequest")
 	public ResponseEntity<FriendshipRequestDomain> rejectFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
 		FriendshipRequestDomain friendshipRequest;
@@ -56,7 +60,8 @@ public class FriendshipController {
 
 		return new ResponseEntity<>(friendshipRequest, HttpStatus.OK);
 	}
-
+	
+	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@PostMapping(value = "/returnListFriends")
 	public ResponseEntity<List<ProfessionalDomain>> returnListFriends(@RequestBody ProfessionalDomain professional) {
 		List<ProfessionalDomain> list;

@@ -21,7 +21,7 @@ public class AccessController {
 	@Autowired
 	AccessService accessService;
 
-	// @CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@PostMapping(value = "/signUp")
 	public ResponseEntity<ProfessionalDomain> signUp(@RequestBody ProfessionalDomain professional) {
 //		ProfessionalDomain databaseProfessional;
@@ -35,7 +35,7 @@ public class AccessController {
 		return new ResponseEntity<>(databaseProfessional, HttpStatus.CREATED);
 	}
 
-	// @CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@GetMapping(value = "/login")
 	public ResponseEntity<ProfessionalDomain> login(@RequestBody ProfessionalDomain professional) {
 		ProfessionalDomain databaseProfessional;
@@ -49,7 +49,7 @@ public class AccessController {
 		return new ResponseEntity<>(databaseProfessional, HttpStatus.OK);
 	}
 
-	// @CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@PutMapping(value = "/updateProfile")
 	public ResponseEntity<ProfessionalDomain> updateProfile(@RequestBody ProfessionalDomain professional) {
 		ProfessionalDomain databaseProfessional;
