@@ -26,7 +26,6 @@ public class ProfessionalDomain {
 
 	private String name;
 	
-	@Size(min=6, message="Enter at least 10 Characters")
 	private String userLogin;
 
 	//@JsonIgnore
