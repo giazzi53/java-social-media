@@ -21,7 +21,7 @@ public class AccessController {
 	@Autowired
 	AccessService accessService;
 
-	// @CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@CrossOrigin(origins = "https://ang-ds-social-media.herokuapp.com") // Comentar campo quando o angular estiver deployado no heroku
 	@PostMapping(value = "/signUp")
 	public ResponseEntity<ProfessionalDomain> signUp(@RequestBody ProfessionalDomain professional) {
 //		ProfessionalDomain databaseProfessional;
