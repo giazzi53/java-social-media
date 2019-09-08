@@ -49,7 +49,7 @@ public class PublicationController {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
-	@GetMapping(value = "/retrievePublicationList")
+	@PostMapping(value = "/retrievePublicationList")
 	public ResponseEntity<List<PublicationDomain>> retrievePublicationList(@RequestBody ProfessionalDomain professionalDomain) {
 		List<PublicationDomain> publicationList = null;
 		

@@ -47,7 +47,18 @@ public class AccessService {
 
 		return databaseProfessional;
 	}
-	
+
+	public ProfessionalDomain retrieveProfessionalData(ProfessionalDomain professional) throws IllegalArgumentException{
+		
+		boolean existsProfessional = professionalDAO.existsByProfessionalID(professional.getProfessionalID());
+
+		if(!existsProfessional) { 
+			throw new IllegalArgumentException("Usuário ou senha incorretos");
+		}
+		
+		return professionalDAO.findByProfessionalID(professional.getProfessionalID());
+	}
+
 	public boolean validateUser(String userLogin) {
 		for (ProfessionalDomain professional : professionalDAO.findAll()){
 			if (professional.getUserLogin().equalsIgnoreCase(userLogin)) {
@@ -56,5 +67,5 @@ public class AccessService {
 		}
 		return false;
 	}
-
+	
 }

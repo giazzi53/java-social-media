@@ -21,7 +21,7 @@ public class AccessController {
 	@Autowired
 	AccessService accessService;
 
-	@CrossOrigin(origins = "https://ang-ds-social-media.herokuapp.com") // Comentar campo quando o angular estiver deployado no heroku
+	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@PostMapping(value = "/signUp")
 	public ResponseEntity<ProfessionalDomain> signUp(@RequestBody ProfessionalDomain professional) {
 //		ProfessionalDomain databaseProfessional;
@@ -62,4 +62,19 @@ public class AccessController {
 		
 		return new ResponseEntity<>(databaseProfessional, HttpStatus.OK);
 	}
+	
+	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@PostMapping(value = "/retrieveProfessionalData")
+	public ResponseEntity<ProfessionalDomain> retrieveProfessionalData(@RequestBody ProfessionalDomain professional) {
+		ProfessionalDomain databaseProfessional;
+		
+		try {
+			databaseProfessional = accessService.retrieveProfessionalData(professional);
+		} catch (IllegalArgumentException e) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(databaseProfessional, HttpStatus.CREATED);
+	}
+	
 }
