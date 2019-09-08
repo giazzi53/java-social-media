@@ -164,3 +164,18 @@ Resposta da API:
         "jobRoleID": null
     }
 ]
+
+-------------------------------
+
+Search:
+
+Acesso:
+
+API: /search
+Descrição: busca usuários pelo nome
+Método HTTP: POST
+JSON (ainda vão ter os outros campos):
+{
+    "name": "nome a ser buscado",
+}
+
