@@ -30,6 +30,14 @@ JSON (passar os campos que quiser atalizar):
     "name": "Marquinhos 2"
 }
 
+API : /retrieveProfessionalData
+Descrição: retorna todos os dados do usuário
+Método HTTP: POST
+JSON
+{
+    "professionalID": "id do profissional"
+}
+
 -------------------------------
 
 Publicação:
