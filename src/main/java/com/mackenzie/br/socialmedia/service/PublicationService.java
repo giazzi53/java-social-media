@@ -1,5 +1,6 @@
 package com.mackenzie.br.socialmedia.service;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
 import com.mackenzie.br.socialmedia.DAO.PublicationDAO;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 import com.mackenzie.br.socialmedia.domain.PublicationDomain;
+import com.mackenzie.br.socialmedia.map.PublicationMapper;
 
 @Service
 public class PublicationService {
@@ -19,6 +21,9 @@ public class PublicationService {
 	
 	@Autowired
 	private ProfessionalDAO professionalDAO;
+	
+	@Autowired
+	private PublicationMapper publicationMapper;
 	
 	public PublicationService() {
 
@@ -32,8 +37,7 @@ public class PublicationService {
 		}
 		
 		publicationDomain.setPublicationDate(new Date());
-		PublicationDomain databasePublication = publicationDAO.insert(publicationDomain);	
-		
+		PublicationDomain databasePublication = publicationDAO.insert(publicationDomain);
 		return databasePublication;
 	}
 
@@ -55,6 +59,7 @@ public class PublicationService {
 		}
 		
 		List<PublicationDomain> publicationList = publicationDAO.findAllByProfessionalID(professionalDomain.getProfessionalID());
+		publicationMapper.mapPublicationListToDescendingOrder(publicationList);
 		
 		return publicationList;
 	}

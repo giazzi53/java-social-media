@@ -2,6 +2,8 @@ package com.mackenzie.br.socialmedia.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,7 @@ public class PublicationController {
 
 	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@PostMapping(value = "/publicate")
-	public ResponseEntity<PublicationDomain> publicate(@RequestBody PublicationDomain publicationDomain) {
+	public ResponseEntity<PublicationDomain> publicate(@RequestBody @Valid PublicationDomain publicationDomain) {
 		PublicationDomain databasePublication;
 				
 		try{
