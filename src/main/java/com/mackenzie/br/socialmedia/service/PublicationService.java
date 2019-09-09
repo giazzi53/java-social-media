@@ -1,5 +1,6 @@
 package com.mackenzie.br.socialmedia.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class PublicationService {
 			throw new IllegalArgumentException("Usuário não encontrado");
 		}
 		
+		publicationDomain.setPublicationDate(new Date());
 		PublicationDomain databasePublication = publicationDAO.insert(publicationDomain);	
 		
 		return databasePublication;
