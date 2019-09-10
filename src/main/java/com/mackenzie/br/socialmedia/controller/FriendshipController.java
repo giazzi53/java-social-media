@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mackenzie.br.socialmedia.domain.FriendshipDomain;
@@ -62,8 +65,10 @@ public class FriendshipController {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
-	@PostMapping(value = "/returnListFriends")
-	public ResponseEntity<List<ProfessionalDomain>> returnListFriends(@RequestBody ProfessionalDomain professional) {
+	@GetMapping(value = "/returnListFriends/{professionalID}")
+	public ResponseEntity<List<ProfessionalDomain>> returnListFriends(@PathVariable String professionalID) {
+		ProfessionalDomain professional = new ProfessionalDomain();
+		professional.setProfessionalID(professionalID);
 		List<ProfessionalDomain> list;
 		try {
 			list = friendshipService.returnListFriends(professional);

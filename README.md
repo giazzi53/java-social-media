@@ -54,10 +54,12 @@ JSON (ainda vai ter a data):
 API: /retrievePublicationList
 Descrição: obter todas as publicações de um profissional existente
 Método HTTP: GET
-JSON:
-{
-    "professionalID": "id do profissional"
-}
+URL: https://java-ds-social-media.herokuapp.com/retrievePublicationList/{professionalID}
+
+API: /retrieveFeedPublicationsList
+Descrição: obter todas as publicações de um profissional existente
+Método HTTP: GET
+URL: https://java-ds-social-media.herokuapp.com/retrieveFeedPublicationsList/{professionalID}
 
 API: /deletePublication
 Descrição: excluir uma publicação existente
@@ -130,12 +132,9 @@ Resposta da API:
 
 API: /returnListFriends
 Descrição: Retorna uma lista de objetos Professional, com todos os amigos do usuário
-Método HTTP: POST
-JSON:
-{
-    "professionalID": "5d717ac2b13b8117f4067647"
-}
-Resposta da API:
+Método HTTP: GET
+URL: https://java-ds-social-media.herokuapp.com/returnListFriends/{professionalID}
+Exemplo Resposta da API:
 [
     {
         "professionalID": "5d7089eb132bf2447055c80b",
@@ -174,7 +173,7 @@ Acesso:
 API: /search
 Descrição: busca usuários pelo nome
 Método HTTP: POST
-JSON (ainda vão ter os outros campos):
+JSON:
 {
     "name": "nome a ser buscado",
 }

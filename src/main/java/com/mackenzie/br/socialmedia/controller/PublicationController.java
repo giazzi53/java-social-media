@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,9 +52,11 @@ public class PublicationController {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
-	@PostMapping(value = "/retrievePublicationList")
-	public ResponseEntity<List<PublicationDomain>> retrievePublicationList(@RequestBody ProfessionalDomain professionalDomain) {
+	@GetMapping(value = "/retrievePublicationList/{professionalID}")
+	public ResponseEntity<List<PublicationDomain>> retrievePublicationList(@PathVariable String professionalID) {
 		List<PublicationDomain> publicationList = null;
+		ProfessionalDomain professionalDomain = new ProfessionalDomain();
+		professionalDomain.setProfessionalID(professionalID);
 		
 		try {
 			publicationList = publicationService.retrievePublicationList(professionalDomain);
@@ -63,5 +66,22 @@ public class PublicationController {
 		
 		return new ResponseEntity<>(publicationList, HttpStatus.OK);
 	}
+	
+	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@GetMapping(value = "/retrieveFeedPublicationsList/{professionalID}")
+	public ResponseEntity<List<PublicationDomain>> retrieveFeedPublicationsList(@PathVariable String professionalID) {
+		List<PublicationDomain> publicationList = null;
+		ProfessionalDomain professionalDomain = new ProfessionalDomain();
+		professionalDomain.setProfessionalID(professionalID);
+		
+		try {
+			publicationList = publicationService.retrieveFeedPublicationsList(professionalDomain);
+		} catch (IllegalArgumentException e) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(publicationList, HttpStatus.OK);
+	}
+	
 	
 }

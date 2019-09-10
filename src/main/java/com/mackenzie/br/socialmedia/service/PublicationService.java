@@ -1,5 +1,6 @@
 package com.mackenzie.br.socialmedia.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,9 @@ public class PublicationService {
 	
 	@Autowired
 	private PublicationMapper publicationMapper;
+	
+	@Autowired
+	private FriendshipService friendshipService;
 	
 	public PublicationService() {
 
@@ -64,6 +68,16 @@ public class PublicationService {
 		return publicationList;
 	}
 	
+	public List<PublicationDomain> retrieveFeedPublicationsList(ProfessionalDomain professional){
+		
+		List<ProfessionalDomain> listFriends = friendshipService.returnListFriends(professional);
+		List<PublicationDomain> listPublications = new ArrayList<PublicationDomain>();
+		for (ProfessionalDomain friend : listFriends) {
+			listPublications.addAll(retrievePublicationList(friend));
+		}
+		return publicationMapper.mapPublicationListToDescendingOrder(listPublications);
+		
+	}
 //	public boolean validateProfessionalID(String id) {
 //	
 //		List<ProfessionalDomain> listProfessionals = professionalDAO.findAll();
