@@ -6,10 +6,12 @@ import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mackenzie.br.socialmedia.enums.InstructionLevelEnum;
@@ -23,23 +25,31 @@ public class ProfessionalDomain {
 
 	@Id
 	private String professionalID;
-
+	
+	@NotNull
 	private String name;
 	
+	@NotNull
 	private String userLogin;
 
 	//@JsonIgnore
+	@NotNull
 	private String password;
 
 	private File profileImage;
 
 	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@NotNull
+	@DateTimeFormat
 	private Date birthDate;
 
 	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@NotNull
+	@DateTimeFormat
 	private Date careerDate;
 	
 	//@JsonProperty
+	@NotNull
 	private JobRoleDomain jobRole;
 
 	private InstructionLevelEnum instructionLevel;

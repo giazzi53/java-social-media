@@ -1,5 +1,7 @@
 package com.mackenzie.br.socialmedia.domain;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,8 +13,10 @@ public class FriendshipDomain {
 	@Id
 	private String friendshipId;
 	
+	@NotNull
 	private String professionalID1;
 	
+	@NotNull
 	private String professionalID2;
 
 	public FriendshipDomain() {

@@ -1,23 +1,16 @@
 package com.mackenzie.br.socialmedia.domain;
 
+import javax.validation.constraints.NotNull;
+
 public class JobRoleDomain {
 	
-	private String jobRoleID;
-
 	private double salary;
 	
+	@NotNull
 	private String companyName;
 
 	public JobRoleDomain() {
 
-	}
-
-	public String getJobRoleID() {
-		return jobRoleID;
-	}
-
-	public void setJobRoleID(String jobRoleID) {
-		this.jobRoleID = jobRoleID;
 	}
 
 	public double getSalary() {

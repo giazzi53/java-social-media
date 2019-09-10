@@ -1,10 +1,13 @@
 package com.mackenzie.br.socialmedia.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +26,7 @@ public class AccessController {
 
 	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@PostMapping(value = "/signUp")
-	public ResponseEntity<ProfessionalDomain> signUp(@RequestBody ProfessionalDomain professional) {
+	public ResponseEntity<ProfessionalDomain> signUp(@RequestBody @Valid ProfessionalDomain professional) {
 //		ProfessionalDomain databaseProfessional;
 //		try {
 //			databaseProfessional = accessService.login(professional);
@@ -64,9 +67,11 @@ public class AccessController {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
-	@PostMapping(value = "/retrieveProfessionalData")
-	public ResponseEntity<ProfessionalDomain> retrieveProfessionalData(@RequestBody ProfessionalDomain professional) {
+	@GetMapping(value = "/retrieveProfessionalData/{professionalID}")
+	public ResponseEntity<ProfessionalDomain> retrieveProfessionalData(@PathVariable String professionalID) {
 		ProfessionalDomain databaseProfessional;
+		ProfessionalDomain professional = new ProfessionalDomain();
+		professional.setProfessionalID(professionalID);
 		
 		try {
 			databaseProfessional = accessService.retrieveProfessionalData(professional);
