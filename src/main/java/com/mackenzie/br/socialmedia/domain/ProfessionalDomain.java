@@ -84,10 +84,6 @@ public class ProfessionalDomain {
 		return professionalID;
 	}
 
-	public void setProfessionalID(String professionalID) {
-		this.professionalID = professionalID;
-	}
-
 	public String getName() {
 		return name;
 	}

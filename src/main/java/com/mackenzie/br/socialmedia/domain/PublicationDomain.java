@@ -33,10 +33,6 @@ public class PublicationDomain implements Comparator<PublicationDomain>{
 		return publicationID;
 	}
 
-	public void setPublicationID(String publicationID) {
-		this.publicationID = publicationID;
-	}
-
 	public String getText() {
 		return text;
 	}

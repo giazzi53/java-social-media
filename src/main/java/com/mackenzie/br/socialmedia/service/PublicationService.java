@@ -45,35 +45,35 @@ public class PublicationService {
 		return databasePublication;
 	}
 
-	public void deletePublication(PublicationDomain publicationDomain) {
-		boolean existsPublication = publicationDAO.existsByPublicationID(publicationDomain.getPublicationID());
+	public void deletePublication(String publicationID) {
+		boolean existsPublication = publicationDAO.existsByPublicationID(publicationID);
 		
 		if(!existsPublication) {
 			throw new IllegalArgumentException("Publicação não encontrada");
 		}
 		
-		publicationDAO.deleteById(publicationDomain.getPublicationID());
+		publicationDAO.deleteById(publicationID);
 	}
 	
-	public List<PublicationDomain> retrievePublicationList(ProfessionalDomain professionalDomain) throws IllegalArgumentException{
-		boolean existsProfessional = professionalDAO.existsByProfessionalID(professionalDomain.getProfessionalID());
+	public List<PublicationDomain> retrievePublicationList(String professionalID) throws IllegalArgumentException{
+		boolean existsProfessional = professionalDAO.existsByProfessionalID(professionalID);
 
 		if(!existsProfessional){
 			throw new IllegalArgumentException("Usário não encontrado");
 		}
 		
-		List<PublicationDomain> publicationList = publicationDAO.findAllByProfessionalID(professionalDomain.getProfessionalID());
+		List<PublicationDomain> publicationList = publicationDAO.findAllByProfessionalID(professionalID);
 		publicationMapper.mapPublicationListToDescendingOrder(publicationList);
 		
 		return publicationList;
 	}
 	
-	public List<PublicationDomain> retrieveFeedPublicationsList(ProfessionalDomain professional){
+	public List<PublicationDomain> retrieveFeedPublicationsList(String professionalID){
 		
-		List<ProfessionalDomain> listFriends = friendshipService.returnListFriends(professional);
+		List<ProfessionalDomain> listFriends = friendshipService.returnListFriends(professionalID);
 		List<PublicationDomain> listPublications = new ArrayList<PublicationDomain>();
 		for (ProfessionalDomain friend : listFriends) {
-			listPublications.addAll(retrievePublicationList(friend));
+			listPublications.addAll(retrievePublicationList(friend.getProfessionalID()));
 		}
 		return publicationMapper.mapPublicationListToDescendingOrder(listPublications);
 		

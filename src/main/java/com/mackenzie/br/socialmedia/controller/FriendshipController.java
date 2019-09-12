@@ -67,11 +67,11 @@ public class FriendshipController {
 	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@GetMapping(value = "/returnListFriends/{professionalID}")
 	public ResponseEntity<List<ProfessionalDomain>> returnListFriends(@PathVariable String professionalID) {
-		ProfessionalDomain professional = new ProfessionalDomain();
-		professional.setProfessionalID(professionalID);
+//		ProfessionalDomain professional = new ProfessionalDomain();
+//		professional.setProfessionalID(professionalID);
 		List<ProfessionalDomain> list;
 		try {
-			list = friendshipService.returnListFriends(professional);
+			list = friendshipService.returnListFriends(professionalID);
 		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}

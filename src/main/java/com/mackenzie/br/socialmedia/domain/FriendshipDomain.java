@@ -26,10 +26,6 @@ public class FriendshipDomain {
 		return friendshipId;
 	}
 
-	public void setFriendshipId(String friendshipId) {
-		this.friendshipId = friendshipId;
-	}
-
 	public String getProfessionalID1() {
 		return professionalID1;
 	}

@@ -39,7 +39,7 @@ public class AccessController {
 	}
 
 	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
-	@GetMapping(value = "/login")
+	@PostMapping(value = "/login")
 	public ResponseEntity<ProfessionalDomain> login(@RequestBody ProfessionalDomain professional) {
 		ProfessionalDomain databaseProfessional;
 		
@@ -70,11 +70,11 @@ public class AccessController {
 	@GetMapping(value = "/retrieveProfessionalData/{professionalID}")
 	public ResponseEntity<ProfessionalDomain> retrieveProfessionalData(@PathVariable String professionalID) {
 		ProfessionalDomain databaseProfessional;
-		ProfessionalDomain professional = new ProfessionalDomain();
-		professional.setProfessionalID(professionalID);
-		
+//		ProfessionalDomain professional = new ProfessionalDomain();
+//		professional.setProfessionalID(professionalID);
+//		
 		try {
-			databaseProfessional = accessService.retrieveProfessionalData(professional);
+			databaseProfessional = accessService.retrieveProfessionalData(professionalID);
 		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}

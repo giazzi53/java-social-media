@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 import com.mackenzie.br.socialmedia.domain.PublicationDomain;
 import com.mackenzie.br.socialmedia.service.PublicationService;
 
@@ -40,10 +39,10 @@ public class PublicationController {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
-	@DeleteMapping(value = "/deletePublication")
-	public ResponseEntity<PublicationDomain> deletePublication(@RequestBody PublicationDomain publicationDomain) {				
+	@DeleteMapping(value = "/deletePublication/{publicationID}")
+	public ResponseEntity<PublicationDomain> deletePublication(@PathVariable String publicationID) {				
 		try{
-			publicationService.deletePublication(publicationDomain);
+			publicationService.deletePublication(publicationID);
 		} catch(IllegalArgumentException i) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
@@ -55,11 +54,11 @@ public class PublicationController {
 	@GetMapping(value = "/retrievePublicationList/{professionalID}")
 	public ResponseEntity<List<PublicationDomain>> retrievePublicationList(@PathVariable String professionalID) {
 		List<PublicationDomain> publicationList = null;
-		ProfessionalDomain professionalDomain = new ProfessionalDomain();
-		professionalDomain.setProfessionalID(professionalID);
+//		ProfessionalDomain professionalDomain = new ProfessionalDomain();
+//		professionalDomain.setProfessionalID(professionalID);
 		
 		try {
-			publicationList = publicationService.retrievePublicationList(professionalDomain);
+			publicationList = publicationService.retrievePublicationList(professionalID);
 		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
@@ -71,11 +70,11 @@ public class PublicationController {
 	@GetMapping(value = "/retrieveFeedPublicationsList/{professionalID}")
 	public ResponseEntity<List<PublicationDomain>> retrieveFeedPublicationsList(@PathVariable String professionalID) {
 		List<PublicationDomain> publicationList = null;
-		ProfessionalDomain professionalDomain = new ProfessionalDomain();
-		professionalDomain.setProfessionalID(professionalID);
+//		ProfessionalDomain professionalDomain = new ProfessionalDomain();
+//		professionalDomain.setProfessionalID(professionalID);
 		
 		try {
-			publicationList = publicationService.retrieveFeedPublicationsList(professionalDomain);
+			publicationList = publicationService.retrieveFeedPublicationsList(professionalID);
 		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}

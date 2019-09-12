@@ -167,15 +167,15 @@ public class FriendshipService {
 		throw new IllegalArgumentException("Request not found");
 	}
 
-	public List<ProfessionalDomain> returnListFriends(ProfessionalDomain professional) throws IllegalArgumentException{
+	public List<ProfessionalDomain> returnListFriends(String professionalID) throws IllegalArgumentException{
 		
-		boolean existsProfessional = professionalDAO.existsByProfessionalID(professional.getProfessionalID());
+		boolean existsProfessional = professionalDAO.existsByProfessionalID(professionalID);
 
 		if(!existsProfessional) {
 			throw new IllegalArgumentException("Usuário não encontrado");
 		}
 		
-		ProfessionalDomain professional0 = professionalDAO.findByProfessionalID(professional.getProfessionalID());
+		ProfessionalDomain professional0 = professionalDAO.findByProfessionalID(professionalID);
 		
 		List<String> listFriendsID = friendshipMapper.mapListFriendsId(professional0.getProfessionalID(),
 				friendshipDAO.findByProfessionalID1(professional0.getProfessionalID()), 

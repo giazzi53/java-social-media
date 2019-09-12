@@ -1,7 +1,5 @@
 package com.mackenzie.br.socialmedia.domain;
 
-import java.util.List;
-
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
