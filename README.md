@@ -85,12 +85,6 @@ JSON:
         "professionalID": "5d717ac2b13b8117f4067647" 
     }
 ]
-Resposta da API:
-{
-    "friendshipRequestId": "5d73394b132bf23ccc61b4e3",
-    "professionalID1": "5d717b0bb13b8117f4067648",
-    "professionalID2": "5d717ac2b13b8117f4067647"
-}
 
 API: /acceptFriendshipRequest
 Descrição: Aceita uma requisição de amizade de um profissional
@@ -104,12 +98,6 @@ JSON:
         "professionalID": "5d717b0bb13b8117f4067648"
     }
 ]
-Resposta da API:
-{
-    "friendshipId": "5d73371d132bf23ccc61b4da",
-    "professionalID1": "5d717b0bb13b8117f4067648",
-    "professionalID2": "5d717ac2b13b8117f4067647"
-}
 
 API: /rejectFriendshipRequest
 Descrição: Rejeita uma requisição de amizade de um profissional
@@ -123,52 +111,16 @@ JSON:
         "professionalID": "5d717b0bb13b8117f4067648"
     }
 ]
-Resposta da API:
-{
-    "friendshipRequestId": "5d73394b132bf23ccc61b4e3",
-    "professionalID1": "5d717b0bb13b8117f4067648",
-    "professionalID2": "5d717ac2b13b8117f4067647"
-}
 
 API: /returnListFriends
 Descrição: Retorna uma lista de objetos Professional, com todos os amigos do usuário
 Método HTTP: GET
 URL: https://java-ds-social-media.herokuapp.com/returnListFriends/{professionalID}
-Exemplo Resposta da API:
-[
-    {
-        "professionalID": "5d7089eb132bf2447055c80b",
-        "name": "1",
-        "userLogin": "1",
-        "password": null,
-        "profileImage": null,
-        "birthDate": null,
-        "careerDate": null,
-        "jobRole": null,
-        "instructionLevel": null,
-        "profileType": null,
-        "jobRoleID": null
-    },
-    {
-        "professionalID": "5d717b0bb13b8117f4067648",
-        "name": "Renan Biaigotti",
-        "userLogin": "renansao",
-        "password": null,
-        "profileImage": null,
-        "birthDate": null,
-        "careerDate": null,
-        "jobRole": null,
-        "instructionLevel": null,
-        "profileType": null,
-        "jobRoleID": null
-    }
-]
+
 
 -------------------------------
 
 Search:
-
-Acesso:
 
 API: /search
 Descrição: busca usuários pelo nome
@@ -177,4 +129,41 @@ JSON:
 {
     "name": "nome a ser buscado",
 }
+----------------------------------
+
+InterestTopic:
+
+API: /getInterestTopics
+Descrição: retorna todos os topicos de interesse cadastrados no banco
+Método HTTP: GET
+URL: https://java-ds-social-media.herokuapp.com/getInterestTopics
+
+----------------------------------
+
+Professional_InterestTopic
+
+API: /updateProfessionalInterestTopics
+Descrição: faz o update nos topicos de interesse do professional
+Método HTTP: POST
+JSON:
+[
+    {
+        "professionalID": "id do professional",
+        "interestTopicID": "id do topico"
+    },
+    {
+        "professionalID": "id do professional",
+        "interestTopicID": "id do topico"
+    },
+    {
+        "professionalID": "id do professional",
+        "interestTopicID": "id do topico"
+    }
+]
+
+API: /getProfessionalInterestTopics
+Descrição: retorna os topicos de interesse do usuario
+Método HTTP: GET
+URL : https://java-ds-social-media.herokuapp.com/getProfessionalInterestTopics/{professionalID}
+
 
