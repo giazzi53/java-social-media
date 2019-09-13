@@ -24,7 +24,8 @@ public class PublicationController {
 	@Autowired
 	private PublicationService publicationService;
 
-	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/publicate")
 	public ResponseEntity<PublicationDomain> publicate(@RequestBody @Valid PublicationDomain publicationDomain) {
 		PublicationDomain databasePublication;
@@ -38,7 +39,8 @@ public class PublicationController {
 		return new ResponseEntity<>(databasePublication, HttpStatus.CREATED);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@CrossOrigin(origins = "*")
 	@DeleteMapping(value = "/deletePublication/{publicationID}")
 	public ResponseEntity<PublicationDomain> deletePublication(@PathVariable String publicationID) {				
 		try{
@@ -50,7 +52,8 @@ public class PublicationController {
 		return new ResponseEntity<>(null, HttpStatus.OK);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/retrievePublicationList/{professionalID}")
 	public ResponseEntity<List<PublicationDomain>> retrievePublicationList(@PathVariable String professionalID) {
 		List<PublicationDomain> publicationList = null;
@@ -66,7 +69,8 @@ public class PublicationController {
 		return new ResponseEntity<>(publicationList, HttpStatus.OK);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/retrieveFeedPublicationsList/{professionalID}")
 	public ResponseEntity<List<PublicationDomain>> retrieveFeedPublicationsList(@PathVariable String professionalID) {
 		List<PublicationDomain> publicationList = null;
@@ -81,6 +85,5 @@ public class PublicationController {
 		
 		return new ResponseEntity<>(publicationList, HttpStatus.OK);
 	}
-	
 	
 }

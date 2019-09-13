@@ -24,7 +24,8 @@ public class AccessController {
 	@Autowired
 	AccessService accessService;
 
-	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/signUp")
 	public ResponseEntity<ProfessionalDomain> signUp(@RequestBody @Valid ProfessionalDomain professional) {
 //		ProfessionalDomain databaseProfessional;
@@ -38,7 +39,8 @@ public class AccessController {
 		return new ResponseEntity<>(databaseProfessional, HttpStatus.CREATED);
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/login")
 	public ResponseEntity<ProfessionalDomain> login(@RequestBody ProfessionalDomain professional) {
 		ProfessionalDomain databaseProfessional;
@@ -52,7 +54,8 @@ public class AccessController {
 		return new ResponseEntity<>(databaseProfessional, HttpStatus.OK);
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@CrossOrigin(origins = "*")
 	@PutMapping(value = "/updateProfile")
 	public ResponseEntity<ProfessionalDomain> updateProfile(@RequestBody ProfessionalDomain professional) {
 		ProfessionalDomain databaseProfessional;
@@ -66,7 +69,8 @@ public class AccessController {
 		return new ResponseEntity<>(databaseProfessional, HttpStatus.OK);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/retrieveProfessionalData/{professionalID}")
 	public ResponseEntity<ProfessionalDomain> retrieveProfessionalData(@PathVariable String professionalID) {
 		ProfessionalDomain databaseProfessional;

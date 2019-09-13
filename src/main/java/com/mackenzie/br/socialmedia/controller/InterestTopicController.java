@@ -18,7 +18,8 @@ public class InterestTopicController {
 	@Autowired
 	InterestTopicService interestTopicService;
 	
-	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/getInterestTopics")
 	public ResponseEntity<List<InterestTopicDomain>> getInterestTopics() {
 		return new ResponseEntity<>(interestTopicService.getInterestTopics(), HttpStatus.OK);

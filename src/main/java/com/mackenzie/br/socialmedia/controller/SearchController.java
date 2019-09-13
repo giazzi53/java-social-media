@@ -19,7 +19,8 @@ public class SearchController {
 	@Autowired
 	SearchService searchService;
 
-	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/search")
 	public ResponseEntity<List<ProfessionalDomain>> search(@RequestBody ProfessionalDomain professional) {
 		List<ProfessionalDomain> listProfessional = searchService.search(professional);

@@ -22,7 +22,8 @@ public class Professional_InterestTopicController {
 	@Autowired
 	private Professional_InterestTopicService professional_interestTopicService;
 	
-	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/getProfessionalInterestTopics/{professionalID}")
 	public ResponseEntity<List<InterestTopicDomain>> getProfessionalInterestTopics(@PathVariable String professionalID){
 		List<InterestTopicDomain> listInterestTopics;
@@ -36,7 +37,8 @@ public class Professional_InterestTopicController {
 		return new ResponseEntity<>(listInterestTopics, HttpStatus.OK);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
+	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/updateProfessionalInterestTopics")
 	public ResponseEntity<List<Professional_InterestTopicDomain>> updateProfessionalInterestTopics(@RequestBody List<Professional_InterestTopicDomain> listProfessionalTopics){
 			List<Professional_InterestTopicDomain> databaseProfessionalInterestTopics = null;
@@ -49,6 +51,5 @@ public class Professional_InterestTopicController {
 		
 		return new ResponseEntity<>(databaseProfessionalInterestTopics, HttpStatus.OK);
 	}	
-	
 	
 }
