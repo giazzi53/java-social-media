@@ -49,7 +49,7 @@ public class ProfessionalDomain {
 	private Date careerDate;
 	
 	//@JsonProperty
-	@NotNull
+	//@NotNull
 	private JobRoleDomain jobRole;
 
 	private InstructionLevelEnum instructionLevel;
