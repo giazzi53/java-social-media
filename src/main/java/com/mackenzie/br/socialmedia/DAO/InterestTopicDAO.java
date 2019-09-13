@@ -11,4 +11,7 @@ import com.mackenzie.br.socialmedia.domain.InterestTopicDomain;
 public interface InterestTopicDAO extends MongoRepository<InterestTopicDomain, String>{
 	
 	List<InterestTopicDomain> findAll();
+	
+	InterestTopicDomain findByInterestTopicID(String interestTopicID);
+	
 }

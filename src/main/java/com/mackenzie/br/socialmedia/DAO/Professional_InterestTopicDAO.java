@@ -9,7 +9,7 @@ import com.mackenzie.br.socialmedia.domain.InterestTopicDomain;
 import com.mackenzie.br.socialmedia.domain.Professional_InterestTopicDomain;
 
 @Repository
-public interface Professional_InterestTopicDAO extends MongoRepository<InterestTopicDomain, String>{
+public interface Professional_InterestTopicDAO extends MongoRepository<Professional_InterestTopicDomain, String>{
 	
 	List<Professional_InterestTopicDomain> findByProfessionalID (String professionalID);
 	
