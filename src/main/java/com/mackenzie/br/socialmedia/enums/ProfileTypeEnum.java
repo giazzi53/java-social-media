@@ -4,7 +4,7 @@ public enum ProfileTypeEnum {
 	
 	STANDARD("Standard"),
 	PREMIUM("Premium"),
-	MANAGER("Gerente");
+	GERENTE("Gerente");
 	
 	private String description;
 	

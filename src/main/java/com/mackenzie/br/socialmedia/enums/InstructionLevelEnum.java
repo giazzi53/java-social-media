@@ -2,10 +2,10 @@ package com.mackenzie.br.socialmedia.enums;
 
 public enum InstructionLevelEnum {
 	
-	NONE("Nenhum nível de instrução"),
-	BACHELOR("Bacharelado"),
-	MASTER("Mestrado"),
-	DOCTOR("Doutorado");
+	NENHUM("Nenhum nível de instrução"),
+	BACHAREL("Bacharelado"),
+	MESTRE("Mestrado"),
+	DOUTOR("Doutorado");
 	
 	private String description;
 	
