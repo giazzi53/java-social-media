@@ -7,9 +7,19 @@ Descrição: fazer o cadastro de um novo profissional
 Método HTTP: POST
 JSON (ainda vão ter os outros campos):
 {
-    "name": "My Name",
-    "userLogin": "uniquelogin",
-    "password": "aaaa"
+    "name": "name",
+    "userLogin": "login",
+    "password": "password",
+    "birthDate": "date",
+    "careerDate": "date",
+    "jobRole": {
+    	"salary":"salary",
+    	"companyName":"companyName"
+    },
+    "city": "SP",
+    "state": "state",
+    "instructionLevel": "instructionLevel",
+    "profileType": "profileType"
 }
 
 API: /login

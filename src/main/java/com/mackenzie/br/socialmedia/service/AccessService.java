@@ -58,8 +58,13 @@ public class AccessService {
 		if (professional.getInstructionLevel() != null){
 			databaseProfessional.setInstructionLevel(professional.getInstructionLevel());
 		}
-		if (professional.getJobRole() != null){
-			databaseProfessional.setJobRole(professional.getJobRole());
+		if (professional.getJobRole() != null) {
+			if (professional.getJobRole().getCompanyName() != null){
+				databaseProfessional.getJobRole().setCompanyName(professional.getJobRole().getCompanyName());
+			}
+			if (professional.getJobRole().getSalary() != 0){
+				databaseProfessional.getJobRole().setSalary(professional.getJobRole().getSalary());
+			}
 		}
 		if (professional.getPassword() != null){
 			databaseProfessional.setPassword(professional.getPassword());

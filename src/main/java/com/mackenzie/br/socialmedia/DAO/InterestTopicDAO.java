@@ -14,4 +14,6 @@ public interface InterestTopicDAO extends MongoRepository<InterestTopicDomain, S
 	
 	InterestTopicDomain findByInterestTopicID(String interestTopicID);
 	
+	boolean existsByInterestTopicID(String interestTopicID);
+	
 }

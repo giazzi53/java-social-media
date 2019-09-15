@@ -23,60 +23,57 @@ public class FriendshipController {
 	@Autowired
 	private FriendshipService friendshipService;
 	
-	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/sendFriendshipRequest")
-	public ResponseEntity<FriendshipRequestDomain> sendFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
+	public ResponseEntity<?> sendFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
 		FriendshipRequestDomain friendshipRequest;
+		
 		try {
 			friendshipRequest = friendshipService.sendFriendshipRequest(professionals);
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		
 		return new ResponseEntity<>(friendshipRequest, HttpStatus.OK);
 	}
 	
-	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/acceptFriendshipRequest")
-	public ResponseEntity<FriendshipDomain> acceptFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
+	public ResponseEntity<?> acceptFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
 		FriendshipDomain friendship;
+		
 		try {
 			friendship = friendshipService.acceptFriendshipRequest(professionals);
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		
 		return new ResponseEntity<>(friendship, HttpStatus.OK);
 	}
 	
-	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/rejectFriendshipRequest")
-	public ResponseEntity<FriendshipRequestDomain> rejectFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
+	public ResponseEntity<?> rejectFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
 		FriendshipRequestDomain friendshipRequest;
 		
 		try {
 			friendshipRequest = friendshipService.rejectFriendshipRequest(professionals);
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 
 		return new ResponseEntity<>(friendshipRequest, HttpStatus.OK);
 	}
 	
-	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/returnListFriends/{professionalID}")
-	public ResponseEntity<List<ProfessionalDomain>> returnListFriends(@PathVariable String professionalID) {
-//		ProfessionalDomain professional = new ProfessionalDomain();
-//		professional.setProfessionalID(professionalID);
+	public ResponseEntity<?> returnListFriends(@PathVariable String professionalID) {
 		List<ProfessionalDomain> list;
+		
 		try {
 			list = friendshipService.returnListFriends(professionalID);
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}

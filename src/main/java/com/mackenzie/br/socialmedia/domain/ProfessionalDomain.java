@@ -50,6 +50,7 @@ public class ProfessionalDomain {
 	
 	//@JsonProperty
 	@NotNull
+	@Valid
 	private JobRoleDomain jobRole;
 	
 	@NotNull
@@ -73,15 +74,20 @@ public class ProfessionalDomain {
 	public void setState(String state) {
 		this.state = state;
 	}
-
+	
+	private String instructionLevel;
+	
+	private String profileType;
+	
+/*
 	private InstructionLevelEnum instructionLevel;
 
 	private ProfileTypeEnum profileType;
-
+*/
 	public ProfessionalDomain() {
 		
 	}
-
+/*
 	public InstructionLevelEnum getInstructionLevel() {
 		return instructionLevel;
 	}
@@ -97,9 +103,25 @@ public class ProfessionalDomain {
 	public void setProfileType(ProfileTypeEnum profileType) {
 		this.profileType = profileType;
 	}
-
+*/
 	public JobRoleDomain getJobRole() {
 		return jobRole;
+	}
+
+	public String getInstructionLevel() {
+		return instructionLevel;
+	}
+
+	public void setInstructionLevel(String instructionLevel) {
+		this.instructionLevel = instructionLevel;
+	}
+
+	public String getProfileType() {
+		return profileType;
+	}
+
+	public void setProfileType(String profileType) {
+		this.profileType = profileType;
 	}
 
 	public String getProfessionalID() {
@@ -152,10 +174,6 @@ public class ProfessionalDomain {
 
 	public void setCareerDate(Date careerDate) {
 		this.careerDate = careerDate;
-	}
-
-	public JobRoleDomain getJobRoleID() {
-		return jobRole;
 	}
 
 	public void setJobRole(JobRoleDomain jobRole) {

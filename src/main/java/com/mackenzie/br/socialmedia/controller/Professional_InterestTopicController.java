@@ -23,31 +23,29 @@ public class Professional_InterestTopicController {
 	@Autowired
 	private Professional_InterestTopicService professional_interestTopicService;
 	
-	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/getProfessionalInterestTopics/{professionalID}")	
-	public ResponseEntity<List<InterestTopicDomain>> getProfessionalInterestTopics(@PathVariable String professionalID){
+	public ResponseEntity<?> getProfessionalInterestTopics(@PathVariable String professionalID){
 		List<InterestTopicDomain> listInterestTopics;
 		
 		try {
 			listInterestTopics = professional_interestTopicService.getProfessionalInterestTopics(professionalID);
 		} catch(IllegalArgumentException i) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<>(listInterestTopics, HttpStatus.OK);
 	}
 	
-	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@CrossOrigin(origins = "*")
-	@PostMapping(value = "/updateProfessionalInterestTopics")
-	public ResponseEntity<List<Professional_InterestTopicDomain>> updateProfessionalInterestTopics(@RequestBody List<Professional_InterestTopicDomain> listProfessionalTopics){
+	@PostMapping(value = "/setProfessionalInterestTopics")
+	public ResponseEntity<?> setProfessionalInterestTopics(@RequestBody List<Professional_InterestTopicDomain> listProfessionalTopics){
 			List<Professional_InterestTopicDomain> databaseProfessionalInterestTopics = null;
 		
 		try {
-			databaseProfessionalInterestTopics = professional_interestTopicService.updateProfessionalInterestTopics(listProfessionalTopics);
+			databaseProfessionalInterestTopics = professional_interestTopicService.setProfessionalInterestTopics(listProfessionalTopics);
 		} catch(IllegalArgumentException i) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<>(databaseProfessionalInterestTopics, HttpStatus.OK);

@@ -24,63 +24,58 @@ public class AccessController {
 	@Autowired
 	AccessService accessService;
 
-	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/signUp")
-	public ResponseEntity<ProfessionalDomain> signUp(@RequestBody @Valid ProfessionalDomain professional) {
-//		ProfessionalDomain databaseProfessional;
-//		try {
-//			databaseProfessional = accessService.login(professional);
-//		} catch (IllegalAccessException e) {
-//			return new ResponseEntity<>(professional, HttpStatus.UNAUTHORIZED);
-//		}
-		ProfessionalDomain databaseProfessional = accessService.signUp(professional);
+	public ResponseEntity<?> signUp(@RequestBody @Valid ProfessionalDomain professional) {
+		ProfessionalDomain databaseProfessional;
+		
+		try {
+			databaseProfessional = accessService.signUp(professional);
+			
+		} catch (IllegalArgumentException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+		}
 		
 		return new ResponseEntity<>(databaseProfessional, HttpStatus.CREATED);
 	}
 
-	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/login")
-	public ResponseEntity<ProfessionalDomain> login(@RequestBody ProfessionalDomain professional) {
+	public ResponseEntity<?> login(@RequestBody ProfessionalDomain professional) {
 		ProfessionalDomain databaseProfessional;
 		
 		try {
 			databaseProfessional = accessService.login(professional);
 		} catch (IllegalAccessException e) {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 		
 		return new ResponseEntity<>(databaseProfessional, HttpStatus.OK);
 	}
 
-	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@CrossOrigin(origins = "*")
 	@PutMapping(value = "/updateProfile")
-	public ResponseEntity<ProfessionalDomain> updateProfile(@RequestBody ProfessionalDomain professional) {
+	public ResponseEntity<?> updateProfile(@RequestBody ProfessionalDomain professional) {
 		ProfessionalDomain databaseProfessional;
 		
 		try{
 			databaseProfessional = accessService.updateProfile(professional);
 		} catch(IllegalArgumentException i) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<>(databaseProfessional, HttpStatus.OK);
 	}
 	
-	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/retrieveProfessionalData/{professionalID}")
-	public ResponseEntity<ProfessionalDomain> retrieveProfessionalData(@PathVariable String professionalID) {
+	public ResponseEntity<?> retrieveProfessionalData(@PathVariable String professionalID) {
 		ProfessionalDomain databaseProfessional;
-//		ProfessionalDomain professional = new ProfessionalDomain();
-//		professional.setProfessionalID(professionalID);
-//		
+		
 		try {
 			databaseProfessional = accessService.retrieveProfessionalData(professionalID);
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		
 		return new ResponseEntity<>(databaseProfessional, HttpStatus.CREATED);

@@ -24,63 +24,55 @@ public class PublicationController {
 	@Autowired
 	private PublicationService publicationService;
 
-	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/publicate")
-	public ResponseEntity<PublicationDomain> publicate(@RequestBody @Valid PublicationDomain publicationDomain) {
+	public ResponseEntity<?> publicate(@RequestBody @Valid PublicationDomain publicationDomain) {
 		PublicationDomain databasePublication;
 				
 		try{
 			databasePublication = publicationService.publicate(publicationDomain);
 		} catch(IllegalArgumentException i) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<>(databasePublication, HttpStatus.CREATED);
 	}
 	
-	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@CrossOrigin(origins = "*")
 	@DeleteMapping(value = "/deletePublication/{publicationID}")
-	public ResponseEntity<PublicationDomain> deletePublication(@PathVariable String publicationID) {				
+	public ResponseEntity<?> deletePublication(@PathVariable String publicationID) {				
 		try{
 			publicationService.deletePublication(publicationID);
 		} catch(IllegalArgumentException i) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<>(null, HttpStatus.OK);
 	}
 	
-	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/retrievePublicationList/{professionalID}")
-	public ResponseEntity<List<PublicationDomain>> retrievePublicationList(@PathVariable String professionalID) {
+	public ResponseEntity<?> retrievePublicationList(@PathVariable String professionalID) {
 		List<PublicationDomain> publicationList = null;
-//		ProfessionalDomain professionalDomain = new ProfessionalDomain();
-//		professionalDomain.setProfessionalID(professionalID);
 		
 		try {
 			publicationList = publicationService.retrievePublicationList(professionalID);
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<>(publicationList, HttpStatus.OK);
 	}
 	
-	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/retrieveFeedPublicationsList/{professionalID}")
-	public ResponseEntity<List<PublicationDomain>> retrieveFeedPublicationsList(@PathVariable String professionalID) {
+	public ResponseEntity<?> retrieveFeedPublicationsList(@PathVariable String professionalID) {
 		List<PublicationDomain> publicationList = null;
-//		ProfessionalDomain professionalDomain = new ProfessionalDomain();
-//		professionalDomain.setProfessionalID(professionalID);
 		
 		try {
 			publicationList = publicationService.retrieveFeedPublicationsList(professionalID);
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<>(publicationList, HttpStatus.OK);

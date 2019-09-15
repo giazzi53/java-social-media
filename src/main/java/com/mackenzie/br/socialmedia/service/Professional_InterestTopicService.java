@@ -42,7 +42,19 @@ public class Professional_InterestTopicService {
 		return listInterestTopics;
 	}
 	
-	public List<Professional_InterestTopicDomain> updateProfessionalInterestTopics(List<Professional_InterestTopicDomain> listProfessionalInterestTopics) {
+	public List<Professional_InterestTopicDomain> setProfessionalInterestTopics(List<Professional_InterestTopicDomain> listProfessionalInterestTopics) {
+		
+		for (Professional_InterestTopicDomain professionalInterestTopic : listProfessionalInterestTopics) {
+			boolean existProfessional = professionalDAO.existsByProfessionalID(professionalInterestTopic.getProfessionalID());
+			boolean existInterestTopic = interestTopicDAO.existsByInterestTopicID(professionalInterestTopic.getInterestTopicID());
+			
+			if(!existProfessional) {
+				throw new IllegalArgumentException("Usuário não encontrado");
+			}
+			if(!existInterestTopic) {
+				throw new IllegalArgumentException("Tópico de interesse não encontrado");
+			}
+		}
 		
 		String professionalID = listProfessionalInterestTopics.get(0).getProfessionalID();
 		
