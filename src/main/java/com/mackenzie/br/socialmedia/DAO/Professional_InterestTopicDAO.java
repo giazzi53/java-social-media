@@ -14,4 +14,7 @@ public interface Professional_InterestTopicDAO extends MongoRepository<Professio
 	List<Professional_InterestTopicDomain> findByProfessionalID (String professionalID);
 	
 	boolean existsByProfessionalID (String professionalID);
+
+	void deleteByProfessionalID(String professionalID);
+	
 }

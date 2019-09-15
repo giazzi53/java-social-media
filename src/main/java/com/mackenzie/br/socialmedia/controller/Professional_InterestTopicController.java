@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mackenzie.br.socialmedia.DAO.Professional_InterestTopicDAO;
 import com.mackenzie.br.socialmedia.domain.InterestTopicDomain;
 import com.mackenzie.br.socialmedia.domain.Professional_InterestTopicDomain;
 import com.mackenzie.br.socialmedia.service.Professional_InterestTopicService;
@@ -24,7 +25,7 @@ public class Professional_InterestTopicController {
 	
 	//@CrossOrigin(origins = "http://localhost:4200") // Comentar campo quando o angular estiver deployado no heroku
 	@CrossOrigin(origins = "*")
-	@GetMapping(value = "/getProfessionalInterestTopics/{professionalID}")
+	@GetMapping(value = "/getProfessionalInterestTopics/{professionalID}")	
 	public ResponseEntity<List<InterestTopicDomain>> getProfessionalInterestTopics(@PathVariable String professionalID){
 		List<InterestTopicDomain> listInterestTopics;
 		
@@ -50,6 +51,6 @@ public class Professional_InterestTopicController {
 		}
 		
 		return new ResponseEntity<>(databaseProfessionalInterestTopics, HttpStatus.OK);
-	}	
+	}
 	
 }

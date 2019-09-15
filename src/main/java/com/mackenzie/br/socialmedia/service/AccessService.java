@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
+import com.mackenzie.br.socialmedia.DAO.PublicationDAO;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 
 @Service
@@ -12,10 +13,10 @@ public class AccessService {
 	@Autowired
 	private ProfessionalDAO professionalDAO;
 
-	public ProfessionalDomain signUp(ProfessionalDomain professional) {
-//		if (validateUser(professional.getUserLogin())) {
-//			throw new IllegalAccessException("Usuário já em uso");
-//		}
+	public ProfessionalDomain signUp(ProfessionalDomain professional) throws IllegalArgumentException{
+		if (validateUser(professional.getUserLogin())) {
+			throw new IllegalArgumentException("Usuário já em uso");
+		}
 		ProfessionalDomain databaseProfessional = professionalDAO.insert(professional);	
 		
 		return databaseProfessional;
@@ -41,8 +42,35 @@ public class AccessService {
 		}
 		
 		ProfessionalDomain databaseProfessional = professionalDAO.findByProfessionalID(professional.getProfessionalID());
-
-		databaseProfessional.setName(professional.getName());
+		
+		if (professional.getName() != null){
+			databaseProfessional.setName(professional.getName());
+		}
+		if (professional.getBirthDate() != null){
+			databaseProfessional.setBirthDate(professional.getBirthDate());
+		}
+		if (professional.getCareerDate() != null){
+			databaseProfessional.setCareerDate(professional.getCareerDate());
+		}
+		if (professional.getCity() != null){
+			databaseProfessional.setCity(professional.getCity());
+		}
+		if (professional.getInstructionLevel() != null){
+			databaseProfessional.setInstructionLevel(professional.getInstructionLevel());
+		}
+		if (professional.getJobRole() != null){
+			databaseProfessional.setJobRole(professional.getJobRole());
+		}
+		if (professional.getPassword() != null){
+			databaseProfessional.setPassword(professional.getPassword());
+		}
+		if (professional.getState() != null){
+			databaseProfessional.setState(professional.getState());
+		}
+		if (professional.getUserLogin() != null){
+			databaseProfessional.setUserLogin(professional.getUserLogin());
+		}
+		
 		professionalDAO.save(databaseProfessional);
 
 		return databaseProfessional;
