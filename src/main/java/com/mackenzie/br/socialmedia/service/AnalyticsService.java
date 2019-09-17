@@ -37,7 +37,7 @@ public class AnalyticsService {
 		for (ProfessionalDomain professional : professionalDAO.findAll()) {
 			Professional_FriendsDomain professionalFriends = new Professional_FriendsDomain();
 			professionalFriends.setProfessional(professional);
-			professionalFriends.setNumberOfFriends(friendshipService.returnListFriends(professional.getProfessionalID()).size());
+			professionalFriends.setNumberOfFriends(friendshipDAO.countByProfessionalID1OrProfessionalID2(professional.getProfessionalID(), professional.getProfessionalID()));
 			listProfessionalFriends.add(professionalFriends);
 		}
 		
