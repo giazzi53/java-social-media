@@ -1,10 +1,14 @@
 package com.mackenzie.br.socialmedia.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
 import com.mackenzie.br.socialmedia.DAO.RecommendationDAO;
+import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 import com.mackenzie.br.socialmedia.domain.RecommendationDomain;
 
 @Service
@@ -44,6 +48,21 @@ public class RecommendationService {
 		}
 		
 		return recommendationDAO.countByProfessionalID2(professionalID);
+	}
+
+	public List<ProfessionalDomain> getProfessionalsWhoRecommended(String professionalID) throws IllegalArgumentException{
+		
+		if (!professionalDAO.existsByProfessionalID(professionalID)) {
+			throw new IllegalArgumentException("Usuário não válido");
+		}
+		
+		List<ProfessionalDomain> listProfessionalWhoRecommended = new ArrayList<ProfessionalDomain>();
+		
+		for (RecommendationDomain recommendation : recommendationDAO.findByProfessionalID2(professionalID)) {
+			listProfessionalWhoRecommended.add(professionalDAO.findByProfessionalID(recommendation.getProfessionalID1()));
+		}
+		
+		return listProfessionalWhoRecommended;
 	}
 
 }
