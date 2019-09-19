@@ -27,7 +27,7 @@ public class AnalyticsService {
 	@Autowired
 	AnalyticsMapper analyticsMapper;
 
-	public long getAvgNumberOfFriends() {
+	public float getAvgNumberOfFriends() {
 		return (friendshipDAO.count() * 2) / professionalDAO.count();
 	}
 	

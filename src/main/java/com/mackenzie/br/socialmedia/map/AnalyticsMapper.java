@@ -23,6 +23,9 @@ public class AnalyticsMapper {
 		
 		List<Professional_FriendsDomain> listOfTop10ProfessionalFriends = new ArrayList<Professional_FriendsDomain>();
 		int i = 0;
+		if (listOfProfessionalFriends.size() < 10 ){
+			return listOfProfessionalFriends;
+		}
 		while(i<10) {
 			listOfTop10ProfessionalFriends.add(listOfProfessionalFriends.get(i));
 			i+=1;

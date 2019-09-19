@@ -1,14 +1,12 @@
 package com.mackenzie.br.socialmedia.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 import com.mackenzie.br.socialmedia.domain.Professional_FriendsDomain;
 import com.mackenzie.br.socialmedia.service.AnalyticsService;
 
@@ -20,7 +18,7 @@ public class AnalyticsController {
 	
 	@CrossOrigin("*")
 	@GetMapping(value="/getAvgNumberOfFriends")
-	public long getAvgNumberOfFriends() {
+	public float getAvgNumberOfFriends() {
 		return analyticsService.getAvgNumberOfFriends();
 	}
 	
