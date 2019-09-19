@@ -189,5 +189,38 @@ public class FriendshipService {
 		
 		return listFriends;
 	}
+	
+	public Integer getStatusFriendship(List<ProfessionalDomain> listProfessionals) throws IllegalArgumentException{
+		
+		boolean existsProfessional0 = professionalDAO.existsByProfessionalID(listProfessionals.get(0).getProfessionalID());
+		boolean existsProfessional1 = professionalDAO.existsByProfessionalID(listProfessionals.get(1).getProfessionalID());
+		
+		if (existsProfessional0 && existsProfessional1) {
+		}else {
+			throw new IllegalArgumentException("User not found");
+		}
+		
+		if (listProfessionals.get(0).getProfessionalID().equalsIgnoreCase(listProfessionals.get(1).getProfessionalID()) ) {
+			throw new IllegalArgumentException("IDs are equal");
+		}
+		
+		ProfessionalDomain professional0 = professionalDAO.findByProfessionalID(listProfessionals.get(0).getProfessionalID());
+		ProfessionalDomain professional1 = professionalDAO.findByProfessionalID(listProfessionals.get(1).getProfessionalID());
+		
+		if (friendshipDAO.existsByProfessionalID1AndProfessionalID2(professional0.getProfessionalID(), professional1.getProfessionalID()) ||
+				friendshipDAO.existsByProfessionalID2AndProfessionalID1(professional0.getProfessionalID(), professional1.getProfessionalID())) {
+			return 1;
+		}
+		
+		if(friendshipRequestDAO.existsByProfessionalID1AndProfessionalID2(professional0.getProfessionalID(), professional1.getProfessionalID())) {
+			return 2;
+		}
+		
+		if(friendshipRequestDAO.existsByProfessionalID2AndProfessionalID1(professional0.getProfessionalID(), professional1.getProfessionalID())) {
+			return 3;
+		}
+		
+		return 0;
+	}
 
 }

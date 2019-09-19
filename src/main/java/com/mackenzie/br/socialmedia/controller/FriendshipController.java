@@ -77,5 +77,19 @@ public class FriendshipController {
 		}
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
+	
+	@CrossOrigin(origins = "*")
+	@GetMapping(value = "/getStatusFriendship")
+	public ResponseEntity<?> getStatusFriendship(@RequestBody List<ProfessionalDomain> listOfProfessionals){
+		Integer status;
+		
+		try {
+			status = friendshipService.getStatusFriendship(listOfProfessionals);
+		}catch(IllegalArgumentException i) {
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(status, HttpStatus.OK);
+	}
 
 }

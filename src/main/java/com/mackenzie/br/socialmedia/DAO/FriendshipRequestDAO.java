@@ -14,5 +14,9 @@ public interface FriendshipRequestDAO extends MongoRepository<FriendshipRequestD
 	List<FriendshipRequestDomain> findByProfessionalID1(String professionalID1);
 	
 	List<FriendshipRequestDomain> findByProfessionalID2(String professionalID2);
+	
+	boolean existsByProfessionalID1AndProfessionalID2 (String profesisonalID1, String professionalID2);
+	
+	boolean existsByProfessionalID2AndProfessionalID1 (String profesisonalID2, String professionalID1);
 
 }
