@@ -79,7 +79,7 @@ public class FriendshipController {
 	}
 	
 	@CrossOrigin(origins = "*")
-	@GetMapping(value = "/getStatusFriendship")
+	@PostMapping(value = "/getStatusFriendship")
 	public ResponseEntity<?> getStatusFriendship(@RequestBody List<ProfessionalDomain> listOfProfessionals){
 		Integer status;
 		
