@@ -66,4 +66,19 @@ public class RecommendationController {
 		return new ResponseEntity<>(listProfessionalsWhoRecommended, HttpStatus.OK);
 	}
 	
+	@CrossOrigin("*")
+	@PostMapping(value="/getStatusRecommendation")
+	public ResponseEntity<?> getStatusRecommendation(@RequestBody List<ProfessionalDomain> listProfessionals){
+		
+		int status = 0;
+		
+		try {
+			status = recommendationService.getStatusRecommendation(listProfessionals);
+		}catch(IllegalArgumentException i) {
+			return new ResponseEntity<>(i.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(status, HttpStatus.OK);
+	}
+	
 }
