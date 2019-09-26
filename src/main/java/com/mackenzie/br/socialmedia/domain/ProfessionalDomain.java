@@ -1,21 +1,13 @@
 package com.mackenzie.br.socialmedia.domain;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mackenzie.br.socialmedia.enums.InstructionLevelEnum;
-import com.mackenzie.br.socialmedia.enums.ProfileTypeEnum;
 
 //import com.mackenzie.br.socialmedia.enums.InstructionLevelEnum;
 //import com.mackenzie.br.socialmedia.enums.ProfileTypeEnum;
@@ -32,23 +24,19 @@ public class ProfessionalDomain {
 	@NotNull
 	private String userLogin;
 
-	//@JsonIgnore
 	@NotNull
 	private String password;
 
-	private File profileImage;
+	private String profileImage;
 
-	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	@NotNull
 	@DateTimeFormat
 	private Date birthDate;
 
-	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	@NotNull
 	@DateTimeFormat
 	private Date careerDate;
 	
-	//@JsonProperty
 	@NotNull
 	@Valid
 	private JobRoleDomain jobRole;
@@ -152,11 +140,11 @@ public class ProfessionalDomain {
 		this.password = password;
 	}
 
-	public File getProfileImage() {
+	public String getProfileImage() {
 		return profileImage;
 	}
 
-	public void setProfileImage(File profileImage) {
+	public void setProfileImage(String profileImage) {
 		this.profileImage = profileImage;
 	}
 
