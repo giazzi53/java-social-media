@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -80,5 +81,18 @@ public class RecommendationController {
 		
 		return new ResponseEntity<>(status, HttpStatus.OK);
 	}
+	
+	@CrossOrigin("*")
+	@DeleteMapping(value="/deleteRecommendation")
+	public ResponseEntity<?> deleteRecommendation(@RequestBody List<ProfessionalDomain> listProfessionals){
+		try {
+			recommendationService.deleteRecommendation(listProfessionals);
+		}catch(IllegalArgumentException i){
+			return new ResponseEntity<>(i.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
 	
 }

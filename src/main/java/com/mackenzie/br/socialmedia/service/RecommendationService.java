@@ -84,5 +84,25 @@ public class RecommendationService {
 		}
 		return 0;
 	}
+	
+	public void deleteRecommendation(List<ProfessionalDomain> listProfessionals) {
+		
+		if (professionalDAO.existsByProfessionalID(listProfessionals.get(0).getProfessionalID()) == false ||
+				professionalDAO.existsByProfessionalID(listProfessionals.get(1).getProfessionalID()) == false) {
+			throw new IllegalArgumentException("Usuário não válido");
+		}
+		
+		if (listProfessionals.get(0).getProfessionalID().equalsIgnoreCase(listProfessionals.get(1).getProfessionalID())) {
+			throw new IllegalArgumentException("Os IDs são iguais");
+		}
+		
+		ProfessionalDomain professional0 = professionalDAO.findByProfessionalID(listProfessionals.get(0).getProfessionalID());
+		ProfessionalDomain professional1 = professionalDAO.findByProfessionalID(listProfessionals.get(1).getProfessionalID());
+		
+		if (recommendationDAO.existsByProfessionalID1AndProfessionalID2(professional0.getProfessionalID(), professional1.getProfessionalID())) {
+			recommendationDAO.delete(recommendationDAO.findByProfessionalID1AndProfessionalID2(professional0.getProfessionalID(),professional1.getProfessionalID()));
+		}
+		
+	}
 
 }

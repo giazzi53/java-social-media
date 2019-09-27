@@ -16,5 +16,5 @@ public interface RecommendationDAO extends MongoRepository<RecommendationDomain,
 	
 	List<RecommendationDomain> findByProfessionalID2(String professionalID2);
 
-	boolean existsByProfessionalID2AndProfessionalID1(String professionalID2, String professionalID1);
+	RecommendationDomain findByProfessionalID1AndProfessionalID2(String professionalID1, String professionalID2);
 }
