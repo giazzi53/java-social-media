@@ -83,7 +83,7 @@ public class RecommendationController {
 	}
 	
 	@CrossOrigin("*")
-	@DeleteMapping(value="/deleteRecommendation")
+	@PostMapping(value="/deleteRecommendation")
 	public ResponseEntity<?> deleteRecommendation(@RequestBody List<ProfessionalDomain> listProfessionals){
 		try {
 			recommendationService.deleteRecommendation(listProfessionals);
