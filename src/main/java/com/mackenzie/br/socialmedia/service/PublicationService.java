@@ -104,7 +104,7 @@ public class PublicationService {
 		return publicationReactionDomain;
 	}
 	
-	public void unreactToPublication(PublicationReactionDomain publicationReaction) {
+	public void unreactToPublication(PublicationReactionDomain publicationReaction) throws IllegalArgumentException{
 		if (!professionalDAO.existsByProfessionalID(publicationReaction.getProfessionalID())){
 			throw new IllegalArgumentException("Usuário inexistente");
 		}
@@ -126,12 +126,31 @@ public class PublicationService {
 		throw new IllegalArgumentException("Curtida não encontrada");
 	}
 	
-	public int getNumberReactionsOfPublication(String publicationID) {
+	public int getNumberReactionsOfPublication(String publicationID) throws IllegalArgumentException{
 		if(!publicationDAO.existsByPublicationID(publicationID)) {
 			throw new IllegalArgumentException("Publicação inexistente");
 		}
 		
 		return publicationRectionDAO.countByPublicationID(publicationID);
+	}
+
+	public List<ProfessionalDomain> getProfessionalsWhoRecommendedPublication(String publicationID) throws IllegalArgumentException{
+		int numberOfPublications;
+		
+		try {
+			numberOfPublications = getNumberReactionsOfPublication(publicationID);
+		}catch(IllegalArgumentException e) {
+			throw new IllegalArgumentException("Publicacao inexistente");
+		}
+		
+		List<ProfessionalDomain> listProfessionalsWhoRecommendedPublication = new ArrayList<ProfessionalDomain>();
+		
+		for (PublicationReactionDomain publicationReaction : publicationRectionDAO.findAllByPublicationID(publicationID)) {
+			listProfessionalsWhoRecommendedPublication.add(
+					professionalDAO.findByProfessionalID(publicationReaction.getProfessionalID()));
+		}
+		
+		return listProfessionalsWhoRecommendedPublication;
 	}
 
 	

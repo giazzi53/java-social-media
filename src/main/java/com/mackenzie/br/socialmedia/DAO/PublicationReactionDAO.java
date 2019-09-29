@@ -1,5 +1,7 @@
 package com.mackenzie.br.socialmedia.DAO;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +15,7 @@ public interface PublicationReactionDAO extends MongoRepository<PublicationReact
 	PublicationReactionDomain findByProfessionalIDAndPublicationID(String professionalID, String publicationID);
 
 	int countByPublicationID(String publicationID);
+
+	List<PublicationReactionDomain> findAllByPublicationID(String publicationID);
 
 }

@@ -1,5 +1,6 @@
 package com.mackenzie.br.socialmedia.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 import com.mackenzie.br.socialmedia.domain.PublicationDomain;
 import com.mackenzie.br.socialmedia.domain.PublicationReactionDomain;
 import com.mackenzie.br.socialmedia.service.PublicationService;
@@ -117,6 +119,21 @@ public class PublicationController {
 		}
 		
 		return new ResponseEntity<>(numberOfReactions ,HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "*")
+	@GetMapping(value = "getProfessionalsWhoRecommendedPublication/{publicationID}")
+	public ResponseEntity<?> getProfessionalsWhoRecommendedPublication(@PathVariable String publicationID) {
+		List<ProfessionalDomain> listProfessionalsWhoRecommendedPublication =
+				new ArrayList<ProfessionalDomain>();
+		
+		try {
+			listProfessionalsWhoRecommendedPublication = publicationService.getProfessionalsWhoRecommendedPublication(publicationID);
+		} catch (IllegalArgumentException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+		}
+		
+		return new ResponseEntity<>(listProfessionalsWhoRecommendedPublication ,HttpStatus.OK);
 	}
 	
 }
