@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
 import com.mackenzie.br.socialmedia.DAO.PublicationDAO;
+import com.mackenzie.br.socialmedia.DAO.PublicationReactionDAO;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 import com.mackenzie.br.socialmedia.domain.PublicationDomain;
+import com.mackenzie.br.socialmedia.domain.PublicationReactionDomain;
 import com.mackenzie.br.socialmedia.map.PublicationMapper;
 
 @Service
@@ -28,6 +30,9 @@ public class PublicationService {
 	
 	@Autowired
 	private FriendshipService friendshipService;
+	
+	@Autowired
+	private PublicationReactionDAO publicationRectionDAO;
 	
 	public PublicationService() {
 
@@ -78,6 +83,28 @@ public class PublicationService {
 		return publicationMapper.mapPublicationListToDescendingOrder(listPublications);
 		
 	}
+	
+	public PublicationReactionDomain reactToPublication(PublicationReactionDomain publicationReactionDomain) throws IllegalArgumentException{
+		
+		if (!professionalDAO.existsByProfessionalID(publicationReactionDomain.getProfessionalID())){
+			throw new IllegalArgumentException("Usuário inexistente");
+		}
+		
+		if(!publicationDAO.existsByPublicationID(publicationReactionDomain.getPublicationID())) {
+			throw new IllegalArgumentException("Publicação inexistente");
+		}
+		
+		if(publicationRectionDAO.existsByProfessionalIDAndPublicationID(publicationReactionDomain.getProfessionalID(),
+				publicationReactionDomain.getPublicationID())) {
+			throw new IllegalArgumentException("Publicação já curtida!");
+		}
+		
+		publicationRectionDAO.insert(publicationReactionDomain);
+		
+		return publicationReactionDomain;
+	}
+
+	
 //	public boolean validateProfessionalID(String id) {
 //	
 //		List<ProfessionalDomain> listProfessionals = professionalDAO.findAll();
@@ -89,7 +116,7 @@ public class PublicationService {
 //		}
 //		return false;
 //	}
-	
+
 //	public boolean validateUser(String userLogin) {
 //		for (ProfessionalDomain professional : professionalDAO.findAll()){
 //			if (professional.getUserLogin().equalsIgnoreCase(userLogin)) {

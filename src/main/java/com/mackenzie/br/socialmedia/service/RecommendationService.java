@@ -102,6 +102,7 @@ public class RecommendationService {
 		if (recommendationDAO.existsByProfessionalID1AndProfessionalID2(professional0.getProfessionalID(), professional1.getProfessionalID())) {
 			recommendationDAO.delete(recommendationDAO.findByProfessionalID1AndProfessionalID2(professional0.getProfessionalID(),professional1.getProfessionalID()));
 		}
+		throw new IllegalArgumentException("Recommendação não encontrada");
 		
 	}
 

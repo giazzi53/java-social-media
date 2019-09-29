@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mackenzie.br.socialmedia.domain.PublicationDomain;
+import com.mackenzie.br.socialmedia.domain.PublicationReactionDomain;
 import com.mackenzie.br.socialmedia.service.PublicationService;
 
 @RestController
@@ -77,5 +78,20 @@ public class PublicationController {
 		
 		return new ResponseEntity<>(publicationList, HttpStatus.OK);
 	}
+	
+	@CrossOrigin(origins = "*")
+	@PostMapping(value = "reactToPublication")
+	public ResponseEntity<?> reactToPublication(@RequestBody PublicationReactionDomain publicationReactionDomain) {
+		PublicationReactionDomain publicationReaction = new PublicationReactionDomain();
+		
+		try {
+			publicationReaction = publicationService.reactToPublication(publicationReactionDomain);
+		} catch (IllegalArgumentException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+		}
+		
+		return new ResponseEntity<>(publicationReaction, HttpStatus.OK);
+	}
+
 	
 }
