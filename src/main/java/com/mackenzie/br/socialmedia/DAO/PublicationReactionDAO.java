@@ -10,4 +10,8 @@ public interface PublicationReactionDAO extends MongoRepository<PublicationReact
 
 	boolean existsByProfessionalIDAndPublicationID(String professionalID, String publicaitonID);
 
+	PublicationReactionDomain findByProfessionalIDAndPublicationID(String professionalID, String publicationID);
+
+	int countByPublicationID(String publicationID);
+
 }

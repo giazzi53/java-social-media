@@ -92,6 +92,31 @@ public class PublicationController {
 		
 		return new ResponseEntity<>(publicationReaction, HttpStatus.OK);
 	}
-
+	
+	@CrossOrigin(origins = "*")
+	@PostMapping(value = "unreactToPublication")
+	public ResponseEntity<?> unreactToPublication(@RequestBody PublicationReactionDomain publicationReactionDomain) {		
+		try {
+			publicationService.unreactToPublication(publicationReactionDomain);
+		} catch (IllegalArgumentException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "*")
+	@GetMapping(value = "getNumberReactionsOfPublication/{publicationID}")
+	public ResponseEntity<?> getNumberReactionsOfPublication(@PathVariable String publicationID) {
+		int numberOfReactions = 0;
+		
+		try {
+			numberOfReactions = publicationService.getNumberReactionsOfPublication(publicationID);
+		} catch (IllegalArgumentException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+		}
+		
+		return new ResponseEntity<>(numberOfReactions ,HttpStatus.OK);
+	}
 	
 }

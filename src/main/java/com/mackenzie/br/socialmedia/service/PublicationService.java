@@ -103,6 +103,36 @@ public class PublicationService {
 		
 		return publicationReactionDomain;
 	}
+	
+	public void unreactToPublication(PublicationReactionDomain publicationReaction) {
+		if (!professionalDAO.existsByProfessionalID(publicationReaction.getProfessionalID())){
+			throw new IllegalArgumentException("Usuário inexistente");
+		}
+		
+		if(!publicationDAO.existsByPublicationID(publicationReaction.getPublicationID())) {
+			throw new IllegalArgumentException("Publicação inexistente");
+		}
+		
+		if(publicationRectionDAO.existsByProfessionalIDAndPublicationID(publicationReaction.getProfessionalID(),
+				publicationReaction.getPublicationID())) {
+			
+			PublicationReactionDomain publicationReactionToBeDeleted = new PublicationReactionDomain();
+			publicationReactionToBeDeleted = publicationRectionDAO.findByProfessionalIDAndPublicationID(publicationReaction.getProfessionalID(),
+				publicationReaction.getPublicationID());
+			publicationRectionDAO.delete(publicationReactionToBeDeleted);
+			
+		}
+		
+		throw new IllegalArgumentException("Curtida não encontrada");
+	}
+	
+	public int getNumberReactionsOfPublication(String publicationID) {
+		if(!publicationDAO.existsByPublicationID(publicationID)) {
+			throw new IllegalArgumentException("Publicação inexistente");
+		}
+		
+		return publicationRectionDAO.countByPublicationID(publicationID);
+	}
 
 	
 //	public boolean validateProfessionalID(String id) {
