@@ -153,6 +153,23 @@ public class PublicationService {
 		return listProfessionalsWhoRecommendedPublication;
 	}
 
+	public int getStatusPublication(String professionalID, String publicationID) {
+		
+		if (!professionalDAO.existsByProfessionalID(professionalID)){
+			throw new IllegalArgumentException("Usuário inexistente");
+		}
+		
+		if(!publicationDAO.existsByPublicationID(publicationID)) {
+			throw new IllegalArgumentException("Publicação inexistente");
+		}
+		
+		if (publicationRectionDAO.existsByProfessionalIDAndPublicationID(professionalID, publicationID)) {
+			return 1;
+		}
+		
+		return 0;
+	}
+
 	
 //	public boolean validateProfessionalID(String id) {
 //	
