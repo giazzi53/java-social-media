@@ -5,21 +5,29 @@ Acesso:
 API: /signUp
 Descrição: fazer o cadastro de um novo profissional
 Método HTTP: POST
-JSON (ainda vão ter os outros campos):
+JSON:
 {
-    "name": "name",
-    "userLogin": "login",
-    "password": "password",
-    "birthDate": "date",
-    "careerDate": "date",
-    "jobRole": {
-    	"salary":"salary",
-    	"companyName":"companyName"
-    },
+    "name": "John Doe 8",
+    "userLogin": "jdoe8",
+    "password": "pass123456",
+    "profileImage": !passar algum base64 em forma de String!,
+    "birthDate": "1",
+    "careerDate": "1",
     "city": "SP",
-    "state": "state",
-    "instructionLevel": "instructionLevel",
-    "profileType": "profileType"
+    "state": "São Paulo",
+    "jobRole": {
+    	"jobTitle":"Cientista de dados",
+        "salary": 1000,
+        "companyName": "IBM"
+    },
+    "instructionLevel": "MESTRE",
+    "profileType": "PREMIUM",
+    "paymentInfo":{
+    	"cardNumber":"1234 5689 6532 0092",
+    	"cardName": "John Doe 2",
+    	"cardValidationDate":"1",
+    	"cardSecurityCode":"222"
+    }
 }
 
 API: /login

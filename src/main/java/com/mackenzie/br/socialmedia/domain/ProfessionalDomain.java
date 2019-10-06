@@ -51,7 +51,7 @@ public class ProfessionalDomain {
 
 	private ProfileTypeEnum profileType;
 
-	private PaymentDomain payment;
+	private PaymentInfoDomain paymentInfo;
 
 	public ProfessionalDomain() {
 
@@ -149,12 +149,12 @@ public class ProfessionalDomain {
 		this.profileType = profileType;
 	}
 
-	public PaymentDomain getPayment() {
-		return payment;
+	public PaymentInfoDomain getPaymentInfo() {
+		return paymentInfo;
 	}
 
-	public void setPayment(PaymentDomain payment) {
-		this.payment = payment;
+	public void setPaymentInfo(PaymentInfoDomain paymentInfo) {
+		this.paymentInfo = paymentInfo;
 	}
 
 }

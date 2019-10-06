@@ -3,8 +3,9 @@ package com.mackenzie.br.socialmedia.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mackenzie.br.socialmedia.DAO.PaymentInfoDAO;
 import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
-import com.mackenzie.br.socialmedia.DAO.PublicationDAO;
+import com.mackenzie.br.socialmedia.domain.PaymentInfoDomain;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 
 @Service
@@ -12,12 +13,18 @@ public class AccessService {
 	
 	@Autowired
 	private ProfessionalDAO professionalDAO;
+	
+	@Autowired 
+	private PaymentInfoDAO paymentInfoDAO;
 
 	public ProfessionalDomain signUp(ProfessionalDomain professional) throws IllegalArgumentException{
 		if (validateUser(professional.getUserLogin())) {
 			throw new IllegalArgumentException("Usuário já em uso");
 		}
 		ProfessionalDomain databaseProfessional = professionalDAO.insert(professional);	
+		PaymentInfoDomain paymentInfo = professional.getPaymentInfo();
+		paymentInfo.setProfessionalID(databaseProfessional.getProfessionalID());
+		paymentInfoDAO.insert(paymentInfo);	
 		
 		return databaseProfessional;
 	}

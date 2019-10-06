@@ -1,10 +1,12 @@
 package com.mackenzie.br.socialmedia.domain;
 
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class JobRoleDomain {
+	
+	@NotNull
+	private String jobTitle;
 	
 	@NotNull
 	@Min(value=0)
@@ -16,6 +18,23 @@ public class JobRoleDomain {
 	public JobRoleDomain() {
 
 	}
+
+	public String getJobTitle() {
+		return jobTitle;
+	}
+
+	public void setJobTitle(String jobTitle) {
+		this.jobTitle = jobTitle;
+	}
+
+	public double getSalary() {
+		return salary;
+	}
+
+	public void setSalary(double salary) {
+		this.salary = salary;
+	}
+
 	public String getCompanyName() {
 		return companyName;
 	}
@@ -23,13 +42,5 @@ public class JobRoleDomain {
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
-	
-	public double getSalary() {
-		return salary;
-	}
-	
-	public void setSalary(double salary) {
-		this.salary = salary;
-	}
-
+		
 }

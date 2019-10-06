@@ -2,11 +2,18 @@ package com.mackenzie.br.socialmedia.domain;
 
 import java.util.Date;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Document(collection = "PaymentCollection")
-public class PaymentDomain {
+public class PaymentInfoDomain {
 	
+	@Id
+	private String paymentInfoID;
+	
+	@JsonIgnore
 	private String professionalID;
 	
 	private String cardNumber;
@@ -15,10 +22,14 @@ public class PaymentDomain {
 	
 	private Date cardValidationDate;
 
-	private String cardCode;
+	private String cardSecurityCode;
 	
 	public String getProfessionalID() {
 		return professionalID;
+	}
+	
+	public void setProfessionalID(String professionalID) {
+		this.professionalID = professionalID;
 	}
 
 	public String getCardNumber() {
@@ -45,12 +56,12 @@ public class PaymentDomain {
 		this.cardValidationDate = cardValidationDate;
 	}
 
-	public String getCardCode() {
-		return cardCode;
+	public String getCardSecurityCode() {
+		return cardSecurityCode;
 	}
 
-	public void setCardCode(String cardCode) {
-		this.cardCode = cardCode;
+	public void setCardSecurityCode(String cardSecurityCode) {
+		this.cardSecurityCode = cardSecurityCode;
 	}
 	
 }
