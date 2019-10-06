@@ -9,6 +9,7 @@ JSON:
 {
     "name": "John Doe 8",
     "userLogin": "jdoe8",
+    "email":"email@hotmail.com",
     "password": "pass123456",
     "profileImage": !passar algum base64 em forma de String!,
     "birthDate": "1",

@@ -23,6 +23,9 @@ public class ProfessionalDomain {
 
 	@NotNull
 	private String userLogin;
+	
+	@NotNull
+	private String email;
 
 	@NotNull
 	private String password;
@@ -75,6 +78,14 @@ public class ProfessionalDomain {
 
 	public void setUserLogin(String userLogin) {
 		this.userLogin = userLogin;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
