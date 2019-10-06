@@ -1,5 +1,6 @@
 package com.mackenzie.br.socialmedia.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +91,20 @@ public class FriendshipController {
 		}
 		
 		return new ResponseEntity<>(status, HttpStatus.OK);
+	}
+	
+	@CrossOrigin("*")
+	@GetMapping("/getFriendsInCommon/{professionalID1}/{professionalID2}")
+	public ResponseEntity<?> getFriendsInCommon(@PathVariable String professionalID1, @PathVariable String professionalID2){
+		List<String> friendsInCommonList = new ArrayList<String>();
+		
+		try {
+			friendsInCommonList = friendshipService.getFriendsInCommon(professionalID1, professionalID2);
+		} catch(IllegalArgumentException i) {
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(friendsInCommonList, HttpStatus.OK);
 	}
 
 }

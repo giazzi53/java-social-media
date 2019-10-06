@@ -5,8 +5,6 @@ import javax.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.mackenzie.br.socialmedia.enums.FriendshipStatusEnum;
-
 @Document(collection = "FriendshipCollection")
 public class FriendshipDomain {
 	

@@ -183,7 +183,7 @@ public class FriendshipService {
 		
 		List<ProfessionalDomain> listFriends = new ArrayList<ProfessionalDomain>();
 		
-		for( String id : listFriendsID) {
+		for (String id : listFriendsID) {
 			listFriends.add(professionalDAO.findByProfessionalID(id));
 		}
 		
@@ -221,6 +221,22 @@ public class FriendshipService {
 		}
 		
 		return 0;
+	}
+
+	public List<String> getFriendsInCommon(String professionalID1, String professionalID2) {
+		List<ProfessionalDomain> professional1friendList = returnListFriends(professionalID1);
+		List<ProfessionalDomain> professional2friendList = returnListFriends(professionalID2);
+		List<String> friendsInCommon = new ArrayList<String>();
+	
+		for(ProfessionalDomain professional1 : professional1friendList) {
+			for(ProfessionalDomain professional2 : professional2friendList) {
+				if(professional1.getProfessionalID().equals(professional2.getProfessionalID())) {
+					friendsInCommon.add(professional1.getProfessionalID());
+				}
+			}
+		}
+		
+		return friendsInCommon;
 	}
 
 }
