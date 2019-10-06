@@ -78,7 +78,7 @@ public class AccessController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		
-		return new ResponseEntity<>(databaseProfessional, HttpStatus.CREATED);
+		return new ResponseEntity<>(databaseProfessional, HttpStatus.OK);
 	}
 	
 }

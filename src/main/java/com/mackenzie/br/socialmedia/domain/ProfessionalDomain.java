@@ -1,6 +1,5 @@
 package com.mackenzie.br.socialmedia.domain;
 
-import java.io.File;
 import java.util.Date;
 
 import javax.validation.Valid;
@@ -18,84 +17,44 @@ public class ProfessionalDomain {
 
 	@Id
 	private String professionalID;
-	
+
 	@NotNull
 	private String name;
-	
+
 	@NotNull
 	private String userLogin;
 
-	//@JsonIgnore
 	@NotNull
 	private String password;
 
-	private File profileImage;
+	private String profileImage;
 
-	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	@NotNull
 	@DateTimeFormat
 	private Date birthDate;
 
-	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	@NotNull
 	@DateTimeFormat
 	private Date careerDate;
-	
-	//@JsonProperty
+
+	@NotNull
+	private String city;
+
+	@NotNull
+	private String state;
+
 	@NotNull
 	@Valid
 	private JobRoleDomain jobRole;
-	
-	@NotNull
-	private String city;
-	
-	@NotNull
-	private String state;
-	
-	private PaymentDomain payment;
 
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-	
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-	
 	private InstructionLevelEnum instructionLevel;
-	
+
 	private ProfileTypeEnum profileType;
 
+	private PaymentDomain payment;
+
 	public ProfessionalDomain() {
-		
-	}
 
-	public JobRoleDomain getJobRole() {
-		return jobRole;
-	}
-
-	public InstructionLevelEnum getInstructionLevel() {
-		return instructionLevel;
-	}
-
-	public void setInstructionLevel(InstructionLevelEnum instructionLevel) {
-		this.instructionLevel = instructionLevel;
-	}
-
-	public ProfileTypeEnum getProfileType() {
-		return profileType;
-	}
-
-	public void setProfileType(ProfileTypeEnum profileType) {
-		this.profileType = profileType;
 	}
 
 	public String getProfessionalID() {
@@ -109,7 +68,7 @@ public class ProfessionalDomain {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getUserLogin() {
 		return userLogin;
 	}
@@ -126,11 +85,11 @@ public class ProfessionalDomain {
 		this.password = password;
 	}
 
-	public File getProfileImage() {
+	public String getProfileImage() {
 		return profileImage;
 	}
 
-	public void setProfileImage(File profileImage) {
+	public void setProfileImage(String profileImage) {
 		this.profileImage = profileImage;
 	}
 
@@ -150,8 +109,44 @@ public class ProfessionalDomain {
 		this.careerDate = careerDate;
 	}
 
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public JobRoleDomain getJobRole() {
+		return jobRole;
+	}
+
 	public void setJobRole(JobRoleDomain jobRole) {
 		this.jobRole = jobRole;
+	}
+
+	public InstructionLevelEnum getInstructionLevel() {
+		return instructionLevel;
+	}
+
+	public void setInstructionLevel(InstructionLevelEnum instructionLevel) {
+		this.instructionLevel = instructionLevel;
+	}
+
+	public ProfileTypeEnum getProfileType() {
+		return profileType;
+	}
+
+	public void setProfileType(ProfileTypeEnum profileType) {
+		this.profileType = profileType;
 	}
 
 	public PaymentDomain getPayment() {
@@ -161,5 +156,5 @@ public class ProfessionalDomain {
 	public void setPayment(PaymentDomain payment) {
 		this.payment = payment;
 	}
-	
+
 }
