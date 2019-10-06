@@ -1,24 +1,17 @@
 package com.mackenzie.br.socialmedia.domain;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mackenzie.br.socialmedia.enums.InstructionLevelEnum;
 import com.mackenzie.br.socialmedia.enums.ProfileTypeEnum;
-
-//import com.mackenzie.br.socialmedia.enums.InstructionLevelEnum;
-//import com.mackenzie.br.socialmedia.enums.ProfileTypeEnum;
 
 @Document(collection = "ProfessionalCollection")
 public class ProfessionalDomain {
@@ -58,6 +51,8 @@ public class ProfessionalDomain {
 	
 	@NotNull
 	private String state;
+	
+	private PaymentDomain payment;
 
 	public String getCity() {
 		return city;
@@ -75,19 +70,18 @@ public class ProfessionalDomain {
 		this.state = state;
 	}
 	
-	private String instructionLevel;
-	
-	private String profileType;
-	
-/*
 	private InstructionLevelEnum instructionLevel;
-
+	
 	private ProfileTypeEnum profileType;
-*/
+
 	public ProfessionalDomain() {
 		
 	}
-/*
+
+	public JobRoleDomain getJobRole() {
+		return jobRole;
+	}
+
 	public InstructionLevelEnum getInstructionLevel() {
 		return instructionLevel;
 	}
@@ -101,26 +95,6 @@ public class ProfessionalDomain {
 	}
 
 	public void setProfileType(ProfileTypeEnum profileType) {
-		this.profileType = profileType;
-	}
-*/
-	public JobRoleDomain getJobRole() {
-		return jobRole;
-	}
-
-	public String getInstructionLevel() {
-		return instructionLevel;
-	}
-
-	public void setInstructionLevel(String instructionLevel) {
-		this.instructionLevel = instructionLevel;
-	}
-
-	public String getProfileType() {
-		return profileType;
-	}
-
-	public void setProfileType(String profileType) {
 		this.profileType = profileType;
 	}
 
@@ -178,6 +152,14 @@ public class ProfessionalDomain {
 
 	public void setJobRole(JobRoleDomain jobRole) {
 		this.jobRole = jobRole;
+	}
+
+	public PaymentDomain getPayment() {
+		return payment;
+	}
+
+	public void setPayment(PaymentDomain payment) {
+		this.payment = payment;
 	}
 	
 }
