@@ -136,6 +136,9 @@ Descrição: Retorna uma lista de objetos Professional, com todos os amigos do u
 Método HTTP: GET
 URL: https://java-ds-social-media.herokuapp.com/returnListFriends/{professionalID}
 
+API: /getFriendsInCommon/{professionalID1}/{professionalID2}
+Descrição: retorna as amizades em comum entre dois profissionais
+Método HTTP: GET
 
 -------------------------------
 
