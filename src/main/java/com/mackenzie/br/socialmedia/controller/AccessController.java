@@ -22,16 +22,16 @@ import com.mackenzie.br.socialmedia.service.AccessService;
 public class AccessController {
 
 	@Autowired
-	AccessService accessService;
+	private AccessService accessService;
 
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/signUp")
 	public ResponseEntity<?> signUp(@RequestBody @Valid ProfessionalDomain professional) {
+		
 		ProfessionalDomain databaseProfessional;
 		
 		try {
 			databaseProfessional = accessService.signUp(professional);
-			
 		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
 		}
@@ -42,6 +42,7 @@ public class AccessController {
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/login")
 	public ResponseEntity<?> login(@RequestBody ProfessionalDomain professional) {
+		
 		ProfessionalDomain databaseProfessional;
 		
 		try {
@@ -56,6 +57,7 @@ public class AccessController {
 	@CrossOrigin(origins = "*")
 	@PutMapping(value = "/updateProfile")
 	public ResponseEntity<?> updateProfile(@RequestBody ProfessionalDomain professional) {
+		
 		ProfessionalDomain databaseProfessional;
 		
 		try{
@@ -70,12 +72,13 @@ public class AccessController {
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/retrieveProfessionalData/{professionalID}")
 	public ResponseEntity<?> retrieveProfessionalData(@PathVariable String professionalID) {
+		
 		ProfessionalDomain databaseProfessional;
 		
 		try {
 			databaseProfessional = accessService.retrieveProfessionalData(professionalID);
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<>(databaseProfessional, HttpStatus.OK);

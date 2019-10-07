@@ -16,11 +16,12 @@ import com.mackenzie.br.socialmedia.service.InterestTopicService;
 public class InterestTopicController {
 	
 	@Autowired
-	InterestTopicService interestTopicService;
+	private InterestTopicService interestTopicService;
 	
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/getInterestTopics")
 	public ResponseEntity<List<InterestTopicDomain>> getInterestTopics() {
+		
 		return new ResponseEntity<>(interestTopicService.getInterestTopics(), HttpStatus.OK);
 	}
 	
