@@ -26,45 +26,52 @@ public class Professional_InterestTopicService {
 
 	public List<InterestTopicDomain> getProfessionalInterestTopics(String professionalID) {
 		
-		boolean existProfessional = professionalDAO.existsByProfessionalID(professionalID);
+		boolean existsProfessional = professionalDAO.existsByProfessionalID(professionalID);
 		
-		if(!existProfessional) {
+		if(!existsProfessional) {
+			
 			throw new IllegalArgumentException("Usuário não encontrado");
 		}
 		
 		List<Professional_InterestTopicDomain> listProfessionalInterestTopics = professional_InterestTopicDAO.findByProfessionalID(professionalID);
-		List<InterestTopicDomain> listInterestTopics = new ArrayList<InterestTopicDomain>();
+		List<InterestTopicDomain> interestTopicsList = new ArrayList<InterestTopicDomain>();
 		
 		for (Professional_InterestTopicDomain professionalInterestTopic : listProfessionalInterestTopics) {
-			listInterestTopics.add(interestTopicDAO.findByInterestTopicID(professionalInterestTopic.getInterestTopicID()));
+			
+			interestTopicsList.add(interestTopicDAO.findByInterestTopicID(professionalInterestTopic.getInterestTopicID()));
 		}
 		
-		return listInterestTopics;
+		return interestTopicsList;
 	}
 	
-	public List<Professional_InterestTopicDomain> setProfessionalInterestTopics(List<Professional_InterestTopicDomain> listProfessionalInterestTopics) {
+	public List<Professional_InterestTopicDomain> setProfessionalInterestTopics(List<Professional_InterestTopicDomain> professionalInterestTopicsList) {
 		
-		for (Professional_InterestTopicDomain professionalInterestTopic : listProfessionalInterestTopics) {
-			boolean existProfessional = professionalDAO.existsByProfessionalID(professionalInterestTopic.getProfessionalID());
-			boolean existInterestTopic = interestTopicDAO.existsByInterestTopicID(professionalInterestTopic.getInterestTopicID());
+		for (Professional_InterestTopicDomain professionalInterestTopic : professionalInterestTopicsList) {
 			
-			if(!existProfessional) {
+			boolean existsProfessional = professionalDAO.existsByProfessionalID(professionalInterestTopic.getProfessionalID());
+			boolean existsInterestTopic = interestTopicDAO.existsByInterestTopicID(professionalInterestTopic.getInterestTopicID());
+			
+			if(!existsProfessional) {
+				
 				throw new IllegalArgumentException("Usuário não encontrado");
 			}
-			if(!existInterestTopic) {
+			
+			if(!existsInterestTopic) {
+			
 				throw new IllegalArgumentException("Tópico de interesse não encontrado");
 			}
 		}
 		
-		String professionalID = listProfessionalInterestTopics.get(0).getProfessionalID();
+		String professionalID = professionalInterestTopicsList.get(0).getProfessionalID();
 		
 		professional_InterestTopicDAO.deleteByProfessionalID(professionalID);
 		
-		for (Professional_InterestTopicDomain professionalInterestTopic : listProfessionalInterestTopics) {
+		for (Professional_InterestTopicDomain professionalInterestTopic : professionalInterestTopicsList) {
+			
 			professional_InterestTopicDAO.insert(professionalInterestTopic);
 		}
 		
-		return listProfessionalInterestTopics;
+		return professionalInterestTopicsList;
 	}
 	
 }

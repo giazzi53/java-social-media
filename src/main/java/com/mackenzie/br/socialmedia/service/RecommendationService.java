@@ -15,24 +15,27 @@ import com.mackenzie.br.socialmedia.domain.RecommendationDomain;
 public class RecommendationService {
 
 	@Autowired
-	RecommendationDAO recommendationDAO;
+	private RecommendationDAO recommendationDAO;
 	
 	@Autowired
-	ProfessionalDAO professionalDAO;
+	private ProfessionalDAO professionalDAO;
 	
 	public RecommendationDomain recommend(RecommendationDomain recommendation) throws IllegalArgumentException{
 		
 		if (professionalDAO.existsByProfessionalID(recommendation.getProfessionalID1()) == false ||
 				professionalDAO.existsByProfessionalID(recommendation.getProfessionalID2()) == false) {
-			throw new IllegalArgumentException("Usuário não válido");
+			
+			throw new IllegalArgumentException("Usuário não encontrado");
 		}
 		
 		if (recommendation.getProfessionalID1().equalsIgnoreCase(recommendation.getProfessionalID2())) {
+			
 			throw new IllegalArgumentException("Os IDs são iguais");
 		}
 		
 		if (recommendationDAO.existsByProfessionalID1AndProfessionalID2(recommendation.getProfessionalID1(),
 				recommendation.getProfessionalID2())) {
+			
 			throw new IllegalArgumentException("Você já recomendou esse usuário!");
 		}
 		
@@ -44,7 +47,8 @@ public class RecommendationService {
 	public Integer getNumberOfRecommendations(String professionalID) throws IllegalArgumentException{
 		
 		if (!professionalDAO.existsByProfessionalID(professionalID)) {
-			throw new IllegalArgumentException("Usuário não válido");
+			
+			throw new IllegalArgumentException("Usuário não encontrado");
 		}
 		
 		return recommendationDAO.countByProfessionalID2(professionalID);
@@ -53,57 +57,61 @@ public class RecommendationService {
 	public List<ProfessionalDomain> getProfessionalsWhoRecommended(String professionalID) throws IllegalArgumentException{
 		
 		if (!professionalDAO.existsByProfessionalID(professionalID)) {
+			
 			throw new IllegalArgumentException("Usuário não válido");
 		}
 		
-		List<ProfessionalDomain> listProfessionalWhoRecommended = new ArrayList<ProfessionalDomain>();
+		List<ProfessionalDomain> professionalsWhoRecommendedList = new ArrayList<ProfessionalDomain>();
 		
 		for (RecommendationDomain recommendation : recommendationDAO.findByProfessionalID2(professionalID)) {
-			listProfessionalWhoRecommended.add(professionalDAO.findByProfessionalID(recommendation.getProfessionalID1()));
+			
+			professionalsWhoRecommendedList.add(professionalDAO.findByProfessionalID(recommendation.getProfessionalID1()));
 		}
 		
-		return listProfessionalWhoRecommended;
+		return professionalsWhoRecommendedList;
 	}
 
-	public int getStatusRecommendation(List<ProfessionalDomain> listProfessionals) {
+	public int getRecommendationStatus(String professionalID1, String professionalID2) {
 		
-		if (professionalDAO.existsByProfessionalID(listProfessionals.get(0).getProfessionalID()) == false ||
-				professionalDAO.existsByProfessionalID(listProfessionals.get(1).getProfessionalID()) == false) {
-			throw new IllegalArgumentException("Usuário não válido");
+		if (professionalDAO.existsByProfessionalID(professionalID1) == false ||
+				professionalDAO.existsByProfessionalID(professionalID2) == false) {
+			
+			throw new IllegalArgumentException("Usuário não encontrado");
 		}
 		
-		if (listProfessionals.get(0).getProfessionalID().equalsIgnoreCase(listProfessionals.get(1).getProfessionalID())) {
+		if (professionalID1.equalsIgnoreCase(professionalID2)) {
+			
 			throw new IllegalArgumentException("Os IDs são iguais");
 		}
 		
-		ProfessionalDomain professional0 = professionalDAO.findByProfessionalID(listProfessionals.get(0).getProfessionalID());
-		ProfessionalDomain professional1 = professionalDAO.findByProfessionalID(listProfessionals.get(1).getProfessionalID());
-		
-		if(recommendationDAO.existsByProfessionalID1AndProfessionalID2(professional0.getProfessionalID(), professional1.getProfessionalID())){
-			return 1;
-		}
+//		if(recommendationDAO.existsByProfessionalID1AndProfessionalID2(professionalID1, professionalID2)){
+//			
+//			return 1;
+//		}
+//		
+//		return 0;
 		return 0;
 	}
 	
-	public void deleteRecommendation(List<ProfessionalDomain> listProfessionals) {
+	public void deleteRecommendation(String professionalID1, String professionalID2) {
 		
-		if (professionalDAO.existsByProfessionalID(listProfessionals.get(0).getProfessionalID()) == false ||
-				professionalDAO.existsByProfessionalID(listProfessionals.get(1).getProfessionalID()) == false) {
-			throw new IllegalArgumentException("Usuário não válido");
+		if (professionalDAO.existsByProfessionalID(professionalID1) == false ||
+				professionalDAO.existsByProfessionalID(professionalID2) == false) {
+			
+			throw new IllegalArgumentException("Usuário não encontardo");
 		}
 		
-		if (listProfessionals.get(0).getProfessionalID().equalsIgnoreCase(listProfessionals.get(1).getProfessionalID())) {
+		if (professionalID1.equalsIgnoreCase(professionalID2)) {
+			
 			throw new IllegalArgumentException("Os IDs são iguais");
 		}
 		
-		ProfessionalDomain professional0 = professionalDAO.findByProfessionalID(listProfessionals.get(0).getProfessionalID());
-		ProfessionalDomain professional1 = professionalDAO.findByProfessionalID(listProfessionals.get(1).getProfessionalID());
-		
-		if (recommendationDAO.existsByProfessionalID1AndProfessionalID2(professional0.getProfessionalID(), professional1.getProfessionalID())) {
-			recommendationDAO.delete(recommendationDAO.findByProfessionalID1AndProfessionalID2(professional0.getProfessionalID(),professional1.getProfessionalID()));
+		if (recommendationDAO.existsByProfessionalID1AndProfessionalID2(professionalID1, professionalID2)) {
+			
+			recommendationDAO.delete(recommendationDAO.findByProfessionalID1AndProfessionalID2(professionalID1,professionalID2));
 		}
-		throw new IllegalArgumentException("Recommendação não encontrada");
 		
+		throw new IllegalArgumentException("Recommendação não encontrada");
 	}
 
 }

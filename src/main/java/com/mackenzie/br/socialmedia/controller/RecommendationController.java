@@ -70,12 +70,12 @@ public class RecommendationController {
 	
 	@CrossOrigin("*")
 	@GetMapping(value="/getRecommendationStatus/{professionalID1}/{professionalID2}")
-	public ResponseEntity<?> getRecommendationStatus(@RequestBody List<ProfessionalDomain> listProfessionals){
+	public ResponseEntity<?> getRecommendationStatus(@PathVariable String professionalID1, @PathVariable String professionalID2){
 		
 		int recommendationStatus;
 		
 		try {
-			recommendationStatus = recommendationService.getRecommendationStatus(listProfessionals);
+			recommendationStatus = recommendationService.getRecommendationStatus(professionalID1, professionalID2);
 		}catch(IllegalArgumentException i) {
 			return new ResponseEntity<>(i.getMessage(),HttpStatus.BAD_REQUEST);
 		}

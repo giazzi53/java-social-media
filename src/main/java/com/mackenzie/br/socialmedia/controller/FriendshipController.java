@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mackenzie.br.socialmedia.domain.FriendshipDomain;
 import com.mackenzie.br.socialmedia.domain.FriendshipRequestDomain;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
+import com.mackenzie.br.socialmedia.enums.FriendshipStatusEnum;
 import com.mackenzie.br.socialmedia.service.FriendshipService;
 
 @RestController
@@ -88,7 +89,7 @@ public class FriendshipController {
 	@GetMapping(value = "/getFriendshipStatus/{professionalID1}/{professionalID2}")
 	public ResponseEntity<?> getFriendshipStatus(@PathVariable String professionalID1, @PathVariable String professionalID2){
 		
-		int friendshipStatus;
+		FriendshipStatusEnum friendshipStatus;
 		
 		try {
 			friendshipStatus = friendshipService.getFriendshipStatus(professionalID1, professionalID2);

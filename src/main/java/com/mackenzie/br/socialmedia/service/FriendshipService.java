@@ -150,17 +150,18 @@ public class FriendshipService {
 			throw new IllegalArgumentException("IDs são iguais");
 		}
 		
-		List<FriendshipRequestDomain> receivedRequestsList = friendshipRequestDAO.findByAllProfessionalID2(professionalIDs.get(1));
+		List<FriendshipRequestDomain> receivedRequestsList = friendshipRequestDAO.findAllByProfessionalID2(professionalIDs.get(1));
 		
-		for (FriendshipRequestDomain request : listRequestReceived){
-			if (request.getProfessionalID1().equalsIgnoreCase(professional1.getProfessionalID())) {
-				FriendshipRequestDomain requestDeleted = new FriendshipRequestDomain();
-				requestDeleted.setFriendshipRequestId(request.getFriendshipRequestId());
-				requestDeleted.setProfessionalID1(request.getProfessionalID1());
-				requestDeleted.setProfessionalID2(request.getProfessionalID2());
-				friendshipRequestDAO.delete(request);
-				return requestDeleted;
+		for (FriendshipRequestDomain request : receivedRequestsList){
+			
+			if (request.getProfessionalID1().equalsIgnoreCase(professionalIDs.get(0))) {
 				
+				friendshipRequest.setFriendshipRequestId(request.getFriendshipRequestId());
+				friendshipRequest.setProfessionalID1(request.getProfessionalID1());
+				friendshipRequest.setProfessionalID2(request.getProfessionalID2());
+				friendshipRequestDAO.delete(request);
+				
+				return friendshipRequest;	
 			}
 		}
 		
@@ -172,22 +173,23 @@ public class FriendshipService {
 		boolean existsProfessional = professionalDAO.existsByProfessionalID(professionalID);
 
 		if(!existsProfessional) {
+			
 			throw new IllegalArgumentException("Usuário não encontrado");
 		}
 		
-		ProfessionalDomain professional0 = professionalDAO.findByProfessionalID(professionalID);
 		
-		List<String> listFriendsID = friendshipMapper.mapListFriendsId(professional0.getProfessionalID(),
-				friendshipDAO.findByProfessionalID1(professional0.getProfessionalID()), 
-				friendshipDAO.findByProfessionalID2(professional0.getProfessionalID()));
+		List<String> listFriendsID = friendshipMapper.mapFriendsIDsList(professionalID,
+				friendshipDAO.findByProfessionalID1(professionalID), 
+				friendshipDAO.findByProfessionalID2(professionalID));
 		
-		List<ProfessionalDomain> listFriends = new ArrayList<ProfessionalDomain>();
+		List<ProfessionalDomain> friendsList = new ArrayList<ProfessionalDomain>();
 		
 		for (String id : listFriendsID) {
-			listFriends.add(professionalDAO.findByProfessionalID(id));
+			
+			friendsList.add(professionalDAO.findByProfessionalID(id));
 		}
 		
-		return listFriends;
+		return friendsList;
 	}
 	
 	public FriendshipStatusEnum getFriendshipStatus(String professionalID1, String professionalID2) throws IllegalArgumentException{
@@ -225,13 +227,17 @@ public class FriendshipService {
 	}
 
 	public List<String> getFriendsInCommon(String professionalID1, String professionalID2) {
-		List<ProfessionalDomain> professional1friendList = returnListFriends(professionalID1);
-		List<ProfessionalDomain> professional2friendList = returnListFriends(professionalID2);
+		
+		List<ProfessionalDomain> professional1friendList = returnFriendsList(professionalID1);
+		List<ProfessionalDomain> professional2friendList = returnFriendsList(professionalID2);
 		List<String> friendsInCommon = new ArrayList<String>();
 	
 		for(ProfessionalDomain professional1 : professional1friendList) {
+			
 			for(ProfessionalDomain professional2 : professional2friendList) {
+				
 				if(professional1.getProfessionalID().equals(professional2.getProfessionalID())) {
+					
 					friendsInCommon.add(professional1.getProfessionalID());
 				}
 			}

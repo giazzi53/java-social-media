@@ -23,8 +23,10 @@ public class FriendshipMapper {
 		for (FriendshipDomain friendship : friendshipsList) {
 			
 			if (friendship.getProfessionalID1().equalsIgnoreCase(professionalID)) {
+				
 				friendsIDsList.add(friendship.getProfessionalID2());
 			} else {
+				
 				friendsIDsList.add(friendship.getProfessionalID1());
 			}
 		}

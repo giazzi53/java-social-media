@@ -16,31 +16,31 @@ import com.mackenzie.br.socialmedia.map.AnalyticsMapper;
 public class AnalyticsService {
 	
 	@Autowired
-	ProfessionalDAO professionalDAO;
+	private ProfessionalDAO professionalDAO;
 	
 	@Autowired
-	FriendshipDAO friendshipDAO;
+	private FriendshipDAO friendshipDAO;
 	
 	@Autowired
-	FriendshipService friendshipService;
-	
-	@Autowired
-	AnalyticsMapper analyticsMapper;
+	private AnalyticsMapper analyticsMapper;
 
 	public float getAvgNumberOfFriends() {
+		
 		return (friendshipDAO.count() * 2) / professionalDAO.count();
 	}
 	
 	public List<Professional_FriendsDomain> getTop10ProfessionalsWithMostFriends(){
-		List<Professional_FriendsDomain> listProfessionalFriends = new ArrayList<Professional_FriendsDomain>();
+		
+		List<Professional_FriendsDomain> professionalFriendsList = new ArrayList<Professional_FriendsDomain>();
 		
 		for (ProfessionalDomain professional : professionalDAO.findAll()) {
+			
 			Professional_FriendsDomain professionalFriends = new Professional_FriendsDomain();
 			professionalFriends.setProfessional(professional);
 			professionalFriends.setNumberOfFriends(friendshipDAO.countByProfessionalID1OrProfessionalID2(professional.getProfessionalID(), professional.getProfessionalID()));
-			listProfessionalFriends.add(professionalFriends);
+			professionalFriendsList.add(professionalFriends);
 		}
 		
-		return analyticsMapper.mapListToDescendingOrder(listProfessionalFriends);
+		return analyticsMapper.mapListToDescendingOrder(professionalFriendsList);
 	}
 }
