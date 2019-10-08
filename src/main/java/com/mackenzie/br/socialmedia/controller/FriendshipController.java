@@ -116,11 +116,11 @@ public class FriendshipController {
 	}
 	
 	@CrossOrigin("*")
-	@DeleteMapping("/unfriend")
-	public ResponseEntity<?> unfriend(@RequestBody List<String> professionalIDsList){
+	@DeleteMapping("/unfriend/{professionalID1}/{professionalID2}")
+	public ResponseEntity<?> unfriend(@PathVariable String professionalID1, @PathVariable String professionalID2){
 		
 		try {
-			friendshipService.unfriend(professionalIDsList);
+			friendshipService.unfriend(professionalID1, professionalID2);
 		} catch(IllegalArgumentException i) {
 			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
 		}

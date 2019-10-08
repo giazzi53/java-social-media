@@ -258,26 +258,26 @@ public class FriendshipService {
 		return friendsInCommon;
 	}
 
-	public void unfriend(List<String> professionalIDsList) {
+	public void unfriend(String professionalID1, String professionalID2) {
 
-		boolean existsProfessional1 = professionalDAO.existsByProfessionalID(professionalIDsList.get(0));
-		boolean existsProfessional2 = professionalDAO.existsByProfessionalID(professionalIDsList.get(1));
+		boolean existsProfessional1 = professionalDAO.existsByProfessionalID(professionalID1);
+		boolean existsProfessional2 = professionalDAO.existsByProfessionalID(professionalID2);
 
 		if (!(existsProfessional1 && existsProfessional2)) {
 
 			throw new IllegalArgumentException("Usuário não encontrado");
 		}
 
-		if (!(friendshipDAO.existsByProfessionalID1AndProfessionalID2(professionalIDsList.get(0),
-				professionalIDsList.get(1))
-				|| friendshipDAO.existsByProfessionalID2AndProfessionalID1(professionalIDsList.get(1),
-						professionalIDsList.get(0)))) {
+		if (!(friendshipDAO.existsByProfessionalID1AndProfessionalID2(professionalID1,
+				professionalID2)
+				|| friendshipDAO.existsByProfessionalID2AndProfessionalID1(professionalID2,
+						professionalID1))) {
 
 			throw new IllegalArgumentException("Não há amizade entre esses dois profissionais");
 		}
 
-		FriendshipDomain friendship = friendshipDAO.findByProfessionalID1AndProfessionalID2(professionalIDsList.get(0),
-				professionalIDsList.get(1));
+		FriendshipDomain friendship = friendshipDAO.findByProfessionalID1AndProfessionalID2(professionalID1,
+				professionalID2);
 
 		friendshipDAO.delete(friendship);
 	}
