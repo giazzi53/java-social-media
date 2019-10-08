@@ -10,24 +10,26 @@ import com.mackenzie.br.socialmedia.domain.FriendshipDomain;
 @Service
 public class FriendshipMapper {
 
-	public List<String> mapListFriendsId(String professionalID,
-			List<FriendshipDomain> listFriendships1,
-			List<FriendshipDomain> listFriendships2) {
+	public List<String> mapFriendsIDsList(String professionalID, FriendshipDomain friendship1,
+			FriendshipDomain friendship2) {
+
+		List<FriendshipDomain> friendshipsList = new ArrayList<FriendshipDomain>();
 		
-		List<FriendshipDomain> listFriendships = new ArrayList<FriendshipDomain>();
-		listFriendships.addAll(listFriendships1);
-		listFriendships.addAll(listFriendships2);
-		
-		List<String> listFriendsID = new ArrayList<String>();
-		
-		for (FriendshipDomain friendship : listFriendships){
+		friendshipsList.add(friendship1);
+		friendshipsList.add(friendship2);
+
+		List<String> friendsIDsList = new ArrayList<String>();
+
+		for (FriendshipDomain friendship : friendshipsList) {
+			
 			if (friendship.getProfessionalID1().equalsIgnoreCase(professionalID)) {
-				listFriendsID.add(friendship.getProfessionalID2());
-			}else {
-				listFriendsID.add(friendship.getProfessionalID1());
+				friendsIDsList.add(friendship.getProfessionalID2());
+			} else {
+				friendsIDsList.add(friendship.getProfessionalID1());
 			}
 		}
-		return listFriendsID;
+		
+		return friendsIDsList;
 	}
-	
+
 }

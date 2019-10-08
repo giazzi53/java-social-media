@@ -60,7 +60,7 @@ public class PublicationService {
 		publicationDAO.deleteById(publicationID);
 	}
 	
-	public List<PublicationDomain> retrievePublicationList(String professionalID) throws IllegalArgumentException{
+	public List<PublicationDomain> retrievePublicationsList(String professionalID) throws IllegalArgumentException{
 		boolean existsProfessional = professionalDAO.existsByProfessionalID(professionalID);
 
 		if(!existsProfessional){

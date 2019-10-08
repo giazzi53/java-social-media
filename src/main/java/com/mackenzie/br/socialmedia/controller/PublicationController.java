@@ -129,8 +129,8 @@ public class PublicationController {
 	}
 	
 	@CrossOrigin(origins = "*")
-	@GetMapping(value = "/getProfessionalsWhoRecommendedPublication/{publicationID}")
-	public ResponseEntity<?> getProfessionalsWhoRecommendedPublication(@PathVariable String publicationID) {
+	@GetMapping(value = "/getProfessionalsWhoReactedToPublication/{publicationID}")
+	public ResponseEntity<?> getProfessionalsWhoReactedToPublication(@PathVariable String publicationID) {
 		
 		List<ProfessionalDomain> listProfessionalsWhoRecommendedPublication =
 				new ArrayList<ProfessionalDomain>();

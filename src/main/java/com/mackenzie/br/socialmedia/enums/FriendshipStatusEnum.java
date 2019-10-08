@@ -2,7 +2,8 @@ package com.mackenzie.br.socialmedia.enums;
 
 public enum FriendshipStatusEnum {
 	
-	PENDENTE("Pendente"),
+	PENDENTE_SOLICITACAO("Pendente Solicitação"),
+	PENDENTE_RESPOSTA("Pendente Resposta"),
 	ATIVO("Ativo"),
 	INATIVO("Inativo");
 	

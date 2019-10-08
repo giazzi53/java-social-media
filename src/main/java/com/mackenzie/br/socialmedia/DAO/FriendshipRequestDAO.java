@@ -1,5 +1,7 @@
 package com.mackenzie.br.socialmedia.DAO;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +13,10 @@ public interface FriendshipRequestDAO extends MongoRepository<FriendshipRequestD
 	FriendshipRequestDomain findByProfessionalID1(String professionalID1);
 	
 	FriendshipRequestDomain findByProfessionalID2(String professionalID2);
+	
+	List<FriendshipRequestDomain> findAllByProfessionalID1(String professionalID1);
+	
+	List<FriendshipRequestDomain> findAllByProfessionalID2(String professionalID2);
 	
 	boolean existsByProfessionalID1AndProfessionalID2 (String profesisonalID1, String professionalID2);
 	

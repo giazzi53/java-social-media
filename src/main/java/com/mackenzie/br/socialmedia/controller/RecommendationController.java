@@ -68,20 +68,20 @@ public class RecommendationController {
 		return new ResponseEntity<>(professionalsWhoRecommendedList, HttpStatus.OK);
 	}
 	
-//	@CrossOrigin("*")
-//	@GetMapping(value="/getRecommendationStatus")
-//	public ResponseEntity<?> getRecommendationStatus(@RequestBody List<ProfessionalDomain> listProfessionals){
-//		
-//		int recommendationStatus;
-//		
-//		try {
-//			recommendationStatus = recommendationService.getRecommendationStatus(listProfessionals);
-//		}catch(IllegalArgumentException i) {
-//			return new ResponseEntity<>(i.getMessage(),HttpStatus.BAD_REQUEST);
-//		}
-//		
-//		return new ResponseEntity<>(recommendationStatus, HttpStatus.OK);
-//	}
+	@CrossOrigin("*")
+	@GetMapping(value="/getRecommendationStatus/{professionalID1}/{professionalID2}")
+	public ResponseEntity<?> getRecommendationStatus(@RequestBody List<ProfessionalDomain> listProfessionals){
+		
+		int recommendationStatus;
+		
+		try {
+			recommendationStatus = recommendationService.getRecommendationStatus(listProfessionals);
+		}catch(IllegalArgumentException i) {
+			return new ResponseEntity<>(i.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(recommendationStatus, HttpStatus.OK);
+	}
 	
 //	@CrossOrigin("*")
 //	@DeleteMapping(value="/deleteRecommendation")
