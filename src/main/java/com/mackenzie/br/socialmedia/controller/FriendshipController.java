@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mackenzie.br.socialmedia.domain.FriendshipDomain;
 import com.mackenzie.br.socialmedia.domain.FriendshipRequestDomain;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
-import com.mackenzie.br.socialmedia.enums.FriendshipStatusEnum;
 import com.mackenzie.br.socialmedia.service.FriendshipService;
 
 @RestController
@@ -89,7 +89,7 @@ public class FriendshipController {
 	@GetMapping(value = "/getFriendshipStatus/{professionalID1}/{professionalID2}")
 	public ResponseEntity<?> getFriendshipStatus(@PathVariable String professionalID1, @PathVariable String professionalID2){
 		
-		FriendshipStatusEnum friendshipStatus;
+		int friendshipStatus;
 		
 		try {
 			friendshipStatus = friendshipService.getFriendshipStatus(professionalID1, professionalID2);
@@ -113,6 +113,19 @@ public class FriendshipController {
 		}
 		
 		return new ResponseEntity<>(friendsInCommonList, HttpStatus.OK);
+	}
+	
+	@CrossOrigin("*")
+	@DeleteMapping("/unfriend")
+	public ResponseEntity<?> unfriend(@RequestBody List<String> professionalIDsList){
+		
+		try {
+			friendshipService.unfriend(professionalIDsList);
+		} catch(IllegalArgumentException i) {
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }

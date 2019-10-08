@@ -17,4 +17,6 @@ public interface FriendshipDAO extends MongoRepository<FriendshipDomain, String>
 	boolean existsByProfessionalID1AndProfessionalID2 (String profesisonalID1, String professionalID2);
 	
 	boolean existsByProfessionalID2AndProfessionalID1 (String profesisonalID2, String professionalID1);
+
+	FriendshipDomain findByProfessionalID1AndProfessionalID2(String profesisonalID1, String profesisonalID2);
 }
