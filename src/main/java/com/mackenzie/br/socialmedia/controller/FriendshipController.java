@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mackenzie.br.socialmedia.domain.FriendshipDomain;
 import com.mackenzie.br.socialmedia.domain.FriendshipRequestDomain;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
+import com.mackenzie.br.socialmedia.domain.SenderReceiverDomain;
 import com.mackenzie.br.socialmedia.service.FriendshipService;
 
 @RestController
@@ -27,12 +28,12 @@ public class FriendshipController {
 	
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/sendFriendshipRequest")
-	public ResponseEntity<?> sendFriendshipRequest(@RequestBody List<String> professionalIDs) {
+	public ResponseEntity<?> sendFriendshipRequest(@RequestBody SenderReceiverDomain senderReceiver) {
 		
 		FriendshipRequestDomain friendshipRequest;
 		
 		try {
-			friendshipRequest = friendshipService.sendFriendshipRequest(professionalIDs);
+			friendshipRequest = friendshipService.sendFriendshipRequest(senderReceiver);
 		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}

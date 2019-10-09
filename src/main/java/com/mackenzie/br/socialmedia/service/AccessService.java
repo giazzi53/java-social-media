@@ -26,9 +26,12 @@ public class AccessService {
 		
 		ProfessionalDomain databaseProfessional = professionalDAO.insert(professional);	
 		PaymentInfoDomain paymentInfo = professional.getPaymentInfo();
-		paymentInfo.setProfessionalID(databaseProfessional.getProfessionalID());
 		
-		paymentInfoDAO.insert(paymentInfo);	
+		if(paymentInfo != null) {
+			
+			paymentInfo.setProfessionalID(databaseProfessional.getProfessionalID());
+			paymentInfoDAO.insert(paymentInfo);	
+		}
 		
 		return databaseProfessional;
 	}

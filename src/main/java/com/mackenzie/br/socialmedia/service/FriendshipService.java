@@ -12,6 +12,7 @@ import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
 import com.mackenzie.br.socialmedia.domain.FriendshipDomain;
 import com.mackenzie.br.socialmedia.domain.FriendshipRequestDomain;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
+import com.mackenzie.br.socialmedia.domain.SenderReceiverDomain;
 import com.mackenzie.br.socialmedia.map.FriendshipMapper;
 
 @Service
@@ -29,12 +30,6 @@ public class FriendshipService {
 	@Autowired
 	private FriendshipMapper friendshipMapper;
 
-	@Autowired
-	private FriendshipRequestDomain friendshipRequest;
-
-	@Autowired
-	private FriendshipDomain friendshipDomain;
-
 	private static final int ATIVO = 1;
 
 	private static final int PENDENTE_SOLICITACAO = 2;
@@ -43,41 +38,44 @@ public class FriendshipService {
 
 	private static final int INATIVO = 4;
 
-	public FriendshipRequestDomain sendFriendshipRequest(List<String> professionalIDs) throws IllegalArgumentException {
+	public FriendshipRequestDomain sendFriendshipRequest(SenderReceiverDomain senderReceiver) throws IllegalArgumentException {
 
-		boolean existsProfessional1 = professionalDAO.existsByProfessionalID(professionalIDs.get(0));
-		boolean existsProfessional2 = professionalDAO.existsByProfessionalID(professionalIDs.get(1));
+		String senderID = senderReceiver.getSenderID();
+		String receiverID = senderReceiver.getReceiverID();
+		
+		boolean existsProfessional1 = professionalDAO.existsByProfessionalID(senderID);
+		boolean existsProfessional2 = professionalDAO.existsByProfessionalID(receiverID);
 
 		if (!(existsProfessional1 && existsProfessional2)) {
 
 			throw new IllegalArgumentException("Usuário não encontrado");
 		}
 
-		List<String> friendsIDsList = friendshipMapper.mapFriendsIDsList(professionalIDs.get(0),
-				friendshipDAO.findByProfessionalID1(professionalIDs.get(0)),
-				friendshipDAO.findByProfessionalID2(professionalIDs.get(0)));
+		List<String> friendsIDsList = friendshipMapper.mapFriendsIDsList(senderID,
+				friendshipDAO.findByProfessionalID1(senderID),
+				friendshipDAO.findByProfessionalID2(senderID));
 
 		for (String friendID : friendsIDsList) {
 
-			if (friendID.equalsIgnoreCase(professionalIDs.get(0))) {
+			if (friendID.equalsIgnoreCase(senderID)) {
 
 				throw new IllegalArgumentException("Este usuário já é seu amigo");
 			}
 		}
 
-		if (professionalIDs.get(0).equalsIgnoreCase(professionalIDs.get(1))) {
+		if (senderID.equalsIgnoreCase(receiverID)) {
 
 			throw new IllegalArgumentException("Os IDs são iguais");
 		}
 
 		List<FriendshipRequestDomain> sentRequestsList = friendshipRequestDAO
-				.findAllByProfessionalID1(professionalIDs.get(0));
+				.findAllByProfessionalID1(senderID);
 		List<FriendshipRequestDomain> receivedRequestsList = friendshipRequestDAO
-				.findAllByProfessionalID2(professionalIDs.get(1));
+				.findAllByProfessionalID2(receiverID);
 
 		for (FriendshipRequestDomain request : sentRequestsList) {
 
-			if (request.getProfessionalID2().equalsIgnoreCase(professionalIDs.get(0))) {
+			if (request.getProfessionalID2().equalsIgnoreCase(senderID)) {
 
 				throw new IllegalArgumentException("A solicitação já existe");
 			}
@@ -85,7 +83,7 @@ public class FriendshipService {
 
 		for (FriendshipRequestDomain request : receivedRequestsList) {
 
-			if (request.getProfessionalID2().equalsIgnoreCase(professionalIDs.get(0))) {
+			if (request.getProfessionalID2().equalsIgnoreCase(senderID)) {
 
 				throw new IllegalArgumentException(
 						"Não pode mandar a solicitação, o profissional já está esperando sua resposta");
@@ -93,8 +91,10 @@ public class FriendshipService {
 			}
 		}
 
-		friendshipRequest.setProfessionalID1(professionalIDs.get(0));
-		friendshipRequest.setProfessionalID2(professionalIDs.get(1));
+		FriendshipRequestDomain friendshipRequest = new FriendshipRequestDomain();
+		
+		friendshipRequest.setProfessionalID1(senderID);
+		friendshipRequest.setProfessionalID2(receiverID);
 		friendshipRequestDAO.insert(friendshipRequest);
 
 		return friendshipRequest;
@@ -133,6 +133,8 @@ public class FriendshipService {
 		for (FriendshipRequestDomain request : receivedRequestsList) {
 
 			if (request.getProfessionalID1().equalsIgnoreCase(professionalIDs.get(1))) {
+				
+				FriendshipDomain friendshipDomain = new FriendshipDomain();
 
 				friendshipDomain.setProfessionalID1(professionalIDs.get(0));
 				friendshipDomain.setProfessionalID2(professionalIDs.get(1));
@@ -168,6 +170,8 @@ public class FriendshipService {
 		for (FriendshipRequestDomain request : receivedRequestsList) {
 
 			if (request.getProfessionalID1().equalsIgnoreCase(professionalIDs.get(0))) {
+				
+				FriendshipRequestDomain friendshipRequest = new FriendshipRequestDomain();
 
 				friendshipRequest.setFriendshipRequestId(request.getFriendshipRequestId());
 				friendshipRequest.setProfessionalID1(request.getProfessionalID1());
