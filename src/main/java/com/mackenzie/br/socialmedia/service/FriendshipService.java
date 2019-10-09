@@ -14,6 +14,7 @@ import com.mackenzie.br.socialmedia.domain.FriendshipRequestDomain;
 import com.mackenzie.br.socialmedia.domain.FriendshipSenderReceiverDomain;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 import com.mackenzie.br.socialmedia.map.FriendshipMapper;
+import com.mackenzie.br.socialmedia.utils.ValidationUtils;
 
 @Service
 public class FriendshipService {
@@ -29,6 +30,9 @@ public class FriendshipService {
 
 	@Autowired
 	private FriendshipMapper friendshipMapper;
+	
+	@Autowired
+	private	ValidationUtils validationUtils;	
 
 	private static final int ATIVO = 1;
 
@@ -43,13 +47,8 @@ public class FriendshipService {
 		String senderID = senderReceiver.getSenderID();
 		String receiverID = senderReceiver.getReceiverID();
 		
-		boolean existsSender = professionalDAO.existsByProfessionalID(senderID);
-		boolean existsReceiver = professionalDAO.existsByProfessionalID(receiverID);
-
-		if (!(existsSender && existsReceiver)) {
-
-			throw new IllegalArgumentException("Usuário não encontrado");
-		}
+		validationUtils.validateProfessionalByID(professionalDAO, senderID);
+		validationUtils.validateProfessionalByID(professionalDAO, receiverID);
 
 		List<String> friendsIDsList = friendshipMapper.mapFriendsIDsList(senderID,
 				friendshipDAO.findByProfessionalID1(senderID),
@@ -62,11 +61,8 @@ public class FriendshipService {
 				throw new IllegalArgumentException("Este usuário já é seu amigo");
 			}
 		}
-
-		if (senderID.equalsIgnoreCase(receiverID)) {
-
-			throw new IllegalArgumentException("Os IDs são iguais");
-		}
+		
+		validationUtils.validateProfessionalsByEqualIDs(senderID, receiverID);
 
 		List<FriendshipRequestDomain> sentRequestsList = friendshipRequestDAO
 				.findAllByRequestSenderID(senderID);
@@ -104,19 +100,11 @@ public class FriendshipService {
 
 		String senderID = senderReceiver.getSenderID();
 		String receiverID = senderReceiver.getReceiverID();
-		
-		boolean existsSender = professionalDAO.existsByProfessionalID(senderID);
-		boolean existsReceiver = professionalDAO.existsByProfessionalID(receiverID);
 
-		if (!(existsSender && existsReceiver)) {
+		validationUtils.validateProfessionalByID(professionalDAO, senderID);
+		validationUtils.validateProfessionalByID(professionalDAO, receiverID);
 
-			throw new IllegalArgumentException("Usuário não encontrado");
-		}
-
-		if (senderID.equalsIgnoreCase(senderID)) {
-
-			throw new IllegalArgumentException("IDs são iguais");
-		}
+		validationUtils.validateProfessionalsByEqualIDs(senderID, receiverID);
 
 		List<FriendshipRequestDomain> receivedRequestsList = friendshipRequestDAO
 				.findAllByRequestReceiverID(senderID);
@@ -157,18 +145,10 @@ public class FriendshipService {
 		String senderID = senderReceiver.getSenderID();
 		String receiverID = senderReceiver.getReceiverID();
 
-		boolean existsSender = professionalDAO.existsByProfessionalID(senderID);
-		boolean existsReceiver = professionalDAO.existsByProfessionalID(receiverID);
+		validationUtils.validateProfessionalByID(professionalDAO, senderID);
+		validationUtils.validateProfessionalByID(professionalDAO, receiverID);
 
-		if (!(existsSender && existsReceiver)) {
-
-			throw new IllegalArgumentException("Usuário não encontrado");
-		}
-
-		if (senderID.equalsIgnoreCase(receiverID)) {
-
-			throw new IllegalArgumentException("IDs são iguais");
-		}
+		validationUtils.validateProfessionalsByEqualIDs(senderID, receiverID);
 
 		List<FriendshipRequestDomain> receivedRequestsList = friendshipRequestDAO
 				.findAllByRequestReceiverID(receiverID);
@@ -193,13 +173,8 @@ public class FriendshipService {
 
 	public List<ProfessionalDomain> returnFriendsList(String professionalID) throws IllegalArgumentException {
 
-		boolean existsProfessional = professionalDAO.existsByProfessionalID(professionalID);
-
-		if (!existsProfessional) {
-
-			throw new IllegalArgumentException("Usuário não encontrado");
-		}
-
+		validationUtils.validateProfessionalByID(professionalDAO, professionalID);
+		
 		List<String> listFriendsID = friendshipMapper.mapFriendsIDsList(professionalID,
 				friendshipDAO.findByProfessionalID1(professionalID),
 				friendshipDAO.findByProfessionalID2(professionalID));

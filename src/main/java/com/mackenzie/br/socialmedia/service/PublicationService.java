@@ -14,6 +14,7 @@ import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 import com.mackenzie.br.socialmedia.domain.PublicationDomain;
 import com.mackenzie.br.socialmedia.domain.PublicationReactionDomain;
 import com.mackenzie.br.socialmedia.map.PublicationMapper;
+import com.mackenzie.br.socialmedia.utils.ValidationUtils;
 
 @Service
 public class PublicationService {
@@ -32,15 +33,13 @@ public class PublicationService {
 	
 	@Autowired
 	private PublicationReactionDAO publicationRectionDAO;
+	
+	@Autowired
+	private	ValidationUtils validationUtils;
 
 	public PublicationDomain publicate(PublicationDomain publicationDomain) throws IllegalArgumentException{
 		
-		boolean existsProfessional = professionalDAO.existsByProfessionalID(publicationDomain.getProfessionalID());
-		
-		if(!existsProfessional) {
-			
-			throw new IllegalArgumentException("Usuário não encontrado");
-		}
+		validationUtils.validateProfessionalByID(professionalDAO, publicationDomain.getProfessionalID());
 		
 		publicationDomain.setPublicationDate(new Date());
 		
@@ -63,12 +62,7 @@ public class PublicationService {
 	
 	public List<PublicationDomain> retrievePublicationsList(String professionalID) throws IllegalArgumentException{
 		
-		boolean existsProfessional = professionalDAO.existsByProfessionalID(professionalID);
-
-		if(!existsProfessional){
-			
-			throw new IllegalArgumentException("Usário não encontrado");
-		}
+		validationUtils.validateProfessionalByID(professionalDAO, professionalID);
 		
 		List<PublicationDomain> publicationList = publicationDAO.findAllByProfessionalID(professionalID);
 		
@@ -92,10 +86,7 @@ public class PublicationService {
 	
 	public PublicationReactionDomain reactToPublication(PublicationReactionDomain publicationReactionDomain) throws IllegalArgumentException{
 		
-		if (!professionalDAO.existsByProfessionalID(publicationReactionDomain.getProfessionalID())){
-			
-			throw new IllegalArgumentException("Usuário não encontrado");
-		}
+		validationUtils.validateProfessionalByID(professionalDAO, publicationReactionDomain.getProfessionalID());
 		
 		if(!publicationDAO.existsByPublicationID(publicationReactionDomain.getPublicationID())) {
 			
@@ -115,10 +106,7 @@ public class PublicationService {
 	
 	public void unreactToPublication(PublicationReactionDomain publicationReaction) throws IllegalArgumentException{
 		
-		if (!professionalDAO.existsByProfessionalID(publicationReaction.getProfessionalID())){
-		
-			throw new IllegalArgumentException("Usuário não encontrado");
-		}
+		validationUtils.validateProfessionalByID(professionalDAO, publicationReaction.getProfessionalID());
 		
 		if(!publicationDAO.existsByPublicationID(publicationReaction.getPublicationID())) {
 			

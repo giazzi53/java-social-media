@@ -1,4 +1,4 @@
-package com.mackenzie.br.socialmedia.controller;
+	package com.mackenzie.br.socialmedia.controller;
 
 import javax.validation.Valid;
 

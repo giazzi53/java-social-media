@@ -11,6 +11,7 @@ import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
 import com.mackenzie.br.socialmedia.DAO.Professional_InterestTopicDAO;
 import com.mackenzie.br.socialmedia.domain.InterestTopicDomain;
 import com.mackenzie.br.socialmedia.domain.Professional_InterestTopicDomain;
+import com.mackenzie.br.socialmedia.utils.ValidationUtils;
 
 @Service
 public class Professional_InterestTopicService {
@@ -23,15 +24,13 @@ public class Professional_InterestTopicService {
 	
 	@Autowired
 	private ProfessionalDAO professionalDAO;
+	
+	@Autowired
+	private	ValidationUtils validationUtils;	
 
 	public List<InterestTopicDomain> getProfessionalInterestTopics(String professionalID) {
 		
-		boolean existsProfessional = professionalDAO.existsByProfessionalID(professionalID);
-		
-		if(!existsProfessional) {
-			
-			throw new IllegalArgumentException("Usuário não encontrado");
-		}
+		validationUtils.validateProfessionalByID(professionalDAO, professionalID);
 		
 		List<Professional_InterestTopicDomain> listProfessionalInterestTopics = professional_InterestTopicDAO.findByProfessionalID(professionalID);
 		List<InterestTopicDomain> interestTopicsList = new ArrayList<InterestTopicDomain>();
@@ -48,14 +47,10 @@ public class Professional_InterestTopicService {
 		
 		for (Professional_InterestTopicDomain professionalInterestTopic : professionalInterestTopicsList) {
 			
-			boolean existsProfessional = professionalDAO.existsByProfessionalID(professionalInterestTopic.getProfessionalID());
 			boolean existsInterestTopic = interestTopicDAO.existsByInterestTopicID(professionalInterestTopic.getInterestTopicID());
 			
-			if(!existsProfessional) {
-				
-				throw new IllegalArgumentException("Usuário não encontrado");
-			}
-			
+			validationUtils.validateProfessionalByID(professionalDAO, professionalInterestTopic.getProfessionalID());
+
 			if(!existsInterestTopic) {
 			
 				throw new IllegalArgumentException("Tópico de interesse não encontrado");
