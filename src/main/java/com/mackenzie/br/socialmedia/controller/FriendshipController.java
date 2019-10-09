@@ -1,13 +1,11 @@
 package com.mackenzie.br.socialmedia.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mackenzie.br.socialmedia.domain.FriendshipDomain;
 import com.mackenzie.br.socialmedia.domain.FriendshipRequestDomain;
+import com.mackenzie.br.socialmedia.domain.FriendshipSenderReceiverDomain;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
-import com.mackenzie.br.socialmedia.domain.SenderReceiverDomain;
 import com.mackenzie.br.socialmedia.service.FriendshipService;
 
 @RestController
@@ -28,7 +26,7 @@ public class FriendshipController {
 	
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/sendFriendshipRequest")
-	public ResponseEntity<?> sendFriendshipRequest(@RequestBody SenderReceiverDomain senderReceiver) {
+	public ResponseEntity<?> sendFriendshipRequest(@RequestBody FriendshipSenderReceiverDomain senderReceiver) {
 		
 		FriendshipRequestDomain friendshipRequest;
 		
@@ -43,7 +41,7 @@ public class FriendshipController {
 	
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/acceptFriendshipRequest")
-	public ResponseEntity<?> acceptFriendshipRequest(@RequestBody SenderReceiverDomain senderReceiver) {
+	public ResponseEntity<?> acceptFriendshipRequest(@RequestBody FriendshipSenderReceiverDomain senderReceiver) {
 		
 		FriendshipDomain friendship;
 		
@@ -58,7 +56,7 @@ public class FriendshipController {
 	
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/rejectFriendshipRequest")
-	public ResponseEntity<?> rejectFriendshipRequest(@RequestBody SenderReceiverDomain senderReceiver) {
+	public ResponseEntity<?> rejectFriendshipRequest(@RequestBody FriendshipSenderReceiverDomain senderReceiver) {
 		
 		FriendshipRequestDomain friendshipRequest;
 		

@@ -10,16 +10,16 @@ import com.mackenzie.br.socialmedia.domain.FriendshipRequestDomain;
 @Repository
 public interface FriendshipRequestDAO extends MongoRepository<FriendshipRequestDomain, String>{
 	
-	FriendshipRequestDomain findByProfessionalID1(String professionalID1);
+	FriendshipRequestDomain findByRequestSenderID (String requestSenderID);
 	
-	FriendshipRequestDomain findByProfessionalID2(String professionalID2);
+	FriendshipRequestDomain findByRequestReceiverID (String requestReceiverID);
 	
-	List<FriendshipRequestDomain> findAllByProfessionalID1(String professionalID1);
+	List<FriendshipRequestDomain> findAllByRequestSenderID (String requestSenderID);
 	
-	List<FriendshipRequestDomain> findAllByProfessionalID2(String professionalID2);
+	List<FriendshipRequestDomain> findAllByRequestReceiverID (String requestReceiverID);
 	
-	boolean existsByProfessionalID1AndProfessionalID2 (String profesisonalID1, String professionalID2);
+	boolean existsByRequestSenderIDAndRequestReceiverID (String requestSenderID, String requestReceiverID);
 	
-	boolean existsByProfessionalID2AndProfessionalID1 (String profesisonalID2, String professionalID1);
+	boolean existsByRequestReceiverIDAndRequestSenderID (String requestReceiverID, String requestSenderID);
 
 }

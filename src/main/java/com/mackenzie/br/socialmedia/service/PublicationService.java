@@ -149,19 +149,19 @@ public class PublicationService {
 		return publicationRectionDAO.countByPublicationID(publicationID);
 	}
 
-	public List<ProfessionalDomain> getProfessionalsWhoReactedToPublication(String publicationID) throws IllegalArgumentException{
+	public List<String> getProfessionalsWhoReactedToPublication(String publicationID) throws IllegalArgumentException{
 		
 		if(!publicationDAO.existsByPublicationID(publicationID)) {
 			
 			throw new IllegalArgumentException("Publicação não encontrada");
 		}
 		
-		List<ProfessionalDomain> ProfessionalsWhoReactedToPublicationList = new ArrayList<ProfessionalDomain>();
+		List<String> ProfessionalsWhoReactedToPublicationList = new ArrayList<String>();
 		
 		for (PublicationReactionDomain publicationReaction : publicationRectionDAO.findAllByPublicationID(publicationID)) {
 			
 			ProfessionalsWhoReactedToPublicationList.add(
-					professionalDAO.findByProfessionalID(publicationReaction.getProfessionalID()));
+					professionalDAO.findByProfessionalID(publicationReaction.getProfessionalID()).getProfessionalID());
 		}
 		
 		return ProfessionalsWhoReactedToPublicationList;

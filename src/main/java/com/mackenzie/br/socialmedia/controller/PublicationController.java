@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 import com.mackenzie.br.socialmedia.domain.PublicationDomain;
 import com.mackenzie.br.socialmedia.domain.PublicationReactionDomain;
 import com.mackenzie.br.socialmedia.service.PublicationService;
@@ -132,8 +131,8 @@ public class PublicationController {
 	@GetMapping(value = "/getProfessionalsWhoReactedToPublication/{publicationID}")
 	public ResponseEntity<?> getProfessionalsWhoReactedToPublication(@PathVariable String publicationID) {
 		
-		List<ProfessionalDomain> ProfessionalsWhoReactedToPublicationList =
-				new ArrayList<ProfessionalDomain>();
+		List<String> ProfessionalsWhoReactedToPublicationList =
+				new ArrayList<String>();
 		
 		try {
 			ProfessionalsWhoReactedToPublicationList = publicationService.getProfessionalsWhoReactedToPublication(publicationID);

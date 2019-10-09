@@ -12,24 +12,29 @@ public class RecommendationDomain {
 	private String recomendationID;
 	
 	@NotNull
-	private String professionalID1;
+	private String recommenderID;
 	
 	@NotNull
-	private String professionalID2;
+	private String recommendedID;
 
-	public String getProfessionalID1() {
-		return professionalID1;
+	public String getRecomendationID() {
+		return recomendationID;
 	}
 
-	public void setProfessionalID1(String professionalID1) {
-		this.professionalID1 = professionalID1;
+	public String getRecommenderID() {
+		return recommenderID;
 	}
 
-	public String getProfessionalID2() {
-		return professionalID2;
+	public void setRecommenderID(String recommenderID) {
+		this.recommenderID = recommenderID;
 	}
 
-	public void setProfessionalID2(String professionalID2) {
-		this.professionalID2 = professionalID2;
+	public String getRecommendedID() {
+		return recommendedID;
 	}
+
+	public void setRecommendedID(String recommendedID) {
+		this.recommendedID = recommendedID;
+	}
+
 }

@@ -1,6 +1,6 @@
 package com.mackenzie.br.socialmedia.domain;
 
-public class SenderReceiverDomain {
+public class FriendshipSenderReceiverDomain {
 	
 	private String senderID;
 	

@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Professional_InterestTopicDomain {
 	
 	@Id
-	private String Professional_InterestTopicID;
+	private String professional_InterestTopicID;
 	
 	private String professionalID;
 	
@@ -18,7 +18,7 @@ public class Professional_InterestTopicDomain {
 	}
 
 	public String getProfessional_InterestTopicID() {
-		return Professional_InterestTopicID;
+		return professional_InterestTopicID;
 	}
 
 	public String getProfessionalID() {
