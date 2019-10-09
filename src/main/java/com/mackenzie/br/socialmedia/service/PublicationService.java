@@ -125,21 +125,21 @@ public class PublicationService {
 			throw new IllegalArgumentException("Publicação não encontrada");
 		}
 		
-		if(publicationRectionDAO.existsByProfessionalIDAndPublicationID(publicationReaction.getProfessionalID(),
+		if(!publicationRectionDAO.existsByProfessionalIDAndPublicationID(publicationReaction.getProfessionalID(),
 				publicationReaction.getPublicationID())) {
 			
-			PublicationReactionDomain publicationReactionToBeDeleted = new PublicationReactionDomain();
-			
-			publicationReactionToBeDeleted = publicationRectionDAO.findByProfessionalIDAndPublicationID(publicationReaction.getProfessionalID(),
-				publicationReaction.getPublicationID());
-			
-			publicationRectionDAO.delete(publicationReactionToBeDeleted);
+			throw new IllegalArgumentException("Curtida não encontrada");
 		}
+
+		PublicationReactionDomain publicationReactionToBeDeleted = new PublicationReactionDomain();
 		
-		throw new IllegalArgumentException("Curtida não encontrada");
+		publicationReactionToBeDeleted = publicationRectionDAO.findByProfessionalIDAndPublicationID(publicationReaction.getProfessionalID(),
+			publicationReaction.getPublicationID());
+		
+		publicationRectionDAO.delete(publicationReactionToBeDeleted);
 	}
 	
-	public int getNumberReactionsOfPublication(String publicationID) throws IllegalArgumentException{
+	public int getNumberOfPublicationReactions(String publicationID) throws IllegalArgumentException{
 		
 		if(!publicationDAO.existsByPublicationID(publicationID)) {
 			
@@ -149,33 +149,25 @@ public class PublicationService {
 		return publicationRectionDAO.countByPublicationID(publicationID);
 	}
 
-	public List<ProfessionalDomain> getProfessionalsWhoRecommendedPublication(String publicationID) throws IllegalArgumentException{
+	public List<ProfessionalDomain> getProfessionalsWhoReactedToPublication(String publicationID) throws IllegalArgumentException{
 		
-		//int numberOfPublications;
-		
-		try {
-			//numberOfPublications = getNumberReactionsOfPublication(publicationID); ?
-		}catch(IllegalArgumentException e) {
+		if(!publicationDAO.existsByPublicationID(publicationID)) {
+			
 			throw new IllegalArgumentException("Publicação não encontrada");
 		}
 		
-		List<ProfessionalDomain> professionalsWhoRecommendedPublicationList = new ArrayList<ProfessionalDomain>();
+		List<ProfessionalDomain> ProfessionalsWhoReactedToPublicationList = new ArrayList<ProfessionalDomain>();
 		
 		for (PublicationReactionDomain publicationReaction : publicationRectionDAO.findAllByPublicationID(publicationID)) {
 			
-			professionalsWhoRecommendedPublicationList.add(
+			ProfessionalsWhoReactedToPublicationList.add(
 					professionalDAO.findByProfessionalID(publicationReaction.getProfessionalID()));
 		}
 		
-		return professionalsWhoRecommendedPublicationList;
+		return ProfessionalsWhoReactedToPublicationList;
 	}
 
-	public int getPublicationStatus(String professionalID, String publicationID) {
-		
-		if (!professionalDAO.existsByProfessionalID(professionalID)){
-			
-			throw new IllegalArgumentException("Usuário não enconrado");
-		}
+	public int getPublicationStatus(String publicationID) {
 		
 		if(!publicationDAO.existsByPublicationID(publicationID)) {
 			

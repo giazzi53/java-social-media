@@ -18,9 +18,6 @@ public class PublicationDomain implements Comparator<PublicationDomain>{
 	private String professionalID;
 	
 	@NotNull
-	private String author;
-	
-	@NotNull
 	private String text;
 	
 	private Date publicationDate;
@@ -55,14 +52,6 @@ public class PublicationDomain implements Comparator<PublicationDomain>{
 
 	public void setProfessionalID(String professionalID) {
 		this.professionalID = professionalID;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
 	}
 
 	@Override
