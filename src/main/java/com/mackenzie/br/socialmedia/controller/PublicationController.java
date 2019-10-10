@@ -131,8 +131,7 @@ public class PublicationController {
 	@GetMapping(value = "/getProfessionalsWhoReactedToPublication/{publicationID}")
 	public ResponseEntity<?> getProfessionalsWhoReactedToPublication(@PathVariable String publicationID) {
 		
-		List<String> ProfessionalsWhoReactedToPublicationList =
-				new ArrayList<String>();
+		List<String> ProfessionalsWhoReactedToPublicationList = new ArrayList<String>();
 		
 		try {
 			ProfessionalsWhoReactedToPublicationList = publicationService.getProfessionalsWhoReactedToPublication(publicationID);
@@ -140,22 +139,22 @@ public class PublicationController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
-		return new ResponseEntity<>(ProfessionalsWhoReactedToPublicationList ,HttpStatus.OK);
+		return new ResponseEntity<>(ProfessionalsWhoReactedToPublicationList, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*")
-	@GetMapping(value = "/getPublicationStatus/{publicationID}")
-	public ResponseEntity<?> getPublicationStatus(@PathVariable String publicationID) {
+	@GetMapping(value = "/getPublicationStatus/{professionalID}/{publicationID}")
+	public ResponseEntity<?> getPublicationStatus(@PathVariable String professionalID, @PathVariable String publicationID) {
 		
 		int status;
 		
 		try {
-			status = publicationService.getPublicationStatus(publicationID);
+			status = publicationService.getPublicationStatus(professionalID, publicationID);
 		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
-		return new ResponseEntity<>(status ,HttpStatus.OK);
+		return new ResponseEntity<>(status, HttpStatus.OK);
 	}
 	
 }

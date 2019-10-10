@@ -1,11 +1,13 @@
 package com.mackenzie.br.socialmedia.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -84,47 +86,47 @@ public class FriendshipController {
 		return new ResponseEntity<>(friendsList, HttpStatus.OK);
 	}
 	
-//	@CrossOrigin(origins = "*")
-//	@GetMapping(value = "/getFriendshipStatus/{professionalID1}/{professionalID2}")
-//	public ResponseEntity<?> getFriendshipStatus(@PathVariable String professionalID1, @PathVariable String professionalID2){
-//		
-//		int friendshipStatus;
-//		
-//		try {
-//			friendshipStatus = friendshipService.getFriendshipStatus(professionalID1, professionalID2);
-//		}catch(IllegalArgumentException i) {
-//			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
-//		}
-//		
-//		return new ResponseEntity<>(friendshipStatus, HttpStatus.OK);
-//	}
-//	
-//	@CrossOrigin("*")
-//	@GetMapping("/getFriendsInCommon/{professionalID1}/{professionalID2}")
-//	public ResponseEntity<?> getFriendsInCommon(@PathVariable String professionalID1, @PathVariable String professionalID2){
-//		
-//		List<String> friendsInCommonList = new ArrayList<String>();
-//		
-//		try {
-//			friendsInCommonList = friendshipService.getFriendsInCommon(professionalID1, professionalID2);
-//		} catch(IllegalArgumentException i) {
-//			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
-//		}
-//		
-//		return new ResponseEntity<>(friendsInCommonList, HttpStatus.OK);
-//	}
-//	
-//	@CrossOrigin("*")
-//	@DeleteMapping("/unfriend/{professionalID1}/{professionalID2}")
-//	public ResponseEntity<?> unfriend(@PathVariable String professionalID1, @PathVariable String professionalID2){
-//		
-//		try {
-//			friendshipService.unfriend(professionalID1, professionalID2);
-//		} catch(IllegalArgumentException i) {
-//			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
-//		}
-//		
-//		return new ResponseEntity<>(HttpStatus.OK);
-//	}
+	@CrossOrigin(origins = "*")
+	@GetMapping(value = "/getFriendshipStatus/{professionalID1}/{professionalID2}")
+	public ResponseEntity<?> getFriendshipStatus(@PathVariable String professionalID1, @PathVariable String professionalID2){
+		
+		int friendshipStatus;
+		
+		try {
+			friendshipStatus = friendshipService.getFriendshipStatus(professionalID1, professionalID2);
+		}catch(IllegalArgumentException i) {
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(friendshipStatus, HttpStatus.OK);
+	}
+	
+	@CrossOrigin("*")
+	@GetMapping("/getFriendsInCommon/{professionalID1}/{professionalID2}")
+	public ResponseEntity<?> getFriendsInCommon(@PathVariable String professionalID1, @PathVariable String professionalID2){
+		
+		List<String> friendsInCommonList = new ArrayList<String>();
+		
+		try {
+			friendsInCommonList = friendshipService.getFriendsInCommon(professionalID1, professionalID2);
+		} catch(IllegalArgumentException i) {
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(friendsInCommonList, HttpStatus.OK);
+	}
+	
+	@CrossOrigin("*")
+	@DeleteMapping("/unfriend/{professionalID1}/{professionalID2}")
+	public ResponseEntity<?> unfriend(@PathVariable String professionalID1, @PathVariable String professionalID2){
+		
+		try {
+			friendshipService.unfriend(professionalID1, professionalID2);
+		} catch(IllegalArgumentException i) {
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 
 }

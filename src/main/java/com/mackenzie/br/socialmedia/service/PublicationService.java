@@ -36,6 +36,10 @@ public class PublicationService {
 	
 	@Autowired
 	private	ValidationUtils validationUtils;
+	
+	private final static int NOT_LIKED = 1;
+	
+	private final static int LIKED = 1;
 
 	public PublicationDomain publicate(PublicationDomain publicationDomain) throws IllegalArgumentException{
 		
@@ -155,21 +159,22 @@ public class PublicationService {
 		return ProfessionalsWhoReactedToPublicationList;
 	}
 
-	public int getPublicationStatus(String publicationID) {
+	public int getPublicationStatus(String professionalID, String publicationID) {
 		
 		if(!publicationDAO.existsByPublicationID(publicationID)) {
 			
 			throw new IllegalArgumentException("Publicação não encontrada");
 		}
 		
-//		if (publicationRectionDAO.existsByProfessionalIDAndPublicationID(professionalID, publicationID)) {
-//			
-//			return 1;
-//		}
-//		
-//		return 0;
+		validationUtils.validateProfessionalByID(professionalDAO, professionalID);
 		
-		return 0;
+		if (publicationRectionDAO.existsByProfessionalIDAndPublicationID(professionalID, publicationID)) {
+			
+			return LIKED;
+		}
+		
+		return NOT_LIKED;
+		
 	}
 
 }

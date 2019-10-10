@@ -34,13 +34,13 @@ public class FriendshipService {
 	@Autowired
 	private	ValidationUtils validationUtils;	
 
-	private static final int ATIVO = 1;
+	private static final int ACTIVE = 1;
 
-	private static final int PENDENTE_SOLICITACAO = 2;
+	private static final int PENDING_REQUEST = 2;
 
-	private static final int PENDENTE_RESPOSTA = 3;
+	private static final int PENDING_RESPONSE = 3;
 
-	private static final int INATIVO = 4;
+	private static final int INACTIVE = 4;
 
 	public FriendshipRequestDomain sendFriendshipRequest(FriendshipSenderReceiverDomain senderReceiver) throws IllegalArgumentException {
 
@@ -189,82 +189,69 @@ public class FriendshipService {
 		return friendsList;
 	}
 
-//	public int getFriendshipStatus(String professionalID1, String professionalID2) throws IllegalArgumentException {
-//
-//		boolean existsSender = professionalDAO.existsByProfessionalID(senderID);
-//		boolean existsReceiver = professionalDAO.existsByProfessionalID(receiverID);
-//
-//		if (!(existsSender && existsReceiver)) {
-//
-//			throw new IllegalArgumentException("Usuário não encontrado");
-//		}
-//
-//		if (professionalID1.equalsIgnoreCase(professionalID2)) {
-//
-//			throw new IllegalArgumentException("Os IDs são iguais");
-//		}
-//
-//		if (friendshipDAO.existsByProfessionalID1AndProfessionalID2(professionalID1, professionalID2)
-//				|| friendshipDAO.existsByProfessionalID2AndProfessionalID1(professionalID1, professionalID2)) {
-//
-//			return ATIVO;
-//		}
-//
-//		if (friendshipRequestDAO.existsByProfessionalID1AndProfessionalID2(professionalID1, professionalID2)) {
-//
-//			return PENDENTE_SOLICITACAO;
-//		}
-//
-//		if (friendshipRequestDAO.existsByProfessionalID2AndProfessionalID1(professionalID1, professionalID2)) {
-//
-//			return PENDENTE_RESPOSTA;
-//		}
-//
-//		return INATIVO;
-//	}
-//
-//	public List<String> getFriendsInCommon(String professionalID1, String professionalID2) {
-//
-//		List<ProfessionalDomain> professional1friendList = returnFriendsList(professionalID1);
-//		List<ProfessionalDomain> professional2friendList = returnFriendsList(professionalID2);
-//		List<String> friendsInCommon = new ArrayList<String>();
-//
-//		for (ProfessionalDomain professional1 : professional1friendList) {
-//
-//			for (ProfessionalDomain professional2 : professional2friendList) {
-//
-//				if (professional1.getProfessionalID().equals(professional2.getProfessionalID())) {
-//
-//					friendsInCommon.add(professional1.getProfessionalID());
-//				}
-//			}
-//		}
-//
-//		return friendsInCommon;
-//	}
-//
-//	public void unfriend(String professionalID1, String professionalID2) {
-//
-//		boolean existsProfessional1 = professionalDAO.existsByProfessionalID(professionalID1);
-//		boolean existsProfessional2 = professionalDAO.existsByProfessionalID(professionalID2);
-//
-//		if (!(existsProfessional1 && existsProfessional2)) {
-//
-//			throw new IllegalArgumentException("Usuário não encontrado");
-//		}
-//
-//		if (!(friendshipDAO.existsByProfessionalID1AndProfessionalID2(professionalID1,
-//				professionalID2)
-//				|| friendshipDAO.existsByProfessionalID2AndProfessionalID1(professionalID2,
-//						professionalID1))) {
-//
-//			throw new IllegalArgumentException("Não há amizade entre esses dois profissionais");
-//		}
-//
-//		FriendshipDomain friendship = friendshipDAO.findByProfessionalID1AndProfessionalID2(professionalID1,
-//				professionalID2);
-//
-//		friendshipDAO.delete(friendship);
-//	}
+	public int getFriendshipStatus(String senderID, String receiverID) throws IllegalArgumentException {
+
+		validationUtils.validateProfessionalByID(professionalDAO, senderID);
+		validationUtils.validateProfessionalByID(professionalDAO, receiverID);
+
+		validationUtils.validateProfessionalsByEqualIDs(senderID, receiverID);
+
+		if (friendshipDAO.existsByProfessionalID1AndProfessionalID2(senderID, receiverID)
+				|| friendshipDAO.existsByProfessionalID2AndProfessionalID1(senderID, receiverID)) {
+
+			return ACTIVE;
+		}
+
+		if (friendshipRequestDAO.existsBySenderIDAndReceiverID(senderID, receiverID)) {
+
+			return PENDING_REQUEST;
+		}
+
+		if (friendshipRequestDAO.existsByReceiverIDAndSenderID(receiverID, senderID)) {
+
+			return PENDING_RESPONSE;
+		}
+
+		return INACTIVE;
+	}
+
+	public List<String> getFriendsInCommon(String senderID, String receiverID) {
+
+		List<ProfessionalDomain> professional1friendList = returnFriendsList(senderID);
+		List<ProfessionalDomain> professional2friendList = returnFriendsList(receiverID);
+		List<String> friendsInCommon = new ArrayList<String>();
+
+		for (ProfessionalDomain professional1 : professional1friendList) {
+
+			for (ProfessionalDomain professional2 : professional2friendList) {
+
+				if (professional1.getProfessionalID().equals(professional2.getProfessionalID())) {
+
+					friendsInCommon.add(professional1.getProfessionalID());
+				}
+			}
+		}
+
+		return friendsInCommon;
+	}
+
+	public void unfriend(String senderID, String receiverID) {
+
+		validationUtils.validateProfessionalByID(professionalDAO, senderID);
+		validationUtils.validateProfessionalByID(professionalDAO, receiverID);
+
+		if (!(friendshipDAO.existsByProfessionalID1AndProfessionalID2(senderID,
+				receiverID)
+				|| friendshipDAO.existsByProfessionalID2AndProfessionalID1(receiverID,
+						senderID))) {
+
+			throw new IllegalArgumentException("Não há amizade entre esses dois profissionais");
+		}
+
+		FriendshipDomain friendship = friendshipDAO.findByProfessionalID1AndProfessionalID2(senderID,
+				receiverID);
+
+		friendshipDAO.delete(friendship);
+	}
 
 }

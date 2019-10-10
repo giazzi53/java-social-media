@@ -23,6 +23,10 @@ public class RecommendationService {
 	
 	@Autowired
 	private	ValidationUtils validationUtils;
+	
+	private static final int INACTIVE = 1;
+	
+	private static final int ACTIVE = 1;
 
 	public RecommendationDomain recommend(RecommendationDomain recommendation) throws IllegalArgumentException {
 
@@ -74,13 +78,12 @@ public class RecommendationService {
 
 		validationUtils.validateProfessionalsByEqualIDs(recommenderID, recommendedID);
 
-//		if(recommendationDAO.existsByProfessionalID1AndProfessionalID2(professionalID1, professionalID2)){
-//			
-//			return 1;
-//		}
-//		
-//		return 0;
-		return 0;
+		if(recommendationDAO.existsByRecommenderIDAndRecommendedID(recommenderID, recommendedID)){
+			
+			return ACTIVE;
+		}
+		
+		return INACTIVE;
 	}
 
 	public void deleteRecommendation(String recommenderID, String recommendedID) {
