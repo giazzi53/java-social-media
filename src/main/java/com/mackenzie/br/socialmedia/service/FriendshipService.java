@@ -50,10 +50,8 @@ public class FriendshipService {
 		validationUtils.validateProfessionalByID(professionalDAO, senderID);
 		validationUtils.validateProfessionalByID(professionalDAO, receiverID);
 
-		List<String> friendsIDsList = friendshipMapper.mapFriendsIDsList(senderID,
-				friendshipDAO.findByProfessionalID1(senderID),
-				friendshipDAO.findByProfessionalID2(senderID));
-
+		List<String> friendsIDsList = friendshipMapper.mapFriendsIDsList(senderID);
+		
 		for (String friendID : friendsIDsList) {
 
 			if (friendID.equalsIgnoreCase(senderID)) {
@@ -109,9 +107,7 @@ public class FriendshipService {
 		List<FriendshipRequestDomain> receivedRequestsList = friendshipRequestDAO
 				.findAllByRequestReceiverID(senderID);
 
-		List<String> friendsIDsList = friendshipMapper.mapFriendsIDsList(senderID,
-				friendshipDAO.findByProfessionalID1(senderID),
-				friendshipDAO.findByProfessionalID2(senderID));
+		List<String> friendsIDsList = friendshipMapper.mapFriendsIDsList(senderID);
 
 		for (String friendID : friendsIDsList) {
 
@@ -175,9 +171,7 @@ public class FriendshipService {
 
 		validationUtils.validateProfessionalByID(professionalDAO, professionalID);
 		
-		List<String> listFriendsID = friendshipMapper.mapFriendsIDsList(professionalID,
-				friendshipDAO.findByProfessionalID1(professionalID),
-				friendshipDAO.findByProfessionalID2(professionalID));
+		List<String> listFriendsID = friendshipMapper.mapFriendsIDsList(professionalID);
 
 		List<ProfessionalDomain> friendsList = new ArrayList<ProfessionalDomain>();
 

@@ -3,35 +3,39 @@ package com.mackenzie.br.socialmedia.map;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mackenzie.br.socialmedia.DAO.FriendshipDAO;
 import com.mackenzie.br.socialmedia.domain.FriendshipDomain;
 
 @Service
 public class FriendshipMapper {
-
-	public List<String> mapFriendsIDsList(String professionalID, FriendshipDomain friendship1,
-			FriendshipDomain friendship2) {
-
-		List<FriendshipDomain> friendshipsList = new ArrayList<FriendshipDomain>();
+	
+	@Autowired
+	private FriendshipDAO friendshipDAO;
+	
+	public List<String> mapFriendsIDsList(String professionalID) {
 		
-		friendshipsList.add(friendship1);
-		friendshipsList.add(friendship2);
-
-		List<String> friendsIDsList = new ArrayList<String>();
-
-		for (FriendshipDomain friendship : friendshipsList) {
+		List<FriendshipDomain> listFriendships = new ArrayList<FriendshipDomain>();
+		listFriendships.addAll(friendshipDAO.findAllByProfessionalID1(professionalID));
+		listFriendships.addAll(friendshipDAO.findAllByProfessionalID2(professionalID));
+		
+		List<String> listFriendsID = new ArrayList<String>();
+		
+		for (FriendshipDomain friendship : listFriendships){
 			
 			if (friendship.getProfessionalID1().equalsIgnoreCase(professionalID)) {
 				
-				friendsIDsList.add(friendship.getProfessionalID2());
+				listFriendsID.add(friendship.getProfessionalID2());
 			} else {
 				
-				friendsIDsList.add(friendship.getProfessionalID1());
+				listFriendsID.add(friendship.getProfessionalID1());
 			}
+			
 		}
 		
-		return friendsIDsList;
+		return listFriendsID;
 	}
-
+	
 }
