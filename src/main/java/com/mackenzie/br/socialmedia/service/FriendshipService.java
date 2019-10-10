@@ -202,12 +202,12 @@ public class FriendshipService {
 			return ACTIVE;
 		}
 
-		if (friendshipRequestDAO.existsBySenderIDAndReceiverID(senderID, receiverID)) {
+		if (friendshipRequestDAO.existsByRequestSenderIDAndRequestReceiverID(senderID, receiverID)) {
 
 			return PENDING_REQUEST;
 		}
 
-		if (friendshipRequestDAO.existsByReceiverIDAndSenderID(receiverID, senderID)) {
+		if (friendshipRequestDAO.existsByRequestReceiverIDAndRequestSenderID(receiverID, senderID)) {
 
 			return PENDING_RESPONSE;
 		}
