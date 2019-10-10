@@ -168,7 +168,7 @@ public class FriendshipService {
 			}
 		}
 
-		throw new IllegalArgumentException("Request not found");
+		throw new IllegalArgumentException("Solicitação não encontrada");
 	}
 
 	public List<ProfessionalDomain> returnFriendsList(String professionalID) throws IllegalArgumentException {

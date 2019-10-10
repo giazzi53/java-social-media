@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,7 +57,7 @@ public class RecommendationController {
 	@GetMapping(value="/getProfessionalsWhoRecommended/{professionalID}")
 	public ResponseEntity<?> getProfessionalsWhoRecommended(@PathVariable String professionalID){
 		
-		List<ProfessionalDomain> professionalsWhoRecommendedList;
+		List<String> professionalsWhoRecommendedList;
 		
 		try {
 			professionalsWhoRecommendedList = recommendationService.getProfessionalsWhoRecommended(professionalID);
@@ -68,13 +69,13 @@ public class RecommendationController {
 	}
 	
 	@CrossOrigin("*")
-	@GetMapping(value="/getRecommendationStatus/{professionalID1}/{professionalID2}")
-	public ResponseEntity<?> getRecommendationStatus(@PathVariable String professionalID1, @PathVariable String professionalID2){
+	@GetMapping(value="/getRecommendationStatus/{recommenderID}/{recommendedID}")
+	public ResponseEntity<?> getRecommendationStatus(@PathVariable String recommenderID, @PathVariable String recommendedID){
 		
 		int recommendationStatus;
 		
 		try {
-			recommendationStatus = recommendationService.getRecommendationStatus(professionalID1, professionalID2);
+			recommendationStatus = recommendationService.getRecommendationStatus(recommenderID, recommendedID);
 		}catch(IllegalArgumentException i) {
 			return new ResponseEntity<>(i.getMessage(),HttpStatus.BAD_REQUEST);
 		}
@@ -82,17 +83,17 @@ public class RecommendationController {
 		return new ResponseEntity<>(recommendationStatus, HttpStatus.OK);
 	}
 	
-//	@CrossOrigin("*")
-//	@DeleteMapping(value="/deleteRecommendation")
-//	public ResponseEntity<?> deleteRecommendation(@RequestBody List<ProfessionalDomain> listProfessionals){
-//		
-//		try {
-//			recommendationService.deleteRecommendation(listProfessionals);
-//		}catch(IllegalArgumentException i){
-//			return new ResponseEntity<>(i.getMessage(),HttpStatus.BAD_REQUEST);
-//		}
-//		
-//		return new ResponseEntity<>(HttpStatus.OK);
-//	}
+	@CrossOrigin("*")
+	@DeleteMapping(value="/deleteRecommendation/{recommenderID}/{recommendedID}")
+	public ResponseEntity<?> deleteRecommendation(@PathVariable String recommenderID, @PathVariable String recommendedID){
+		
+		try {
+			recommendationService.deleteRecommendation(recommenderID, recommendedID);
+		}catch(IllegalArgumentException i){
+			return new ResponseEntity<>(i.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
 }

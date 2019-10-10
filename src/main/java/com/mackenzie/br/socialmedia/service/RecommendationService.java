@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
 import com.mackenzie.br.socialmedia.DAO.RecommendationDAO;
-import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 import com.mackenzie.br.socialmedia.domain.RecommendationDomain;
 import com.mackenzie.br.socialmedia.utils.ValidationUtils;
 
@@ -24,7 +23,7 @@ public class RecommendationService {
 	@Autowired
 	private	ValidationUtils validationUtils;
 	
-	private static final int INACTIVE = 1;
+	private static final int INACTIVE = 0;
 	
 	private static final int ACTIVE = 1;
 
@@ -55,17 +54,17 @@ public class RecommendationService {
 		return recommendationDAO.countByRecommendedID(recommendedID);
 	}
 
-	public List<ProfessionalDomain> getProfessionalsWhoRecommended(String recommendedID)
+	public List<String> getProfessionalsWhoRecommended(String recommendedID)
 			throws IllegalArgumentException {
 
 		validationUtils.validateProfessionalByID(professionalDAO, recommendedID);
 
-		List<ProfessionalDomain> professionalsWhoRecommendedList = new ArrayList<ProfessionalDomain>();
+		List<String> professionalsWhoRecommendedList = new ArrayList<String>();
 
 		for (RecommendationDomain recommendation : recommendationDAO.findByRecommendedID(recommendedID)) {
 
 			professionalsWhoRecommendedList
-					.add(professionalDAO.findByProfessionalID(recommendedID));
+					.add(professionalDAO.findByProfessionalID(recommendedID).getProfessionalID());
 		}
 
 		return professionalsWhoRecommendedList;
@@ -96,7 +95,6 @@ public class RecommendationService {
 		if (!recommendationDAO.existsByRecommenderIDAndRecommendedID(recommenderID, recommendedID)) {
 			
 			throw new IllegalArgumentException("Recommendação não encontrada");
-
 		}
 		
 		recommendationDAO.delete(

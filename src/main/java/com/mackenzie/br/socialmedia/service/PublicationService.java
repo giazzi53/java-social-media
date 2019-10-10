@@ -37,7 +37,7 @@ public class PublicationService {
 	@Autowired
 	private	ValidationUtils validationUtils;
 	
-	private final static int NOT_LIKED = 1;
+	private final static int NOT_LIKED = 0;
 	
 	private final static int LIKED = 1;
 
@@ -54,12 +54,7 @@ public class PublicationService {
 
 	public void deletePublication(String publicationID) {
 		
-		boolean existsPublication = publicationDAO.existsByPublicationID(publicationID);
-		
-		if(!existsPublication) {
-			
-			throw new IllegalArgumentException("Publicação não encontrada");
-		}
+		validationUtils.validatePublicationByID(publicationDAO, publicationID);
 		
 		publicationDAO.deleteById(publicationID);
 	}
@@ -92,11 +87,8 @@ public class PublicationService {
 		
 		validationUtils.validateProfessionalByID(professionalDAO, publicationReactionDomain.getProfessionalID());
 		
-		if(!publicationDAO.existsByPublicationID(publicationReactionDomain.getPublicationID())) {
-			
-			throw new IllegalArgumentException("Publicação inexistente");
-		}
-		
+		validationUtils.validatePublicationByID(publicationDAO, publicationReactionDomain.getPublicationID());
+
 		if(publicationRectionDAO.existsByProfessionalIDAndPublicationID(publicationReactionDomain.getProfessionalID(),
 				publicationReactionDomain.getPublicationID())) {
 			
@@ -112,10 +104,7 @@ public class PublicationService {
 		
 		validationUtils.validateProfessionalByID(professionalDAO, publicationReaction.getProfessionalID());
 		
-		if(!publicationDAO.existsByPublicationID(publicationReaction.getPublicationID())) {
-			
-			throw new IllegalArgumentException("Publicação não encontrada");
-		}
+		validationUtils.validatePublicationByID(publicationDAO, publicationReaction.getPublicationID());
 		
 		if(!publicationRectionDAO.existsByProfessionalIDAndPublicationID(publicationReaction.getProfessionalID(),
 				publicationReaction.getPublicationID())) {
@@ -133,20 +122,14 @@ public class PublicationService {
 	
 	public int getNumberOfPublicationReactions(String publicationID) throws IllegalArgumentException{
 		
-		if(!publicationDAO.existsByPublicationID(publicationID)) {
-			
-			throw new IllegalArgumentException("Publicação não encontrada");
-		}
+		validationUtils.validatePublicationByID(publicationDAO, publicationID);
 		
 		return publicationRectionDAO.countByPublicationID(publicationID);
 	}
 
 	public List<String> getProfessionalsWhoReactedToPublication(String publicationID) throws IllegalArgumentException{
 		
-		if(!publicationDAO.existsByPublicationID(publicationID)) {
-			
-			throw new IllegalArgumentException("Publicação não encontrada");
-		}
+		validationUtils.validatePublicationByID(publicationDAO, publicationID);
 		
 		List<String> ProfessionalsWhoReactedToPublicationList = new ArrayList<String>();
 		
@@ -161,10 +144,7 @@ public class PublicationService {
 
 	public int getPublicationStatus(String professionalID, String publicationID) {
 		
-		if(!publicationDAO.existsByPublicationID(publicationID)) {
-			
-			throw new IllegalArgumentException("Publicação não encontrada");
-		}
+		validationUtils.validatePublicationByID(publicationDAO, publicationID);
 		
 		validationUtils.validateProfessionalByID(professionalDAO, professionalID);
 		
@@ -174,7 +154,6 @@ public class PublicationService {
 		}
 		
 		return NOT_LIKED;
-		
 	}
 
 }
