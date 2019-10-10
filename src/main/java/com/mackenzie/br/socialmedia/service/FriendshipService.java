@@ -69,7 +69,7 @@ public class FriendshipService {
 
 		for (FriendshipRequestDomain request : sentRequestsList) {
 
-			if (request.getRequestReceiverID().equalsIgnoreCase(senderID)) {
+			if (request.getRequestSenderID().equalsIgnoreCase(senderID)) {
 
 				throw new IllegalArgumentException("A solicitação já existe");
 			}
