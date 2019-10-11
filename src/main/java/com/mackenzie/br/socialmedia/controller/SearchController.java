@@ -19,13 +19,13 @@ public class SearchController {
 	@Autowired
 	private SearchService searchService;
 
-//	@CrossOrigin(origins = "*")
-//	@GetMapping(value = "/search")
-//	public ResponseEntity<?> search(@RequestBody ProfessionalDomain professional) {
-//		
-//		List<ProfessionalDomain> listProfessional = searchService.search(professional);
-//		
-//		return new ResponseEntity<>(listProfessional, HttpStatus.OK);
-//	}
+	@CrossOrigin(origins = "*")
+	@GetMapping(value = "/search")
+	public ResponseEntity<?> search(@RequestBody ProfessionalDomain professional) {
+		
+		List<ProfessionalDomain> listProfessional = searchService.search(professional);
+		
+		return new ResponseEntity<>(listProfessional, HttpStatus.OK);
+	}
 	
 }
