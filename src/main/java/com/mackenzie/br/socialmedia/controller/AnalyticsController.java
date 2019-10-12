@@ -16,13 +16,13 @@ public class AnalyticsController {
 	@Autowired
 	AnalyticsService analyticsService;
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@GetMapping(value="/getAvgNumberOfFriends")
 	public float getAvgNumberOfFriends() {
 		return analyticsService.getAvgNumberOfFriends();
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@GetMapping(value="/getTop10ProfessionalsWithMostFriends")
 	public List<Professional_FriendsDomain> getTop10ProfessionalsWithMostFriends(){
 		return analyticsService.getTop10ProfessionalsWithMostFriends();

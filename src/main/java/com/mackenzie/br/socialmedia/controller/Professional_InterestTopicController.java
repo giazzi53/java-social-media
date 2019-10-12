@@ -23,7 +23,11 @@ public class Professional_InterestTopicController {
 	@Autowired
 	private Professional_InterestTopicService professional_interestTopicService;
 	
+<<<<<<< HEAD
 	@CrossOrigin(origins = "*")
+=======
+	@CrossOrigin(value = "*")
+>>>>>>> 87424efe9548780a676413fc76dc2d2aa6afb54c
 	@GetMapping(value = "/getProfessionalInterestTopics/{professionalID}")	
 	public ResponseEntity<?> getProfessionalInterestTopics(@PathVariable String professionalID){
 		List<InterestTopicDomain> listInterestTopics;
@@ -37,7 +41,11 @@ public class Professional_InterestTopicController {
 		return new ResponseEntity<>(listInterestTopics, HttpStatus.OK);
 	}
 	
+<<<<<<< HEAD
 	@CrossOrigin(origins = "*")
+=======
+	@CrossOrigin(value = "*")
+>>>>>>> 87424efe9548780a676413fc76dc2d2aa6afb54c
 	@PostMapping(value = "/setProfessionalInterestTopics")
 	public ResponseEntity<?> setProfessionalInterestTopics(@RequestBody List<Professional_InterestTopicDomain> listProfessionalTopics){
 			List<Professional_InterestTopicDomain> databaseProfessionalInterestTopics = null;

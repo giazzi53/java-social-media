@@ -18,7 +18,11 @@ public class InterestTopicController {
 	@Autowired
 	InterestTopicService interestTopicService;
 	
+<<<<<<< HEAD
 	@CrossOrigin(origins = "*")
+=======
+	@CrossOrigin(value = "*")
+>>>>>>> 87424efe9548780a676413fc76dc2d2aa6afb54c
 	@GetMapping(value = "/getInterestTopics")
 	public ResponseEntity<List<InterestTopicDomain>> getInterestTopics() {
 		return new ResponseEntity<>(interestTopicService.getInterestTopics(), HttpStatus.OK);

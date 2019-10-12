@@ -24,7 +24,11 @@ public class FriendshipController {
 	@Autowired
 	private FriendshipService friendshipService;
 	
+<<<<<<< HEAD
 	@CrossOrigin(origins = "*")
+=======
+	@CrossOrigin(value = "*")
+>>>>>>> 87424efe9548780a676413fc76dc2d2aa6afb54c
 	@PostMapping(value = "/sendFriendshipRequest")
 	public ResponseEntity<?> sendFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
 		FriendshipRequestDomain friendshipRequest;
@@ -38,7 +42,11 @@ public class FriendshipController {
 		return new ResponseEntity<>(friendshipRequest, HttpStatus.OK);
 	}
 	
+<<<<<<< HEAD
 	@CrossOrigin(origins = "*")
+=======
+	@CrossOrigin(value = "*")
+>>>>>>> 87424efe9548780a676413fc76dc2d2aa6afb54c
 	@PostMapping(value = "/acceptFriendshipRequest")
 	public ResponseEntity<?> acceptFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
 		FriendshipDomain friendship;
@@ -52,7 +60,11 @@ public class FriendshipController {
 		return new ResponseEntity<>(friendship, HttpStatus.OK);
 	}
 	
+<<<<<<< HEAD
 	@CrossOrigin(origins = "*")
+=======
+	@CrossOrigin(value = "*")
+>>>>>>> 87424efe9548780a676413fc76dc2d2aa6afb54c
 	@PostMapping(value = "/rejectFriendshipRequest")
 	public ResponseEntity<?> rejectFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
 		FriendshipRequestDomain friendshipRequest;
@@ -66,7 +78,11 @@ public class FriendshipController {
 		return new ResponseEntity<>(friendshipRequest, HttpStatus.OK);
 	}
 	
+<<<<<<< HEAD
 	@CrossOrigin(origins = "*")
+=======
+	@CrossOrigin(value = "*")
+>>>>>>> 87424efe9548780a676413fc76dc2d2aa6afb54c
 	@GetMapping(value = "/returnListFriends/{professionalID}")
 	public ResponseEntity<?> returnListFriends(@PathVariable String professionalID) {
 		List<ProfessionalDomain> list;
@@ -79,7 +95,11 @@ public class FriendshipController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
+<<<<<<< HEAD
 	@CrossOrigin(origins = "*")
+=======
+	@CrossOrigin(value = "*")
+>>>>>>> 87424efe9548780a676413fc76dc2d2aa6afb54c
 	@PostMapping(value = "/getStatusFriendship")
 	public ResponseEntity<?> getStatusFriendship(@RequestBody List<ProfessionalDomain> listOfProfessionals){
 		Integer status;
@@ -93,7 +113,7 @@ public class FriendshipController {
 		return new ResponseEntity<>(status, HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@GetMapping("/getFriendsInCommon/{professionalID1}/{professionalID2}")
 	public ResponseEntity<?> getFriendsInCommon(@PathVariable String professionalID1, @PathVariable String professionalID2){
 		List<String> friendsInCommonList = new ArrayList<String>();

@@ -24,7 +24,7 @@ public class RecommendationController {
 	@Autowired
 	RecommendationService recommendationService;
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@PostMapping(value="/recommend")
 	public ResponseEntity<?> recommend(@RequestBody RecommendationDomain recommendation){
 		RecommendationDomain recommendationDomain;
@@ -39,7 +39,7 @@ public class RecommendationController {
 		return new ResponseEntity<>(recommendationDomain, HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@PostMapping(value="/getNumberOfRecommendations/{professionalID}")
 	public ResponseEntity<?> getNumberOfRecommendations(@PathVariable String professionalID){
 		Integer numberOfRecommendations = 0;
@@ -53,7 +53,7 @@ public class RecommendationController {
 		return new ResponseEntity<>(numberOfRecommendations, HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@GetMapping(value="/getProfessionalsWhoRecommended/{professionalID}")
 	public ResponseEntity<?> getProfessionalsWhoRecommended(@PathVariable String professionalID){
 		List<ProfessionalDomain> listProfessionalsWhoRecommended = new ArrayList<ProfessionalDomain>();
@@ -67,7 +67,7 @@ public class RecommendationController {
 		return new ResponseEntity<>(listProfessionalsWhoRecommended, HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@PostMapping(value="/getStatusRecommendation")
 	public ResponseEntity<?> getStatusRecommendation(@RequestBody List<ProfessionalDomain> listProfessionals){
 		
@@ -82,7 +82,7 @@ public class RecommendationController {
 		return new ResponseEntity<>(status, HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@PostMapping(value="/deleteRecommendation")
 	public ResponseEntity<?> deleteRecommendation(@RequestBody List<ProfessionalDomain> listProfessionals){
 		try {
