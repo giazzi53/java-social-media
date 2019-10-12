@@ -105,7 +105,7 @@ public class FriendshipController {
 	@GetMapping("/getFriendsInCommon/{professionalID1}/{professionalID2}")
 	public ResponseEntity<?> getFriendsInCommon(@PathVariable String professionalID1, @PathVariable String professionalID2){
 		
-		List<String> friendsInCommonList = new ArrayList<String>();
+		List<ProfessionalDomain> friendsInCommonList = new ArrayList<ProfessionalDomain>();
 		
 		try {
 			friendsInCommonList = friendshipService.getFriendsInCommon(professionalID1, professionalID2);

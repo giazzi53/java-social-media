@@ -54,7 +54,7 @@ public class FriendshipService {
 		
 		for (String friendID : friendsIDsList) {
 
-			if (friendID.equalsIgnoreCase(senderID)) {
+			if (friendID.equalsIgnoreCase(receiverID)) {
 
 				throw new IllegalArgumentException("Este usuário já é seu amigo");
 			}
@@ -64,8 +64,8 @@ public class FriendshipService {
 
 		List<FriendshipRequestDomain> sentRequestsList = friendshipRequestDAO
 				.findAllByRequestSenderID(senderID);
-		List<FriendshipRequestDomain> receivedRequestsList = friendshipRequestDAO
-				.findAllByRequestReceiverID(receiverID);
+		List<FriendshipRequestDomain> senderReceivedRequestList = friendshipRequestDAO
+				.findAllByRequestSenderID(receiverID);
 
 		for (FriendshipRequestDomain request : sentRequestsList) {
 
@@ -75,7 +75,7 @@ public class FriendshipService {
 			}
 		}
 
-		for (FriendshipRequestDomain request : receivedRequestsList) {
+		for (FriendshipRequestDomain request : senderReceivedRequestList) {
 
 			if (request.getRequestReceiverID().equalsIgnoreCase(senderID)) {
 
@@ -147,15 +147,14 @@ public class FriendshipService {
 		validationUtils.validateProfessionalsByEqualIDs(senderID, receiverID);
 
 		List<FriendshipRequestDomain> receivedRequestsList = friendshipRequestDAO
-				.findAllByRequestReceiverID(receiverID);
+				.findAllByRequestReceiverID(senderID);
 
 		for (FriendshipRequestDomain request : receivedRequestsList) {
 
-			if (request.getRequestSenderID().equalsIgnoreCase(senderID)) {
+			if (request.getRequestSenderID().equalsIgnoreCase(receiverID)) {
 				
 				FriendshipRequestDomain friendshipRequest = new FriendshipRequestDomain();
 
-				//friendshipRequest.setFriendshipRequestID(request.getFriendshipRequestID());
 				friendshipRequest.setRequestSenderID(request.getRequestSenderID());
 				friendshipRequest.setRequestReceiverID(request.getRequestReceiverID());
 				friendshipRequestDAO.delete(request);
@@ -201,7 +200,7 @@ public class FriendshipService {
 			return PENDING_REQUEST;
 		}
 
-		if (friendshipRequestDAO.existsByRequestReceiverIDAndRequestSenderID(receiverID, senderID)) {
+		if (friendshipRequestDAO.existsByRequestReceiverIDAndRequestSenderID(senderID, receiverID)) {
 
 			return PENDING_RESPONSE;
 		}
@@ -209,7 +208,7 @@ public class FriendshipService {
 		return INACTIVE;
 	}
 
-	public List<String> getFriendsInCommon(String senderID, String receiverID) {
+	public List<ProfessionalDomain> getFriendsInCommon(String senderID, String receiverID) {
 
 		List<ProfessionalDomain> professional1friendList = returnFriendsList(senderID);
 		List<ProfessionalDomain> professional2friendList = returnFriendsList(receiverID);
@@ -225,8 +224,17 @@ public class FriendshipService {
 				}
 			}
 		}
+		
+		List<ProfessionalDomain> friendsList = new ArrayList<ProfessionalDomain>();
 
-		return friendsInCommon;
+		for (String id : friendsInCommon) {
+
+			friendsList.add(professionalDAO.findByProfessionalID(id));
+		}
+
+		return friendsList;
+
+
 	}
 
 	public void unfriend(String senderID, String receiverID) {
@@ -236,15 +244,22 @@ public class FriendshipService {
 
 		if (!(friendshipDAO.existsByProfessionalID1AndProfessionalID2(senderID,
 				receiverID)
-				|| friendshipDAO.existsByProfessionalID2AndProfessionalID1(receiverID,
-						senderID))) {
+				|| friendshipDAO.existsByProfessionalID2AndProfessionalID1(senderID,
+						receiverID))) {
 
 			throw new IllegalArgumentException("Não há amizade entre esses dois profissionais");
 		}
-
-		FriendshipDomain friendship = friendshipDAO.findByProfessionalID1AndProfessionalID2(senderID,
-				receiverID);
-
+		
+		FriendshipDomain friendship = new FriendshipDomain();
+		
+		if (friendshipDAO.existsByProfessionalID1AndProfessionalID2(senderID, receiverID)) {
+			friendship = friendshipDAO.findByProfessionalID1AndProfessionalID2(senderID,
+					receiverID);
+		}else if (friendshipDAO.existsByProfessionalID1AndProfessionalID2(receiverID, senderID)){
+			friendship = friendshipDAO.findByProfessionalID1AndProfessionalID2(receiverID,
+					senderID);
+		}
+		
 		friendshipDAO.delete(friendship);
 	}
 
