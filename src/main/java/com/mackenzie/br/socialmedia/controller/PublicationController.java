@@ -28,7 +28,7 @@ public class PublicationController {
 	@Autowired
 	private PublicationService publicationService;
 
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@PostMapping(value = "/publicate")
 	public ResponseEntity<?> publicate(@RequestBody @Valid PublicationDomain publicationDomain) {
 		PublicationDomain databasePublication;
@@ -42,7 +42,7 @@ public class PublicationController {
 		return new ResponseEntity<>(databasePublication, HttpStatus.CREATED);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@DeleteMapping(value = "/deletePublication/{publicationID}")
 	public ResponseEntity<?> deletePublication(@PathVariable String publicationID) {				
 		try{
@@ -54,7 +54,7 @@ public class PublicationController {
 		return new ResponseEntity<>(null, HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@GetMapping(value = "/retrievePublicationList/{professionalID}")
 	public ResponseEntity<?> retrievePublicationList(@PathVariable String professionalID) {
 		List<PublicationDomain> publicationList = null;
@@ -68,7 +68,7 @@ public class PublicationController {
 		return new ResponseEntity<>(publicationList, HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@GetMapping(value = "/retrieveFeedPublicationsList/{professionalID}")
 	public ResponseEntity<?> retrieveFeedPublicationsList(@PathVariable String professionalID) {
 		List<PublicationDomain> publicationList = null;
@@ -82,7 +82,7 @@ public class PublicationController {
 		return new ResponseEntity<>(publicationList, HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@PostMapping(value = "reactToPublication")
 	public ResponseEntity<?> reactToPublication(@RequestBody PublicationReactionDomain publicationReactionDomain) {
 		PublicationReactionDomain publicationReaction = new PublicationReactionDomain();
@@ -96,7 +96,7 @@ public class PublicationController {
 		return new ResponseEntity<>(publicationReaction, HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@PostMapping(value = "unreactToPublication")
 	public ResponseEntity<?> unreactToPublication(@RequestBody PublicationReactionDomain publicationReactionDomain) {		
 		try {
@@ -108,7 +108,7 @@ public class PublicationController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@GetMapping(value = "getNumberReactionsOfPublication/{publicationID}")
 	public ResponseEntity<?> getNumberReactionsOfPublication(@PathVariable String publicationID) {
 		int numberOfReactions = 0;
@@ -122,7 +122,7 @@ public class PublicationController {
 		return new ResponseEntity<>(numberOfReactions ,HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@GetMapping(value = "getProfessionalsWhoRecommendedPublication/{publicationID}")
 	public ResponseEntity<?> getProfessionalsWhoRecommendedPublication(@PathVariable String publicationID) {
 		List<ProfessionalDomain> listProfessionalsWhoRecommendedPublication =
@@ -137,7 +137,7 @@ public class PublicationController {
 		return new ResponseEntity<>(listProfessionalsWhoRecommendedPublication ,HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@GetMapping(value = "getStatusPublication/{professionalID}/{publicationID}")
 	public ResponseEntity<?> getStatusPublication(@PathVariable String professionalID, @PathVariable String publicationID) {
 		int status;

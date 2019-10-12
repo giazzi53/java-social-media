@@ -24,7 +24,7 @@ public class AccessController {
 	@Autowired
 	AccessService accessService;
 
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@PostMapping(value = "/signUp")
 	public ResponseEntity<?> signUp(@RequestBody @Valid ProfessionalDomain professional) {
 		ProfessionalDomain databaseProfessional;
@@ -39,7 +39,7 @@ public class AccessController {
 		return new ResponseEntity<>(databaseProfessional, HttpStatus.CREATED);
 	}
 
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@PostMapping(value = "/login")
 	public ResponseEntity<?> login(@RequestBody ProfessionalDomain professional) {
 		ProfessionalDomain databaseProfessional;
@@ -53,7 +53,7 @@ public class AccessController {
 		return new ResponseEntity<>(databaseProfessional, HttpStatus.OK);
 	}
 
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@PutMapping(value = "/updateProfile")
 	public ResponseEntity<?> updateProfile(@RequestBody ProfessionalDomain professional) {
 		ProfessionalDomain databaseProfessional;
@@ -67,7 +67,7 @@ public class AccessController {
 		return new ResponseEntity<>(databaseProfessional, HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@GetMapping(value = "/retrieveProfessionalData/{professionalID}")
 	public ResponseEntity<?> retrieveProfessionalData(@PathVariable String professionalID) {
 		ProfessionalDomain databaseProfessional;

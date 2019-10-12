@@ -24,7 +24,7 @@ public class FriendshipController {
 	@Autowired
 	private FriendshipService friendshipService;
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@PostMapping(value = "/sendFriendshipRequest")
 	public ResponseEntity<?> sendFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
 		FriendshipRequestDomain friendshipRequest;
@@ -38,7 +38,7 @@ public class FriendshipController {
 		return new ResponseEntity<>(friendshipRequest, HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@PostMapping(value = "/acceptFriendshipRequest")
 	public ResponseEntity<?> acceptFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
 		FriendshipDomain friendship;
@@ -52,7 +52,7 @@ public class FriendshipController {
 		return new ResponseEntity<>(friendship, HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@PostMapping(value = "/rejectFriendshipRequest")
 	public ResponseEntity<?> rejectFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
 		FriendshipRequestDomain friendshipRequest;
@@ -66,7 +66,7 @@ public class FriendshipController {
 		return new ResponseEntity<>(friendshipRequest, HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@GetMapping(value = "/returnListFriends/{professionalID}")
 	public ResponseEntity<?> returnListFriends(@PathVariable String professionalID) {
 		List<ProfessionalDomain> list;
@@ -79,7 +79,7 @@ public class FriendshipController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@PostMapping(value = "/getStatusFriendship")
 	public ResponseEntity<?> getStatusFriendship(@RequestBody List<ProfessionalDomain> listOfProfessionals){
 		Integer status;
@@ -93,7 +93,7 @@ public class FriendshipController {
 		return new ResponseEntity<>(status, HttpStatus.OK);
 	}
 	
-	@CrossOrigin("*")
+	@CrossOrigin(value = "*")
 	@GetMapping("/getFriendsInCommon/{professionalID1}/{professionalID2}")
 	public ResponseEntity<?> getFriendsInCommon(@PathVariable String professionalID1, @PathVariable String professionalID2){
 		List<String> friendsInCommonList = new ArrayList<String>();
