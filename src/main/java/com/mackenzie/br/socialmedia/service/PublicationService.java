@@ -121,9 +121,11 @@ public class PublicationService {
 				publicationReaction.getPublicationID());
 			publicationRectionDAO.delete(publicationReactionToBeDeleted);
 			
+		}else {
+			throw new IllegalArgumentException("Curtida não encontrada");
 		}
 		
-		throw new IllegalArgumentException("Curtida não encontrada");
+		
 	}
 	
 	public int getNumberReactionsOfPublication(String publicationID) throws IllegalArgumentException{

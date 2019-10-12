@@ -19,7 +19,7 @@ public class SearchController {
 	@Autowired
 	SearchService searchService;
 
-	@CrossOrigin(origins = "*")
+	@CrossOrigin("*")
 	@PostMapping(value = "/search")
 	public ResponseEntity<List<ProfessionalDomain>> search(@RequestBody ProfessionalDomain professional) {
 		List<ProfessionalDomain> listProfessional = searchService.search(professional);
