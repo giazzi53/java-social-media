@@ -23,7 +23,7 @@ public class Professional_InterestTopicController {
 	@Autowired
 	private Professional_InterestTopicService professional_interestTopicService;
 	
-	@CrossOrigin(origins = "*")
+	@CrossOrigin("*")
 	@GetMapping(value = "/getProfessionalInterestTopics/{professionalID}")	
 	public ResponseEntity<?> getProfessionalInterestTopics(@PathVariable String professionalID){
 		List<InterestTopicDomain> listInterestTopics;
@@ -37,7 +37,7 @@ public class Professional_InterestTopicController {
 		return new ResponseEntity<>(listInterestTopics, HttpStatus.OK);
 	}
 	
-	@CrossOrigin(origins = "*")
+	@CrossOrigin("*")
 	@PostMapping(value = "/setProfessionalInterestTopics")
 	public ResponseEntity<?> setProfessionalInterestTopics(@RequestBody List<Professional_InterestTopicDomain> listProfessionalTopics){
 			List<Professional_InterestTopicDomain> databaseProfessionalInterestTopics = null;
