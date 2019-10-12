@@ -28,11 +28,8 @@ public class PublicationController {
 	@Autowired
 	private PublicationService publicationService;
 
-<<<<<<< HEAD
+
 	@CrossOrigin(origins = "*")
-=======
-	@CrossOrigin(value = "*")
->>>>>>> 87424efe9548780a676413fc76dc2d2aa6afb54c
 	@PostMapping(value = "/publicate")
 	public ResponseEntity<?> publicate(@RequestBody @Valid PublicationDomain publicationDomain) {
 		PublicationDomain databasePublication;
@@ -46,11 +43,8 @@ public class PublicationController {
 		return new ResponseEntity<>(databasePublication, HttpStatus.CREATED);
 	}
 	
-<<<<<<< HEAD
+
 	@CrossOrigin(origins = "*")
-=======
-	@CrossOrigin(value = "*")
->>>>>>> 87424efe9548780a676413fc76dc2d2aa6afb54c
 	@DeleteMapping(value = "/deletePublication/{publicationID}")
 	public ResponseEntity<?> deletePublication(@PathVariable String publicationID) {				
 		try{
@@ -62,11 +56,8 @@ public class PublicationController {
 		return new ResponseEntity<>(null, HttpStatus.OK);
 	}
 	
-<<<<<<< HEAD
+
 	@CrossOrigin(origins = "*")
-=======
-	@CrossOrigin(value = "*")
->>>>>>> 87424efe9548780a676413fc76dc2d2aa6afb54c
 	@GetMapping(value = "/retrievePublicationList/{professionalID}")
 	public ResponseEntity<?> retrievePublicationList(@PathVariable String professionalID) {
 		List<PublicationDomain> publicationList = null;
@@ -80,11 +71,7 @@ public class PublicationController {
 		return new ResponseEntity<>(publicationList, HttpStatus.OK);
 	}
 	
-<<<<<<< HEAD
 	@CrossOrigin(origins = "*")
-=======
-	@CrossOrigin(value = "*")
->>>>>>> 87424efe9548780a676413fc76dc2d2aa6afb54c
 	@GetMapping(value = "/retrieveFeedPublicationsList/{professionalID}")
 	public ResponseEntity<?> retrieveFeedPublicationsList(@PathVariable String professionalID) {
 		List<PublicationDomain> publicationList = null;
@@ -98,11 +85,7 @@ public class PublicationController {
 		return new ResponseEntity<>(publicationList, HttpStatus.OK);
 	}
 	
-<<<<<<< HEAD
 	@CrossOrigin(origins = "*")
-=======
-	@CrossOrigin(value = "*")
->>>>>>> 87424efe9548780a676413fc76dc2d2aa6afb54c
 	@PostMapping(value = "reactToPublication")
 	public ResponseEntity<?> reactToPublication(@RequestBody PublicationReactionDomain publicationReactionDomain) {
 		PublicationReactionDomain publicationReaction = new PublicationReactionDomain();
@@ -116,11 +99,7 @@ public class PublicationController {
 		return new ResponseEntity<>(publicationReaction, HttpStatus.OK);
 	}
 	
-<<<<<<< HEAD
 	@CrossOrigin(origins = "*")
-=======
-	@CrossOrigin(value = "*")
->>>>>>> 87424efe9548780a676413fc76dc2d2aa6afb54c
 	@PostMapping(value = "unreactToPublication")
 	public ResponseEntity<?> unreactToPublication(@RequestBody PublicationReactionDomain publicationReactionDomain) {		
 		try {
@@ -132,11 +111,7 @@ public class PublicationController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-<<<<<<< HEAD
 	@CrossOrigin(origins = "*")
-=======
-	@CrossOrigin(value = "*")
->>>>>>> 87424efe9548780a676413fc76dc2d2aa6afb54c
 	@GetMapping(value = "getNumberReactionsOfPublication/{publicationID}")
 	public ResponseEntity<?> getNumberReactionsOfPublication(@PathVariable String publicationID) {
 		int numberOfReactions = 0;
@@ -150,11 +125,7 @@ public class PublicationController {
 		return new ResponseEntity<>(numberOfReactions ,HttpStatus.OK);
 	}
 	
-<<<<<<< HEAD
 	@CrossOrigin(origins = "*")
-=======
-	@CrossOrigin(value = "*")
->>>>>>> 87424efe9548780a676413fc76dc2d2aa6afb54c
 	@GetMapping(value = "getProfessionalsWhoRecommendedPublication/{publicationID}")
 	public ResponseEntity<?> getProfessionalsWhoRecommendedPublication(@PathVariable String publicationID) {
 		List<ProfessionalDomain> listProfessionalsWhoRecommendedPublication =
@@ -169,11 +140,7 @@ public class PublicationController {
 		return new ResponseEntity<>(listProfessionalsWhoRecommendedPublication ,HttpStatus.OK);
 	}
 	
-<<<<<<< HEAD
 	@CrossOrigin(origins = "*")
-=======
-	@CrossOrigin(value = "*")
->>>>>>> 87424efe9548780a676413fc76dc2d2aa6afb54c
 	@GetMapping(value = "getStatusPublication/{professionalID}/{publicationID}")
 	public ResponseEntity<?> getStatusPublication(@PathVariable String professionalID, @PathVariable String publicationID) {
 		int status;
