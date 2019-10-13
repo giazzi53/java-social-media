@@ -20,12 +20,12 @@ public class RecommendationService {
 
 	@Autowired
 	private ProfessionalDAO professionalDAO;
-	
+
 	@Autowired
-	private	ValidationUtils validationUtils;
-	
+	private ValidationUtils validationUtils;
+
 	private static final int INACTIVE = 0;
-	
+
 	private static final int ACTIVE = 1;
 
 	public RecommendationDomain recommend(RecommendationDomain recommendation) throws IllegalArgumentException {
@@ -62,10 +62,10 @@ public class RecommendationService {
 
 		List<ProfessionalDomain> professionalsWhoRecommendedList = new ArrayList<ProfessionalDomain>();
 
-		for (RecommendationDomain recommendation : recommendationDAO.findByRecommendedID(recommendedID)) {
+		for (RecommendationDomain recommendation : recommendationDAO.findAllByRecommendedID(recommendedID)) {
 
 			professionalsWhoRecommendedList
-					.add(professionalDAO.findByProfessionalID(recommendedID));
+					.add(professionalDAO.findByProfessionalID(recommendation.getRecommenderID()));
 		}
 
 		return professionalsWhoRecommendedList;
@@ -78,11 +78,11 @@ public class RecommendationService {
 
 		validationUtils.validateProfessionalsByEqualIDs(recommenderID, recommendedID);
 
-		if(recommendationDAO.existsByRecommenderIDAndRecommendedID(recommenderID, recommendedID)){
-			
+		if (recommendationDAO.existsByRecommenderIDAndRecommendedID(recommenderID, recommendedID)) {
+
 			return ACTIVE;
 		}
-		
+
 		return INACTIVE;
 	}
 
@@ -94,12 +94,11 @@ public class RecommendationService {
 		validationUtils.validateProfessionalsByEqualIDs(recommenderID, recommendedID);
 
 		if (!recommendationDAO.existsByRecommenderIDAndRecommendedID(recommenderID, recommendedID)) {
-			
+
 			throw new IllegalArgumentException("Recommendação não encontrada");
 		}
-		
-		recommendationDAO.delete(
-				recommendationDAO.findByRecommenderIDAndRecommendedID(recommenderID, recommendedID));
+
+		recommendationDAO.delete(recommendationDAO.findByRecommenderIDAndRecommendedID(recommenderID, recommendedID));
 	}
 
 }

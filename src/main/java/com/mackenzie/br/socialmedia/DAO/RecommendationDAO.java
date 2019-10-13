@@ -14,7 +14,8 @@ public interface RecommendationDAO extends MongoRepository<RecommendationDomain,
 
 	int countByRecommendedID(String recommendedID);
 	
-	List<RecommendationDomain> findByRecommendedID(String recommendedID);
-
+	List<RecommendationDomain> findAllByRecommendedID(String recommendedID);
+	
 	RecommendationDomain findByRecommenderIDAndRecommendedID(String recommenderID, String recommendedID);
+
 }
