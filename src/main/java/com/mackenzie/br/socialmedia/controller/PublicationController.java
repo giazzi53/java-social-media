@@ -101,11 +101,11 @@ public class PublicationController {
 	}
 	
 	@CrossOrigin(origins = "*")
-	@PostMapping(value = "/unreactToPublication")
-	public ResponseEntity<?> unreactToPublication(@RequestBody PublicationReactionDomain publicationReactionDomain) {		
+	@DeleteMapping(value = "/unreactToPublication/{professionalID}/{publicationID}")
+	public ResponseEntity<?> unreactToPublication(@PathVariable String professionalID, @PathVariable String publicationID) {		
 		
 		try {
-			publicationService.unreactToPublication(publicationReactionDomain);
+			publicationService.unreactToPublication(professionalID, publicationID);
 		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
