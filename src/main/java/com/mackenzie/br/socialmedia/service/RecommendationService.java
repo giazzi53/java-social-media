@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
 import com.mackenzie.br.socialmedia.DAO.RecommendationDAO;
+import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 import com.mackenzie.br.socialmedia.domain.RecommendationDomain;
 import com.mackenzie.br.socialmedia.utils.ValidationUtils;
 
@@ -54,17 +55,17 @@ public class RecommendationService {
 		return recommendationDAO.countByRecommendedID(recommendedID);
 	}
 
-	public List<String> getProfessionalsWhoRecommended(String recommendedID)
+	public List<ProfessionalDomain> getProfessionalsWhoRecommended(String recommendedID)
 			throws IllegalArgumentException {
 
 		validationUtils.validateProfessionalByID(professionalDAO, recommendedID);
 
-		List<String> professionalsWhoRecommendedList = new ArrayList<String>();
+		List<ProfessionalDomain> professionalsWhoRecommendedList = new ArrayList<ProfessionalDomain>();
 
 		for (RecommendationDomain recommendation : recommendationDAO.findByRecommendedID(recommendedID)) {
 
 			professionalsWhoRecommendedList
-					.add(professionalDAO.findByProfessionalID(recommendedID).getProfessionalID());
+					.add(professionalDAO.findByProfessionalID(recommendedID));
 		}
 
 		return professionalsWhoRecommendedList;

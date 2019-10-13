@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 import com.mackenzie.br.socialmedia.domain.RecommendationDomain;
 import com.mackenzie.br.socialmedia.service.RecommendationService;
 
@@ -56,8 +57,7 @@ public class RecommendationController {
 	@GetMapping(value="/getProfessionalsWhoRecommended/{professionalID}")
 	public ResponseEntity<?> getProfessionalsWhoRecommended(@PathVariable String professionalID){
 		
-		List<String> professionalsWhoRecommendedList;
-		
+		List<ProfessionalDomain> professionalsWhoRecommendedList;
 		try {
 			professionalsWhoRecommendedList = recommendationService.getProfessionalsWhoRecommended(professionalID);
 		}catch(IllegalArgumentException i) {
