@@ -127,16 +127,16 @@ public class PublicationService {
 		return publicationRectionDAO.countByPublicationID(publicationID);
 	}
 
-	public List<String> getProfessionalsWhoReactedToPublication(String publicationID) throws IllegalArgumentException{
+	public List<ProfessionalDomain> getProfessionalsWhoReactedToPublication(String publicationID) throws IllegalArgumentException{
 		
 		validationUtils.validatePublicationByID(publicationDAO, publicationID);
 		
-		List<String> ProfessionalsWhoReactedToPublicationList = new ArrayList<String>();
+		List<ProfessionalDomain> ProfessionalsWhoReactedToPublicationList = new ArrayList<ProfessionalDomain>();
 		
 		for (PublicationReactionDomain publicationReaction : publicationRectionDAO.findAllByPublicationID(publicationID)) {
 			
 			ProfessionalsWhoReactedToPublicationList.add(
-					professionalDAO.findByProfessionalID(publicationReaction.getProfessionalID()).getProfessionalID());
+					professionalDAO.findByProfessionalID(publicationReaction.getProfessionalID()));
 		}
 		
 		return ProfessionalsWhoReactedToPublicationList;

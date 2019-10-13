@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,10 +21,10 @@ public class SearchController {
 	private SearchService searchService;
 
 	@CrossOrigin(origins = "*")
-	@GetMapping(value = "/search")
-	public ResponseEntity<?> search(@RequestBody ProfessionalDomain professional) {
+	@GetMapping(value = "/search/{professionalName}")
+	public ResponseEntity<?> search(@PathVariable String professionalName) {
 		
-		List<ProfessionalDomain> listProfessional = searchService.search(professional);
+		List<ProfessionalDomain> listProfessional = searchService.search(professionalName);
 		
 		return new ResponseEntity<>(listProfessional, HttpStatus.OK);
 	}
