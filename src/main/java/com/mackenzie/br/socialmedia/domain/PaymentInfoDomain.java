@@ -57,7 +57,7 @@ public class PaymentInfoDomain {
 	}
 
 	public void setCardValidationDate(String cardValidationDate) {
-		SimpleDateFormat formatter = new SimpleDateFormat("MM/yyyy");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM");
 		
 		try {
 			this.cardValidationDate = formatter.parse(cardValidationDate);
