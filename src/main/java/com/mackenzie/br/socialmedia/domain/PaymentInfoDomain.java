@@ -1,9 +1,12 @@
 package com.mackenzie.br.socialmedia.domain;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -20,6 +23,7 @@ public class PaymentInfoDomain {
 	
 	private String cardName;
 	
+	@DateTimeFormat
 	private Date cardValidationDate;
 
 	private String cardSecurityCode;
@@ -52,8 +56,14 @@ public class PaymentInfoDomain {
 		return cardValidationDate;
 	}
 
-	public void setCardValidationDate(Date cardValidationDate) {
-		this.cardValidationDate = cardValidationDate;
+	public void setCardValidationDate(String cardValidationDate) {
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/yyyy");
+		
+		try {
+			this.cardValidationDate = formatter.parse(cardValidationDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public String getCardSecurityCode() {
