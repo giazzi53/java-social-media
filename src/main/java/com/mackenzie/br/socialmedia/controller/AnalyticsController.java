@@ -14,17 +14,19 @@ import com.mackenzie.br.socialmedia.service.AnalyticsService;
 public class AnalyticsController {
 	
 	@Autowired
-	AnalyticsService analyticsService;
+	private AnalyticsService analyticsService;
 	
 	@CrossOrigin(value = "*")
 	@GetMapping(value="/getAvgNumberOfFriends")
 	public float getAvgNumberOfFriends() {
+		
 		return analyticsService.getAvgNumberOfFriends();
 	}
 	
 	@CrossOrigin(value = "*")
 	@GetMapping(value="/getTop10ProfessionalsWithMostFriends")
 	public List<Professional_FriendsDomain> getTop10ProfessionalsWithMostFriends(){
+		
 		return analyticsService.getTop10ProfessionalsWithMostFriends();
 	}
 	

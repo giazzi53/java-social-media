@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mackenzie.br.socialmedia.domain.FriendshipDomain;
 import com.mackenzie.br.socialmedia.domain.FriendshipRequestDomain;
+import com.mackenzie.br.socialmedia.domain.FriendshipSenderReceiverDomain;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 import com.mackenzie.br.socialmedia.service.FriendshipService;
 
@@ -26,13 +28,14 @@ public class FriendshipController {
 	
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/sendFriendshipRequest")
-	public ResponseEntity<?> sendFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
+	public ResponseEntity<?> sendFriendshipRequest(@RequestBody FriendshipSenderReceiverDomain senderReceiver) {
+		
 		FriendshipRequestDomain friendshipRequest;
 		
 		try {
-			friendshipRequest = friendshipService.sendFriendshipRequest(professionals);
+			friendshipRequest = friendshipService.sendFriendshipRequest(senderReceiver);
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<>(friendshipRequest, HttpStatus.OK);
@@ -40,13 +43,14 @@ public class FriendshipController {
 	
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/acceptFriendshipRequest")
-	public ResponseEntity<?> acceptFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
+	public ResponseEntity<?> acceptFriendshipRequest(@RequestBody FriendshipSenderReceiverDomain senderReceiver) {
+		
 		FriendshipDomain friendship;
 		
 		try {
-			friendship = friendshipService.acceptFriendshipRequest(professionals);
+			friendship = friendshipService.acceptFriendshipRequest(senderReceiver);
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<>(friendship, HttpStatus.OK);
@@ -54,49 +58,54 @@ public class FriendshipController {
 	
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/rejectFriendshipRequest")
-	public ResponseEntity<?> rejectFriendshipRequest(@RequestBody List<ProfessionalDomain> professionals) {
+	public ResponseEntity<?> rejectFriendshipRequest(@RequestBody FriendshipSenderReceiverDomain senderReceiver) {
+		
 		FriendshipRequestDomain friendshipRequest;
 		
 		try {
-			friendshipRequest = friendshipService.rejectFriendshipRequest(professionals);
+			friendshipRequest = friendshipService.rejectFriendshipRequest(senderReceiver);
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 
 		return new ResponseEntity<>(friendshipRequest, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*")
-	@GetMapping(value = "/returnListFriends/{professionalID}")
-	public ResponseEntity<?> returnListFriends(@PathVariable String professionalID) {
-		List<ProfessionalDomain> list;
+	@GetMapping(value = "/returnFriendsList/{professionalID}")
+	public ResponseEntity<?> returnFriendsList(@PathVariable String professionalID) {
+		
+		List<ProfessionalDomain> friendsList;
 		
 		try {
-			list = friendshipService.returnListFriends(professionalID);
+			friendsList = friendshipService.returnFriendsList(professionalID);
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(list, HttpStatus.OK);
+		
+		return new ResponseEntity<>(friendsList, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*")
-	@PostMapping(value = "/getStatusFriendship")
-	public ResponseEntity<?> getStatusFriendship(@RequestBody List<ProfessionalDomain> listOfProfessionals){
-		Integer status;
+	@GetMapping(value = "/getFriendshipStatus/{professionalID1}/{professionalID2}")
+	public ResponseEntity<?> getFriendshipStatus(@PathVariable String professionalID1, @PathVariable String professionalID2){
+		
+		int friendshipStatus;
 		
 		try {
-			status = friendshipService.getStatusFriendship(listOfProfessionals);
+			friendshipStatus = friendshipService.getFriendshipStatus(professionalID1, professionalID2);
 		}catch(IllegalArgumentException i) {
-			return new ResponseEntity<>(i.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
-		return new ResponseEntity<>(status, HttpStatus.OK);
+		return new ResponseEntity<>(friendshipStatus, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(value = "*")
 	@GetMapping("/getFriendsInCommon/{professionalID1}/{professionalID2}")
 	public ResponseEntity<?> getFriendsInCommon(@PathVariable String professionalID1, @PathVariable String professionalID2){
-		List<String> friendsInCommonList = new ArrayList<String>();
+		
+		List<ProfessionalDomain> friendsInCommonList = new ArrayList<ProfessionalDomain>();
 		
 		try {
 			friendsInCommonList = friendshipService.getFriendsInCommon(professionalID1, professionalID2);
@@ -106,5 +115,34 @@ public class FriendshipController {
 		
 		return new ResponseEntity<>(friendsInCommonList, HttpStatus.OK);
 	}
+	
+	@CrossOrigin("*")
+	@DeleteMapping("/unfriend/{professionalID1}/{professionalID2}")
+	public ResponseEntity<?> unfriend(@PathVariable String professionalID1, @PathVariable String professionalID2){
+		
+		try {
+			friendshipService.unfriend(professionalID1, professionalID2);
+		} catch(IllegalArgumentException i) {
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@CrossOrigin("*")
+	@GetMapping("/suggestedProfessionals/{professionalID}")
+	public ResponseEntity<?> suggestedProfessionals(@PathVariable String professionalID){
+		
+		List<ProfessionalDomain> listOfSuggestions = new ArrayList<ProfessionalDomain>();
+		
+		try {
+			listOfSuggestions = friendshipService.suggestedProfessionals(professionalID);
+		} catch(IllegalArgumentException i) {
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(listOfSuggestions, HttpStatus.OK);
+	}
+	
 
 }

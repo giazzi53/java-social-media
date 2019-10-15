@@ -4,7 +4,7 @@ public class Professional_FriendsDomain {
 	
 	private ProfessionalDomain professional;
 	
-	private Long numberOfFriends;
+	private Integer numberOfFriends;
 
 	public ProfessionalDomain getProfessional() {
 		return professional;
@@ -14,11 +14,11 @@ public class Professional_FriendsDomain {
 		this.professional = professional;
 	}
 
-	public Long getNumberOfFriends() {
+	public Integer getNumberOfFriends() {
 		return numberOfFriends;
 	}
 
-	public void setNumberOfFriends(Long numberOfFriends) {
+	public void setNumberOfFriends(Integer numberOfFriends) {
 		this.numberOfFriends = numberOfFriends;
 	} 
 }

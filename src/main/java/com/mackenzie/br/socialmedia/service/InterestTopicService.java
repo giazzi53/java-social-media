@@ -12,9 +12,10 @@ import com.mackenzie.br.socialmedia.domain.InterestTopicDomain;
 public class InterestTopicService {
 	
 	@Autowired
-	InterestTopicDAO interestTopicDAO;
+	private InterestTopicDAO interestTopicDAO;
 	
 	public List<InterestTopicDomain> getInterestTopics() {
+		
 		return interestTopicDAO.findAll();
 	}
 

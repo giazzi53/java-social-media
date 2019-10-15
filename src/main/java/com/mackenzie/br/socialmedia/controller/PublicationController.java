@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
@@ -32,6 +31,7 @@ public class PublicationController {
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/publicate")
 	public ResponseEntity<?> publicate(@RequestBody @Valid PublicationDomain publicationDomain) {
+		
 		PublicationDomain databasePublication;
 				
 		try{
@@ -47,6 +47,7 @@ public class PublicationController {
 	@CrossOrigin(origins = "*")
 	@DeleteMapping(value = "/deletePublication/{publicationID}")
 	public ResponseEntity<?> deletePublication(@PathVariable String publicationID) {				
+		
 		try{
 			publicationService.deletePublication(publicationID);
 		} catch(IllegalArgumentException i) {
@@ -58,102 +59,106 @@ public class PublicationController {
 	
 
 	@CrossOrigin(origins = "*")
-	@GetMapping(value = "/retrievePublicationList/{professionalID}")
-	public ResponseEntity<?> retrievePublicationList(@PathVariable String professionalID) {
-		List<PublicationDomain> publicationList = null;
+	@GetMapping(value = "/retrievePublicationsList/{professionalID}")
+	public ResponseEntity<?> retrievePublicationsList(@PathVariable String professionalID) {
+		
+		List<PublicationDomain> publicationsList;
 		
 		try {
-			publicationList = publicationService.retrievePublicationList(professionalID);
+			publicationsList = publicationService.retrievePublicationsList(professionalID);
 		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
-		return new ResponseEntity<>(publicationList, HttpStatus.OK);
+		return new ResponseEntity<>(publicationsList, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/retrieveFeedPublicationsList/{professionalID}")
 	public ResponseEntity<?> retrieveFeedPublicationsList(@PathVariable String professionalID) {
-		List<PublicationDomain> publicationList = null;
+		
+		List<PublicationDomain> publicationsList;
 		
 		try {
-			publicationList = publicationService.retrieveFeedPublicationsList(professionalID);
+			publicationsList = publicationService.retrieveFeedPublicationsList(professionalID);
 		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
-		return new ResponseEntity<>(publicationList, HttpStatus.OK);
+		return new ResponseEntity<>(publicationsList, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*")
-	@PostMapping(value = "reactToPublication")
+	@PostMapping(value = "/reactToPublication")
 	public ResponseEntity<?> reactToPublication(@RequestBody PublicationReactionDomain publicationReactionDomain) {
+		
 		PublicationReactionDomain publicationReaction = new PublicationReactionDomain();
 		
 		try {
 			publicationReaction = publicationService.reactToPublication(publicationReactionDomain);
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<>(publicationReaction, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*")
-	@PostMapping(value = "unreactToPublication")
-	public ResponseEntity<?> unreactToPublication(@RequestBody PublicationReactionDomain publicationReactionDomain) {		
+	@DeleteMapping(value = "/unreactToPublication/{professionalID}/{publicationID}")
+	public ResponseEntity<?> unreactToPublication(@PathVariable String professionalID, @PathVariable String publicationID) {		
+		
 		try {
-			publicationService.unreactToPublication(publicationReactionDomain);
+			publicationService.unreactToPublication(professionalID, publicationID);
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*")
-	@GetMapping(value = "getNumberReactionsOfPublication/{publicationID}")
-	public ResponseEntity<?> getNumberReactionsOfPublication(@PathVariable String publicationID) {
+	@GetMapping(value = "/getNumberOfPublicationReactions/{publicationID}")
+	public ResponseEntity<?> getNumberOfPublicationReactions(@PathVariable String publicationID) {
+		
 		int numberOfReactions = 0;
 		
 		try {
-			numberOfReactions = publicationService.getNumberReactionsOfPublication(publicationID);
+			numberOfReactions = publicationService.getNumberOfPublicationReactions(publicationID);
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
-		return new ResponseEntity<>(numberOfReactions ,HttpStatus.OK);
+		return new ResponseEntity<>(numberOfReactions, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*")
-	@GetMapping(value = "getProfessionalsWhoRecommendedPublication/{publicationID}")
-	public ResponseEntity<?> getProfessionalsWhoRecommendedPublication(@PathVariable String publicationID) {
-		List<ProfessionalDomain> listProfessionalsWhoRecommendedPublication =
-				new ArrayList<ProfessionalDomain>();
+	@GetMapping(value = "/getProfessionalsWhoReactedToPublication/{publicationID}")
+	public ResponseEntity<?> getProfessionalsWhoReactedToPublication(@PathVariable String publicationID) {
+		
+		List<ProfessionalDomain> ProfessionalsWhoReactedToPublicationList = new ArrayList<ProfessionalDomain>();
 		
 		try {
-			listProfessionalsWhoRecommendedPublication = publicationService.getProfessionalsWhoRecommendedPublication(publicationID);
+			ProfessionalsWhoReactedToPublicationList = publicationService.getProfessionalsWhoReactedToPublication(publicationID);
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
-		return new ResponseEntity<>(listProfessionalsWhoRecommendedPublication ,HttpStatus.OK);
+		return new ResponseEntity<>(ProfessionalsWhoReactedToPublicationList, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*")
-	@GetMapping(value = "getStatusPublication/{professionalID}/{publicationID}")
-	public ResponseEntity<?> getStatusPublication(@PathVariable String professionalID, @PathVariable String publicationID) {
+	@GetMapping(value = "/getPublicationStatus/{professionalID}/{publicationID}")
+	public ResponseEntity<?> getPublicationStatus(@PathVariable String professionalID, @PathVariable String publicationID) {
+		
 		int status;
 		
 		try {
-			status = publicationService.getStatusPublication(professionalID, publicationID);
+			status = publicationService.getPublicationStatus(professionalID, publicationID);
 		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		
-		return new ResponseEntity<>(status ,HttpStatus.OK);
+		return new ResponseEntity<>(status, HttpStatus.OK);
 	}
-	
-	
 	
 }

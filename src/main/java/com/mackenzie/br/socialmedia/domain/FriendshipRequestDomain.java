@@ -9,36 +9,32 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class FriendshipRequestDomain {
 	
 	@Id
-	private String friendshipRequestId;
+	private String friendshipRequestID;
 	
 	@NotNull
-	private String 	professionalID1;
+	private String requestSenderID;
 	
 	@NotNull
-	private String professionalID2;
+	private String requestReceiverID;
 
-	public String getProfessionalID1() {
-		return professionalID1;
+	public String getFriendshipRequestID() {
+		return friendshipRequestID;
 	}
 
-	public void setProfessionalID1(String professionalID1) {
-		this.professionalID1 = professionalID1;
+	public String getRequestSenderID() {
+		return requestSenderID;
 	}
 
-	public String getProfessionalID2() {
-		return professionalID2;
+	public void setRequestSenderID(String requestSenderID) {
+		this.requestSenderID = requestSenderID;
 	}
 
-	public void setProfessionalID2(String professionalID2) {
-		this.professionalID2 = professionalID2;
-	}
-	
-	public String getFriendshipRequestId() {
-		return friendshipRequestId;
+	public String getRequestReceiverID() {
+		return requestReceiverID;
 	}
 
-	public void setFriendshipRequestId(String friendshipRequestId) {
-		this.friendshipRequestId = friendshipRequestId;
+	public void setRequestReceiverID(String requestReceiverID) {
+		this.requestReceiverID = requestReceiverID;
 	}
 
 }

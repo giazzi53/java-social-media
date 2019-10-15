@@ -10,11 +10,12 @@ import com.mackenzie.br.socialmedia.domain.RecommendationDomain;
 @Repository
 public interface RecommendationDAO extends MongoRepository<RecommendationDomain, String>{
 	
-	boolean existsByProfessionalID1AndProfessionalID2(String professionalID1, String professionalID2);
+	boolean existsByRecommenderIDAndRecommendedID(String recommenderID, String recommendedID);
 
-	Integer countByProfessionalID2(String professionalID2);
+	int countByRecommendedID(String recommendedID);
 	
-	List<RecommendationDomain> findByProfessionalID2(String professionalID2);
+	List<RecommendationDomain> findAllByRecommendedID(String recommendedID);
+	
+	RecommendationDomain findByRecommenderIDAndRecommendedID(String recommenderID, String recommendedID);
 
-	RecommendationDomain findByProfessionalID1AndProfessionalID2(String professionalID1, String professionalID2);
 }

@@ -11,6 +11,7 @@ import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
 import com.mackenzie.br.socialmedia.DAO.Professional_InterestTopicDAO;
 import com.mackenzie.br.socialmedia.domain.InterestTopicDomain;
 import com.mackenzie.br.socialmedia.domain.Professional_InterestTopicDomain;
+import com.mackenzie.br.socialmedia.utils.ValidationUtils;
 
 @Service
 public class Professional_InterestTopicService {
@@ -23,48 +24,49 @@ public class Professional_InterestTopicService {
 	
 	@Autowired
 	private ProfessionalDAO professionalDAO;
+	
+	@Autowired
+	private	ValidationUtils validationUtils;	
 
 	public List<InterestTopicDomain> getProfessionalInterestTopics(String professionalID) {
 		
-		boolean existProfessional = professionalDAO.existsByProfessionalID(professionalID);
-		
-		if(!existProfessional) {
-			throw new IllegalArgumentException("Usuário não encontrado");
-		}
+		validationUtils.validateProfessionalByID(professionalDAO, professionalID);
 		
 		List<Professional_InterestTopicDomain> listProfessionalInterestTopics = professional_InterestTopicDAO.findByProfessionalID(professionalID);
-		List<InterestTopicDomain> listInterestTopics = new ArrayList<InterestTopicDomain>();
+		List<InterestTopicDomain> interestTopicsList = new ArrayList<InterestTopicDomain>();
 		
 		for (Professional_InterestTopicDomain professionalInterestTopic : listProfessionalInterestTopics) {
-			listInterestTopics.add(interestTopicDAO.findByInterestTopicID(professionalInterestTopic.getInterestTopicID()));
+			
+			interestTopicsList.add(interestTopicDAO.findByInterestTopicID(professionalInterestTopic.getInterestTopicID()));
 		}
 		
-		return listInterestTopics;
+		return interestTopicsList;
 	}
 	
-	public List<Professional_InterestTopicDomain> setProfessionalInterestTopics(List<Professional_InterestTopicDomain> listProfessionalInterestTopics) {
+	public List<Professional_InterestTopicDomain> setProfessionalInterestTopics(List<Professional_InterestTopicDomain> professionalInterestTopicsList) {
 		
-		for (Professional_InterestTopicDomain professionalInterestTopic : listProfessionalInterestTopics) {
-			boolean existProfessional = professionalDAO.existsByProfessionalID(professionalInterestTopic.getProfessionalID());
-			boolean existInterestTopic = interestTopicDAO.existsByInterestTopicID(professionalInterestTopic.getInterestTopicID());
+		for (Professional_InterestTopicDomain professionalInterestTopic : professionalInterestTopicsList) {
 			
-			if(!existProfessional) {
-				throw new IllegalArgumentException("Usuário não encontrado");
-			}
-			if(!existInterestTopic) {
+			boolean existsInterestTopic = interestTopicDAO.existsByInterestTopicID(professionalInterestTopic.getInterestTopicID());
+			
+			validationUtils.validateProfessionalByID(professionalDAO, professionalInterestTopic.getProfessionalID());
+
+			if(!existsInterestTopic) {
+			
 				throw new IllegalArgumentException("Tópico de interesse não encontrado");
 			}
 		}
 		
-		String professionalID = listProfessionalInterestTopics.get(0).getProfessionalID();
+		String professionalID = professionalInterestTopicsList.get(0).getProfessionalID();
 		
 		professional_InterestTopicDAO.deleteByProfessionalID(professionalID);
 		
-		for (Professional_InterestTopicDomain professionalInterestTopic : listProfessionalInterestTopics) {
+		for (Professional_InterestTopicDomain professionalInterestTopic : professionalInterestTopicsList) {
+			
 			professional_InterestTopicDAO.insert(professionalInterestTopic);
 		}
 		
-		return listProfessionalInterestTopics;
+		return professionalInterestTopicsList;
 	}
 	
 }

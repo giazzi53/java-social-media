@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mackenzie.br.socialmedia.DAO.Professional_InterestTopicDAO;
 import com.mackenzie.br.socialmedia.domain.InterestTopicDomain;
 import com.mackenzie.br.socialmedia.domain.Professional_InterestTopicDomain;
 import com.mackenzie.br.socialmedia.service.Professional_InterestTopicService;
@@ -26,6 +25,7 @@ public class Professional_InterestTopicController {
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/getProfessionalInterestTopics/{professionalID}")	
 	public ResponseEntity<?> getProfessionalInterestTopics(@PathVariable String professionalID){
+		
 		List<InterestTopicDomain> listInterestTopics;
 		
 		try {
@@ -40,7 +40,8 @@ public class Professional_InterestTopicController {
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/setProfessionalInterestTopics")
 	public ResponseEntity<?> setProfessionalInterestTopics(@RequestBody List<Professional_InterestTopicDomain> listProfessionalTopics){
-			List<Professional_InterestTopicDomain> databaseProfessionalInterestTopics = null;
+		
+		List<Professional_InterestTopicDomain> databaseProfessionalInterestTopics;
 		
 		try {
 			databaseProfessionalInterestTopics = professional_interestTopicService.setProfessionalInterestTopics(listProfessionalTopics);

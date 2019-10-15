@@ -7,6 +7,7 @@ import com.mackenzie.br.socialmedia.DAO.PaymentInfoDAO;
 import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
 import com.mackenzie.br.socialmedia.domain.PaymentInfoDomain;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
+import com.mackenzie.br.socialmedia.utils.ValidationUtils;
 
 @Service
 public class AccessService {
@@ -16,25 +17,32 @@ public class AccessService {
 	
 	@Autowired 
 	private PaymentInfoDAO paymentInfoDAO;
+	
+	@Autowired
+	private ValidationUtils validationUtils;
 
 	public ProfessionalDomain signUp(ProfessionalDomain professional) throws IllegalArgumentException{
+		
 		if (validateUser(professional.getUserLogin())) {
+			
 			throw new IllegalArgumentException("Usuário já em uso");
 		}
+		
 		ProfessionalDomain databaseProfessional = professionalDAO.insert(professional);	
 		PaymentInfoDomain paymentInfo = professional.getPaymentInfo();
-		paymentInfo.setProfessionalID(databaseProfessional.getProfessionalID());
-		paymentInfoDAO.insert(paymentInfo);	
+		
+		if(paymentInfo != null) {
+			
+			paymentInfo.setProfessionalID(databaseProfessional.getProfessionalID());
+			paymentInfoDAO.insert(paymentInfo);	
+		}
 		
 		return databaseProfessional;
 	}
 
 	public ProfessionalDomain login(ProfessionalDomain professional) throws IllegalAccessException {
-		boolean existsProfessional = professionalDAO.existsByUserLoginAndPassword(professional.getUserLogin(), professional.getPassword());
-
-		if(!existsProfessional) { 
-			throw new IllegalAccessException("Usuário ou senha incorretos");
-		}
+		
+		validationUtils.validateProfessionalByUserLoginAndPassword(professionalDAO, professional.getUserLogin(), professional.getPassword());
 		
 		ProfessionalDomain databaseProfessional = professionalDAO.findByUserLoginAndPassword(professional.getUserLogin(), professional.getPassword());
 		
@@ -42,44 +50,60 @@ public class AccessService {
 	}
 
 	public ProfessionalDomain updateProfile(ProfessionalDomain professional) throws IllegalArgumentException{
-		boolean existsProfessional = professionalDAO.existsByProfessionalID(professional.getProfessionalID());
-
-		if(!existsProfessional) {
-			throw new IllegalArgumentException("Usuário não encontrado");
-		}
+		
+		validationUtils.validateProfessionalByID(professionalDAO, professional.getProfessionalID());
 		
 		ProfessionalDomain databaseProfessional = professionalDAO.findByProfessionalID(professional.getProfessionalID());
 		
 		if (professional.getName() != null){
+			
 			databaseProfessional.setName(professional.getName());
 		}
+		
 		if (professional.getBirthDate() != null){
+		
 			databaseProfessional.setBirthDate(professional.getBirthDate());
 		}
+		
 		if (professional.getCareerDate() != null){
+		
 			databaseProfessional.setCareerDate(professional.getCareerDate());
 		}
+		
 		if (professional.getCity() != null){
+		
 			databaseProfessional.setCity(professional.getCity());
 		}
+		
 		if (professional.getInstructionLevel() != null){
+		
 			databaseProfessional.setInstructionLevel(professional.getInstructionLevel());
 		}
+		
 		if (professional.getJobRole() != null) {
+		
 			if (professional.getJobRole().getCompanyName() != null){
+			
 				databaseProfessional.getJobRole().setCompanyName(professional.getJobRole().getCompanyName());
 			}
+			
 			if (professional.getJobRole().getSalary() != 0){
+			
 				databaseProfessional.getJobRole().setSalary(professional.getJobRole().getSalary());
 			}
 		}
+		
 		if (professional.getPassword() != null){
 			databaseProfessional.setPassword(professional.getPassword());
 		}
+		
 		if (professional.getState() != null){
+		
 			databaseProfessional.setState(professional.getState());
 		}
+		
 		if (professional.getUserLogin() != null){
+			
 			databaseProfessional.setUserLogin(professional.getUserLogin());
 		}
 		
@@ -90,21 +114,21 @@ public class AccessService {
 
 	public ProfessionalDomain retrieveProfessionalData(String professionalID) throws IllegalArgumentException{
 		
-		boolean existsProfessional = professionalDAO.existsByProfessionalID(professionalID);
-
-		if(!existsProfessional) { 
-			throw new IllegalArgumentException("Usuário não encontrado");
-		}
+		validationUtils.validateProfessionalByID(professionalDAO, professionalID);
 		
 		return professionalDAO.findByProfessionalID(professionalID);
 	}
 
 	public boolean validateUser(String userLogin) {
-		for (ProfessionalDomain professional : professionalDAO.findAll()){
+		
+		for(ProfessionalDomain professional : professionalDAO.findAll()){
+			
 			if (professional.getUserLogin().equalsIgnoreCase(userLogin)) {
+			
 				return true;
 			}
 		}
+		
 		return false;
 	}
 	

@@ -14,8 +14,9 @@ public class SearchService {
 	@Autowired
 	private ProfessionalDAO professionalDAO;
 	
-	public List<ProfessionalDomain> search(ProfessionalDomain professional){
-		return professionalDAO.findByNameLike(professional.getName().substring(0,1).toUpperCase());
+	public List<ProfessionalDomain> search(String professionalName){
+		
+		return professionalDAO.findByNameLike(professionalName.substring(0,1).toUpperCase());
 	}
 	
 }

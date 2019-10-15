@@ -1,7 +1,6 @@
 package com.mackenzie.br.socialmedia.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -15,183 +14,148 @@ import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
 import com.mackenzie.br.socialmedia.domain.PublicationDomain;
 import com.mackenzie.br.socialmedia.domain.PublicationReactionDomain;
 import com.mackenzie.br.socialmedia.map.PublicationMapper;
+import com.mackenzie.br.socialmedia.utils.ValidationUtils;
 
 @Service
 public class PublicationService {
-	
+
 	@Autowired
 	private PublicationDAO publicationDAO;
-	
+
 	@Autowired
 	private ProfessionalDAO professionalDAO;
-	
+
 	@Autowired
 	private PublicationMapper publicationMapper;
-	
+
 	@Autowired
 	private FriendshipService friendshipService;
-	
+
 	@Autowired
 	private PublicationReactionDAO publicationRectionDAO;
-	
-	public PublicationService() {
 
-	}
+	@Autowired
+	private ValidationUtils validationUtils;
 
-	public PublicationDomain publicate(PublicationDomain publicationDomain) throws IllegalArgumentException{
-		boolean existsProfessional = professionalDAO.existsByProfessionalID(publicationDomain.getProfessionalID());
-		
-		if(!existsProfessional) {
-			throw new IllegalArgumentException("Usuário não encontrado");
-		}
-		
+	private final static int NOT_LIKED = 0;
+
+	private final static int LIKED = 1;
+
+	public PublicationDomain publicate(PublicationDomain publicationDomain) throws IllegalArgumentException {
+
+		validationUtils.validateProfessionalByID(professionalDAO, publicationDomain.getProfessionalID());
+
 		publicationDomain.setPublicationDate(new Date());
+
 		PublicationDomain databasePublication = publicationDAO.insert(publicationDomain);
+
 		return databasePublication;
 	}
 
 	public void deletePublication(String publicationID) {
-		boolean existsPublication = publicationDAO.existsByPublicationID(publicationID);
-		
-		if(!existsPublication) {
-			throw new IllegalArgumentException("Publicação não encontrada");
-		}
-		
+
+		validationUtils.validatePublicationByID(publicationDAO, publicationID);
+
 		publicationDAO.deleteById(publicationID);
 	}
-	
-	public List<PublicationDomain> retrievePublicationList(String professionalID) throws IllegalArgumentException{
-		boolean existsProfessional = professionalDAO.existsByProfessionalID(professionalID);
 
-		if(!existsProfessional){
-			throw new IllegalArgumentException("Usário não encontrado");
-		}
-		
+	public List<PublicationDomain> retrievePublicationsList(String professionalID) throws IllegalArgumentException {
+
+		validationUtils.validateProfessionalByID(professionalDAO, professionalID);
+
 		List<PublicationDomain> publicationList = publicationDAO.findAllByProfessionalID(professionalID);
+
 		publicationMapper.mapPublicationListToDescendingOrder(publicationList);
-		
+
 		return publicationList;
 	}
-	
-	public List<PublicationDomain> retrieveFeedPublicationsList(String professionalID){
-		
-		List<ProfessionalDomain> listFriends = friendshipService.returnListFriends(professionalID);
-		List<PublicationDomain> listPublications = new ArrayList<PublicationDomain>();
-		for (ProfessionalDomain friend : listFriends) {
-			listPublications.addAll(retrievePublicationList(friend.getProfessionalID()));
+
+	public List<PublicationDomain> retrieveFeedPublicationsList(String professionalID) {
+
+		List<ProfessionalDomain> freindsList = friendshipService.returnFriendsList(professionalID);
+		List<PublicationDomain> publicationsList = new ArrayList<PublicationDomain>();
+
+		for (ProfessionalDomain friend : freindsList) {
+
+			publicationsList.addAll(retrievePublicationsList(friend.getProfessionalID()));
 		}
-		return publicationMapper.mapPublicationListToDescendingOrder(listPublications);
-		
+
+		return publicationMapper.mapPublicationListToDescendingOrder(publicationsList);
 	}
-	
-	public PublicationReactionDomain reactToPublication(PublicationReactionDomain publicationReactionDomain) throws IllegalArgumentException{
-		
-		if (!professionalDAO.existsByProfessionalID(publicationReactionDomain.getProfessionalID())){
-			throw new IllegalArgumentException("Usuário inexistente");
-		}
-		
-		if(!publicationDAO.existsByPublicationID(publicationReactionDomain.getPublicationID())) {
-			throw new IllegalArgumentException("Publicação inexistente");
-		}
-		
-		if(publicationRectionDAO.existsByProfessionalIDAndPublicationID(publicationReactionDomain.getProfessionalID(),
+
+	public PublicationReactionDomain reactToPublication(PublicationReactionDomain publicationReactionDomain)
+			throws IllegalArgumentException {
+
+		validationUtils.validateProfessionalByID(professionalDAO, publicationReactionDomain.getProfessionalID());
+
+		validationUtils.validatePublicationByID(publicationDAO, publicationReactionDomain.getPublicationID());
+
+		if (publicationRectionDAO.existsByProfessionalIDAndPublicationID(publicationReactionDomain.getProfessionalID(),
 				publicationReactionDomain.getPublicationID())) {
+
 			throw new IllegalArgumentException("Publicação já curtida!");
 		}
-		
+
 		publicationRectionDAO.insert(publicationReactionDomain);
-		
+
 		return publicationReactionDomain;
 	}
-	
-	public void unreactToPublication(PublicationReactionDomain publicationReaction) throws IllegalArgumentException{
-		if (!professionalDAO.existsByProfessionalID(publicationReaction.getProfessionalID())){
-			throw new IllegalArgumentException("Usuário inexistente");
-		}
-		
-		if(!publicationDAO.existsByPublicationID(publicationReaction.getPublicationID())) {
-			throw new IllegalArgumentException("Publicação inexistente");
-		}
-		
-		if(publicationRectionDAO.existsByProfessionalIDAndPublicationID(publicationReaction.getProfessionalID(),
-				publicationReaction.getPublicationID())) {
-			
-			PublicationReactionDomain publicationReactionToBeDeleted = new PublicationReactionDomain();
-			publicationReactionToBeDeleted = publicationRectionDAO.findByProfessionalIDAndPublicationID(publicationReaction.getProfessionalID(),
-				publicationReaction.getPublicationID());
-			publicationRectionDAO.delete(publicationReactionToBeDeleted);
-			
-		}else {
+
+	public void unreactToPublication(String professionalID, String publicationID) throws IllegalArgumentException {
+
+		validationUtils.validateProfessionalByID(professionalDAO, professionalID);
+
+		validationUtils.validatePublicationByID(publicationDAO, publicationID);
+
+		if (!publicationRectionDAO.existsByProfessionalIDAndPublicationID(professionalID, publicationID)) {
+
 			throw new IllegalArgumentException("Curtida não encontrada");
 		}
-		
-		
+
+		PublicationReactionDomain publicationReactionToBeDeleted = new PublicationReactionDomain();
+
+		publicationReactionToBeDeleted = publicationRectionDAO.findByProfessionalIDAndPublicationID(
+				professionalID, publicationID);
+
+		publicationRectionDAO.delete(publicationReactionToBeDeleted);
 	}
-	
-	public int getNumberReactionsOfPublication(String publicationID) throws IllegalArgumentException{
-		if(!publicationDAO.existsByPublicationID(publicationID)) {
-			throw new IllegalArgumentException("Publicação inexistente");
-		}
-		
+
+	public int getNumberOfPublicationReactions(String publicationID) throws IllegalArgumentException {
+
+		validationUtils.validatePublicationByID(publicationDAO, publicationID);
+
 		return publicationRectionDAO.countByPublicationID(publicationID);
 	}
 
-	public List<ProfessionalDomain> getProfessionalsWhoRecommendedPublication(String publicationID) throws IllegalArgumentException{
-		int numberOfPublications;
-		
-		try {
-			numberOfPublications = getNumberReactionsOfPublication(publicationID);
-		}catch(IllegalArgumentException e) {
-			throw new IllegalArgumentException("Publicacao inexistente");
+	public List<ProfessionalDomain> getProfessionalsWhoReactedToPublication(String publicationID)
+			throws IllegalArgumentException {
+
+		validationUtils.validatePublicationByID(publicationDAO, publicationID);
+
+		List<ProfessionalDomain> ProfessionalsWhoReactedToPublicationList = new ArrayList<ProfessionalDomain>();
+
+		for (PublicationReactionDomain publicationReaction : publicationRectionDAO
+				.findAllByPublicationID(publicationID)) {
+
+			ProfessionalsWhoReactedToPublicationList
+					.add(professionalDAO.findByProfessionalID(publicationReaction.getProfessionalID()));
 		}
-		
-		List<ProfessionalDomain> listProfessionalsWhoRecommendedPublication = new ArrayList<ProfessionalDomain>();
-		
-		for (PublicationReactionDomain publicationReaction : publicationRectionDAO.findAllByPublicationID(publicationID)) {
-			listProfessionalsWhoRecommendedPublication.add(
-					professionalDAO.findByProfessionalID(publicationReaction.getProfessionalID()));
-		}
-		
-		return listProfessionalsWhoRecommendedPublication;
+
+		return ProfessionalsWhoReactedToPublicationList;
 	}
 
-	public int getStatusPublication(String professionalID, String publicationID) {
-		
-		if (!professionalDAO.existsByProfessionalID(professionalID)){
-			throw new IllegalArgumentException("Usuário inexistente");
-		}
-		
-		if(!publicationDAO.existsByPublicationID(publicationID)) {
-			throw new IllegalArgumentException("Publicação inexistente");
-		}
-		
+	public int getPublicationStatus(String professionalID, String publicationID) {
+
+		validationUtils.validatePublicationByID(publicationDAO, publicationID);
+
+		validationUtils.validateProfessionalByID(professionalDAO, professionalID);
+
 		if (publicationRectionDAO.existsByProfessionalIDAndPublicationID(professionalID, publicationID)) {
-			return 1;
+
+			return LIKED;
 		}
-		
-		return 0;
+
+		return NOT_LIKED;
 	}
-
-	
-//	public boolean validateProfessionalID(String id) {
-//	
-//		List<ProfessionalDomain> listProfessionals = professionalDAO.findAll();
-//		
-//		for (ProfessionalDomain professional : listProfessionals) {
-//			if (professional.getProfessionalID().equalsIgnoreCase(id)) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-
-//	public boolean validateUser(String userLogin) {
-//		for (ProfessionalDomain professional : professionalDAO.findAll()){
-//			if (professional.getUserLogin().equalsIgnoreCase(userLogin)) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
 
 }

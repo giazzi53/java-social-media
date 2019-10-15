@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
@@ -17,12 +17,14 @@ import com.mackenzie.br.socialmedia.service.SearchService;
 public class SearchController {
 	
 	@Autowired
-	SearchService searchService;
+	private SearchService searchService;
 
-	@CrossOrigin(value = "*")
-	@PostMapping(value = "/search")
-	public ResponseEntity<List<ProfessionalDomain>> search(@RequestBody ProfessionalDomain professional) {
-		List<ProfessionalDomain> listProfessional = searchService.search(professional);
+	@CrossOrigin(origins = "*")
+	@GetMapping(value = "/search/{professionalName}")
+	public ResponseEntity<?> search(@PathVariable String professionalName) {
+		
+		List<ProfessionalDomain> listProfessional = searchService.search(professionalName);
+		
 		return new ResponseEntity<>(listProfessional, HttpStatus.OK);
 	}
 	

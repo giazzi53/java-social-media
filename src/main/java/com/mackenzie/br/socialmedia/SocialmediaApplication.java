@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
+import com.mackenzie.br.socialmedia.utils.ValidationUtils;
 
 @SpringBootApplication
 public class SocialmediaApplication {
@@ -13,9 +13,8 @@ public class SocialmediaApplication {
 		SpringApplication.run(SocialmediaApplication.class, args);
 	}
 	
-//	@Bean
-//	public ProfessionalDomain professionalDomain() {
-//		return new ProfessionalDomain();
-//	}
-
+	@Bean
+	public ValidationUtils validationUtils() {
+		return new ValidationUtils();
+	}
 }

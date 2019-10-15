@@ -1,6 +1,5 @@
 package com.mackenzie.br.socialmedia.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +21,16 @@ import com.mackenzie.br.socialmedia.service.RecommendationService;
 public class RecommendationController {
 	
 	@Autowired
-	RecommendationService recommendationService;
+	private RecommendationService recommendationService;
 	
-	@CrossOrigin(value = "*")
+	@CrossOrigin("*")
 	@PostMapping(value="/recommend")
 	public ResponseEntity<?> recommend(@RequestBody RecommendationDomain recommendation){
+		
 		RecommendationDomain recommendationDomain;
 		
 		try {
 			recommendationDomain = recommendationService.recommend(recommendation);
-			
 		}catch(IllegalArgumentException i){
 			return new ResponseEntity<>(i.getMessage(),HttpStatus.BAD_REQUEST);
 		}
@@ -39,10 +38,11 @@ public class RecommendationController {
 		return new ResponseEntity<>(recommendationDomain, HttpStatus.OK);
 	}
 	
-	@CrossOrigin(value = "*")
-	@PostMapping(value="/getNumberOfRecommendations/{professionalID}")
+	@CrossOrigin("*")
+	@GetMapping(value="/getNumberOfRecommendations/{professionalID}")
 	public ResponseEntity<?> getNumberOfRecommendations(@PathVariable String professionalID){
-		Integer numberOfRecommendations = 0;
+		
+		int numberOfRecommendations;
 		
 		try {
 			numberOfRecommendations = recommendationService.getNumberOfRecommendations(professionalID);
@@ -53,46 +53,46 @@ public class RecommendationController {
 		return new ResponseEntity<>(numberOfRecommendations, HttpStatus.OK);
 	}
 	
-	@CrossOrigin(value = "*")
+	@CrossOrigin("*")
 	@GetMapping(value="/getProfessionalsWhoRecommended/{professionalID}")
 	public ResponseEntity<?> getProfessionalsWhoRecommended(@PathVariable String professionalID){
-		List<ProfessionalDomain> listProfessionalsWhoRecommended = new ArrayList<ProfessionalDomain>();
 		
+		List<ProfessionalDomain> professionalsWhoRecommendedList;
 		try {
-			listProfessionalsWhoRecommended = recommendationService.getProfessionalsWhoRecommended(professionalID);
+			professionalsWhoRecommendedList = recommendationService.getProfessionalsWhoRecommended(professionalID);
 		}catch(IllegalArgumentException i) {
 			return new ResponseEntity<>(i.getMessage(),HttpStatus.BAD_REQUEST);
 		}
 		
-		return new ResponseEntity<>(listProfessionalsWhoRecommended, HttpStatus.OK);
+		return new ResponseEntity<>(professionalsWhoRecommendedList, HttpStatus.OK);
 	}
 	
-	@CrossOrigin(value = "*")
-	@PostMapping(value="/getStatusRecommendation")
-	public ResponseEntity<?> getStatusRecommendation(@RequestBody List<ProfessionalDomain> listProfessionals){
+	@CrossOrigin("*")
+	@GetMapping(value="/getRecommendationStatus/{recommenderID}/{recommendedID}")
+	public ResponseEntity<?> getRecommendationStatus(@PathVariable String recommenderID, @PathVariable String recommendedID){
 		
-		int status = 0;
+		int recommendationStatus;
 		
 		try {
-			status = recommendationService.getStatusRecommendation(listProfessionals);
+			recommendationStatus = recommendationService.getRecommendationStatus(recommenderID, recommendedID);
 		}catch(IllegalArgumentException i) {
 			return new ResponseEntity<>(i.getMessage(),HttpStatus.BAD_REQUEST);
 		}
 		
-		return new ResponseEntity<>(status, HttpStatus.OK);
+		return new ResponseEntity<>(recommendationStatus, HttpStatus.OK);
 	}
 	
-	@CrossOrigin(value = "*")
-	@PostMapping(value="/deleteRecommendation")
-	public ResponseEntity<?> deleteRecommendation(@RequestBody List<ProfessionalDomain> listProfessionals){
+	@CrossOrigin("*")
+	@DeleteMapping(value="/deleteRecommendation/{recommenderID}/{recommendedID}")
+	public ResponseEntity<?> deleteRecommendation(@PathVariable String recommenderID, @PathVariable String recommendedID){
+		
 		try {
-			recommendationService.deleteRecommendation(listProfessionals);
+			recommendationService.deleteRecommendation(recommenderID, recommendedID);
 		}catch(IllegalArgumentException i){
 			return new ResponseEntity<>(i.getMessage(),HttpStatus.BAD_REQUEST);
 		}
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-
 	
 }
