@@ -262,5 +262,34 @@ public class FriendshipService {
 		
 		friendshipDAO.delete(friendship);
 	}
+	
+	public List<ProfessionalDomain> suggestedProfessionals (String professionalID){
+		
+		validationUtils.validateProfessionalByID(professionalDAO, professionalID);
+		
+		List<ProfessionalDomain> listOfAllProfessionals = professionalDAO.findAll();
+		
+		List<String> listOfFriendsID = friendshipMapper.mapFriendsIDsList(professionalID);
+		
+		List<ProfessionalDomain> listOfSuggestions = new ArrayList<ProfessionalDomain>();
+		
+		for(ProfessionalDomain professional : listOfAllProfessionals) {
+			if (!listOfFriendsID.contains(professional.getProfessionalID()) && !professional.getProfessionalID().equalsIgnoreCase(professionalID)) {
+				listOfSuggestions.add(professional);
+			}
+		}
+
+		if (listOfSuggestions.size() < 10) {
+			return listOfSuggestions;
+		}else {
+			List<ProfessionalDomain> listOf10Suggestions = new ArrayList<ProfessionalDomain>();
+			int i = 0;
+			while (listOf10Suggestions.size() < 10) {
+				listOf10Suggestions.add(listOfSuggestions.get(i));
+				i++;
+			}
+			return listOf10Suggestions;
+		}
+	}
 
 }

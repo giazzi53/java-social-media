@@ -128,5 +128,21 @@ public class FriendshipController {
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@CrossOrigin("*")
+	@GetMapping("/suggestedProfessionals/{professionalID}")
+	public ResponseEntity<?> suggestedProfessionals(@PathVariable String professionalID){
+		
+		List<ProfessionalDomain> listOfSuggestions = new ArrayList<ProfessionalDomain>();
+		
+		try {
+			listOfSuggestions = friendshipService.suggestedProfessionals(professionalID);
+		} catch(IllegalArgumentException i) {
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(listOfSuggestions, HttpStatus.OK);
+	}
+	
 
 }
