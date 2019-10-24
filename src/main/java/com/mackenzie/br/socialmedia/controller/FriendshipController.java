@@ -144,5 +144,16 @@ public class FriendshipController {
 		return new ResponseEntity<>(listOfSuggestions, HttpStatus.OK);
 	}
 	
-
+	@CrossOrigin("*")
+	@DeleteMapping("/revokeFriendshipRequest/{requestSenderID}/{requestReceiverID}")
+	public ResponseEntity<?> revokeFriendshipRequest(@PathVariable String requestSenderID, @PathVariable String requestReceiverID){
+		try {
+			friendshipService.revokeFriendshipRequest(requestSenderID, requestReceiverID);
+		} catch(IllegalArgumentException i) {
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
 }

@@ -22,4 +22,6 @@ public interface FriendshipRequestDAO extends MongoRepository<FriendshipRequestD
 	
 	boolean existsByRequestReceiverIDAndRequestSenderID (String requestReceiverID, String requestSenderID);
 
+	FriendshipRequestDomain findByRequestSenderIDAndRequestReceiverID(String requestSenderID, String requestReceiverID);
+
 }

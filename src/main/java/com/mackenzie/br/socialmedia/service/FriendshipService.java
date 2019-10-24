@@ -292,4 +292,18 @@ public class FriendshipService {
 		}
 	}
 
+	public void revokeFriendshipRequest(String requestSenderID, String requestReceiverID) {
+		
+		validationUtils.validateProfessionalByID(professionalDAO, requestSenderID);
+		validationUtils.validateProfessionalByID(professionalDAO, requestReceiverID);
+		
+		if (!friendshipRequestDAO.existsByRequestSenderIDAndRequestReceiverID(requestSenderID, requestReceiverID)) {
+			throw new IllegalArgumentException("Solicitação de amizade não encontrada!");
+		}
+		
+		FriendshipRequestDomain friendshipRequestDomain = friendshipRequestDAO.findByRequestSenderIDAndRequestReceiverID(requestSenderID, requestReceiverID);
+		friendshipRequestDAO.delete(friendshipRequestDomain);
+		
+	}
+
 }
