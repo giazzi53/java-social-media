@@ -43,4 +43,9 @@ public class AnalyticsService {
 		
 		return analyticsMapper.mapListToDescendingOrder(professionalFriendsList);
 	}
+
+	public int getNumberOfProfessionals() {
+		
+		return (int) professionalDAO.count();
+	}
 }

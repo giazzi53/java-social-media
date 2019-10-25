@@ -306,4 +306,37 @@ public class FriendshipService {
 		
 	}
 
+	public List<ProfessionalDomain> returnFriendshipRequestReceivedList(String professionalID) {
+		
+		validationUtils.validateProfessionalByID(professionalDAO, professionalID);
+		
+		List<FriendshipRequestDomain> listRequestsReceived = friendshipRequestDAO.findAllByRequestReceiverID(professionalID);
+		
+		List<ProfessionalDomain> listProfessionalsThatSentRequest = new ArrayList<ProfessionalDomain>();
+		
+		for (FriendshipRequestDomain requestReceived : listRequestsReceived) {
+			listProfessionalsThatSentRequest.add(professionalDAO.findByProfessionalID(requestReceived.getRequestSenderID()));
+		}
+		
+		return listProfessionalsThatSentRequest;
+		
+	}
+	
+	public List<ProfessionalDomain> returnFriendshipRequestSentList(String professionalID) {
+		
+		validationUtils.validateProfessionalByID(professionalDAO, professionalID);
+		
+		List<FriendshipRequestDomain> listRequestsSent = friendshipRequestDAO.findAllByRequestSenderID(professionalID);
+		
+		List<ProfessionalDomain> listProfessionalsThatReceivedRequest = new ArrayList<ProfessionalDomain>();
+		
+		for (FriendshipRequestDomain requestReceived : listRequestsSent) {
+			listProfessionalsThatReceivedRequest.add(professionalDAO.findByProfessionalID(requestReceived.getRequestReceiverID()));
+		}
+		
+		return listProfessionalsThatReceivedRequest;
+		
+	}
+
 }
+ 

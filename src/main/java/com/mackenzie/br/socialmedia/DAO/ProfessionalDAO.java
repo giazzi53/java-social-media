@@ -26,4 +26,4 @@ public interface ProfessionalDAO extends MongoRepository<ProfessionalDomain, Str
 	
 	List<ProfessionalDomain> findByNameLike(String name);
 
-}
+	}

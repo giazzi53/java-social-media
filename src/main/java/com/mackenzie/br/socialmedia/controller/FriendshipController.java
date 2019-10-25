@@ -156,4 +156,32 @@ public class FriendshipController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	@CrossOrigin("*")
+	@GetMapping("/returnFriendshipRequestReceivedList/{professionalID}")
+	public ResponseEntity<?> returnFriendshipRequestReceivedList(@PathVariable String professionalID){
+		List<ProfessionalDomain> listOfFriendshipRequestReceived = new ArrayList<ProfessionalDomain>();
+		
+		try {
+			listOfFriendshipRequestReceived = friendshipService.returnFriendshipRequestReceivedList(professionalID);
+		} catch(IllegalArgumentException i) {
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(listOfFriendshipRequestReceived, HttpStatus.OK);
+	}
+	
+	@CrossOrigin("*")
+	@GetMapping("/returnFriendshipRequestSentList/{professionalID}")
+	public ResponseEntity<?> returnFriendshipRequestSentList(@PathVariable String professionalID){
+		List<ProfessionalDomain> listOfFriendshipRequestSent = new ArrayList<ProfessionalDomain>();
+		
+		try {
+			listOfFriendshipRequestSent = friendshipService.returnFriendshipRequestSentList(professionalID);
+		} catch(IllegalArgumentException i) {
+			return new ResponseEntity<>(i.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(listOfFriendshipRequestSent, HttpStatus.OK);
+	}
+	
 }

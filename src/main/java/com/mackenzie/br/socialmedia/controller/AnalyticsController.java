@@ -30,4 +30,11 @@ public class AnalyticsController {
 		return analyticsService.getTop10ProfessionalsWithMostFriends();
 	}
 	
+	@CrossOrigin(value = "*")
+	@GetMapping(value="/getNumberOfProfessionals")
+	public int getNumberOfProfessionals(){
+		
+		return analyticsService.getNumberOfProfessionals();
+	}
+	
 }
