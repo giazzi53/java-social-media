@@ -271,10 +271,20 @@ public class FriendshipService {
 		
 		List<String> listOfFriendsID = friendshipMapper.mapFriendsIDsList(professionalID);
 		
+		List<ProfessionalDomain> listOfRequestsReceived = returnFriendshipRequestReceivedList(professionalID);
+		
+		List<String> listOfRequestsReceivedID = new ArrayList<String>();
+		
 		List<ProfessionalDomain> listOfSuggestions = new ArrayList<ProfessionalDomain>();
 		
+		for (ProfessionalDomain profesisonal : listOfRequestsReceived) {
+			listOfRequestsReceivedID.add(profesisonal.getProfessionalID());
+		}
+		
 		for(ProfessionalDomain professional : listOfAllProfessionals) {
-			if (!listOfFriendsID.contains(professional.getProfessionalID()) && !professional.getProfessionalID().equalsIgnoreCase(professionalID)) {
+			if (!listOfFriendsID.contains(professional.getProfessionalID()) 
+					&& !professional.getProfessionalID().equalsIgnoreCase(professionalID)
+					&& !listOfRequestsReceivedID.contains(professional.getProfessionalID())) {
 				listOfSuggestions.add(professional);
 			}
 		}
