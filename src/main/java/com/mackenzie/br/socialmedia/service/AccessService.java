@@ -72,10 +72,13 @@ public class AccessService {
 		databaseProfessional.setUserLogin(professional.getUserLogin());
 		
 		if(professional.getPaymentInfo() != null) {
-			databaseProfessional.getPaymentInfo().setCardName(professional.getPaymentInfo().getCardName());
-			databaseProfessional.getPaymentInfo().setCardNumber(professional.getPaymentInfo().getCardNumber());
-			databaseProfessional.getPaymentInfo().setCardSecurityCode(professional.getPaymentInfo().getCardSecurityCode());
-			databaseProfessional.getPaymentInfo().setCardValidationDate(professional.getPaymentInfo().getCardValidationDate().toString());
+			PaymentInfoDomain newPaymentInfo = new PaymentInfoDomain();
+			
+			newPaymentInfo.setCardName(professional.getPaymentInfo().getCardName());
+			newPaymentInfo.setCardNumber(professional.getPaymentInfo().getCardNumber());
+			newPaymentInfo.setCardSecurityCode(professional.getPaymentInfo().getCardSecurityCode());
+			newPaymentInfo.setCardValidationDate(professional.getPaymentInfo().getCardValidationDate().toString());
+			databaseProfessional.setPaymentInfo(newPaymentInfo);
 		}
 		
 		if(professional.getProfileImage() != null) {
