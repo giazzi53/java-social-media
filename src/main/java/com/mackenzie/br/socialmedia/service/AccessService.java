@@ -70,11 +70,18 @@ public class AccessService {
 		databaseProfessional.setPassword(professional.getPassword());
 		databaseProfessional.setState(professional.getState());
 		databaseProfessional.setUserLogin(professional.getUserLogin());
-		databaseProfessional.getPaymentInfo().setCardName(professional.getPaymentInfo().getCardName());
-		databaseProfessional.getPaymentInfo().setCardNumber(professional.getPaymentInfo().getCardNumber());
-		databaseProfessional.getPaymentInfo().setCardSecurityCode(professional.getPaymentInfo().getCardSecurityCode());
-		databaseProfessional.getPaymentInfo().setCardValidationDate(professional.getPaymentInfo().getCardValidationDate().toString());
-		databaseProfessional.setProfileImage(professional.getProfileImage());
+		
+		if(professional.getPaymentInfo() != null) {
+			databaseProfessional.getPaymentInfo().setCardName(professional.getPaymentInfo().getCardName());
+			databaseProfessional.getPaymentInfo().setCardNumber(professional.getPaymentInfo().getCardNumber());
+			databaseProfessional.getPaymentInfo().setCardSecurityCode(professional.getPaymentInfo().getCardSecurityCode());
+			databaseProfessional.getPaymentInfo().setCardValidationDate(professional.getPaymentInfo().getCardValidationDate().toString());
+		}
+		
+		if(professional.getProfileImage() != null) {
+			databaseProfessional.setProfileImage(professional.getProfileImage());
+		}
+		
 		databaseProfessional.setProfileType(professional.getProfileType());
 		
 		professionalDAO.save(databaseProfessional);
