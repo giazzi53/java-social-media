@@ -1,6 +1,12 @@
 package com.mackenzie.br.socialmedia.service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import com.mackenzie.br.socialmedia.DAO.PaymentInfoDAO;
@@ -77,7 +83,14 @@ public class AccessService {
 			newPaymentInfo.setCardName(professional.getPaymentInfo().getCardName());
 			newPaymentInfo.setCardNumber(professional.getPaymentInfo().getCardNumber());
 			newPaymentInfo.setCardSecurityCode(professional.getPaymentInfo().getCardSecurityCode());
-			newPaymentInfo.setCardValidationDate(professional.getPaymentInfo().getCardValidationDate().toString());
+			
+			Date date = professional.getPaymentInfo().getCardValidationDate();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+			int validationDateYYYY = calendar.get(Calendar.YEAR);
+			int validationDateMM = calendar.get(Calendar.MONTH) + 1;
+			String cardValidationDateString = Integer.toString(validationDateYYYY) + '-' + Integer.toString(validationDateMM); 
+			newPaymentInfo.setCardValidationDate(cardValidationDateString);
 			databaseProfessional.setPaymentInfo(newPaymentInfo);
 		}
 		
