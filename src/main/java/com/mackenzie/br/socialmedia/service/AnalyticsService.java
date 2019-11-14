@@ -29,14 +29,13 @@ public class AnalyticsService {
 
 	public BigDecimal getAvgNumberOfFriends() {
 		
-		NumberFormat nf = NumberFormat.getInstance();
-		nf.setMinimumFractionDigits(0);
+		DecimalFormat df = new DecimalFormat("#.##");
 		
 		double numberOfProfessionals = professionalDAO.count();
 		
 		double avgNumberOfFriends = (friendshipDAO.count() * 2) / numberOfProfessionals;
 		
-		return new BigDecimal(nf.format(avgNumberOfFriends));
+		return new BigDecimal(df.format(avgNumberOfFriends));
 	}
 	
 	public List<Professional_FriendsDomain> getTop10ProfessionalsWithMostFriends(){
