@@ -25,9 +25,12 @@ public class AnalyticsService {
 	@Autowired
 	private AnalyticsMapper analyticsMapper;
 
-	public float getAvgNumberOfFriends() {
+	public BigDecimal getAvgNumberOfFriends() {
 		
-		return (friendshipDAO.count() * 2) / professionalDAO.count();
+		double avgNumberOfFriends = (friendshipDAO.count() * 2) / professionalDAO.count();
+				
+		
+		return new BigDecimal(avgNumberOfFriends);
 	}
 	
 	public List<Professional_FriendsDomain> getTop10ProfessionalsWithMostFriends(){
