@@ -1,5 +1,6 @@
 package com.mackenzie.br.socialmedia.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +45,8 @@ public class AnalyticsService {
 		return analyticsMapper.mapListToDescendingOrder(professionalFriendsList);
 	}
 
-	public int getNumberOfProfessionals() {
+	public BigDecimal getNumberOfProfessionals() {
 		
-		return (int) professionalDAO.count();
+		return new BigDecimal(professionalDAO.count());
 	}
 }

@@ -1,5 +1,6 @@
 package com.mackenzie.br.socialmedia.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class AnalyticsController {
 	
 	@CrossOrigin(value = "*")
 	@GetMapping(value="/getNumberOfProfessionals")
-	public int getNumberOfProfessionals(){
+	public BigDecimal getNumberOfProfessionals(){
 		
 		return analyticsService.getNumberOfProfessionals();
 	}
