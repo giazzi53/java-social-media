@@ -27,8 +27,9 @@ public class AnalyticsService {
 
 	public double getAvgNumberOfFriends() {
 		
-		double avgNumberOfFriends = (friendshipDAO.count() * 2) / professionalDAO.count();
-				
+		double numberOfProfessionals = professionalDAO.count();
+		
+		double avgNumberOfFriends = (friendshipDAO.count() * 2) / numberOfProfessionals;
 		
 		return avgNumberOfFriends;
 	}
