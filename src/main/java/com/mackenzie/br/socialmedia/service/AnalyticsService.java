@@ -1,6 +1,8 @@
 package com.mackenzie.br.socialmedia.service;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,13 +27,16 @@ public class AnalyticsService {
 	@Autowired
 	private AnalyticsMapper analyticsMapper;
 
-	public double getAvgNumberOfFriends() {
+	public BigDecimal getAvgNumberOfFriends() {
+		
+		NumberFormat nf = NumberFormat.getInstance();
+		nf.setMinimumFractionDigits(1);
 		
 		double numberOfProfessionals = professionalDAO.count();
 		
 		double avgNumberOfFriends = (friendshipDAO.count() * 2) / numberOfProfessionals;
 		
-		return avgNumberOfFriends;
+		return new BigDecimal(nf.format(avgNumberOfFriends));
 	}
 	
 	public List<Professional_FriendsDomain> getTop10ProfessionalsWithMostFriends(){
