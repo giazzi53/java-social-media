@@ -19,7 +19,7 @@ public class AnalyticsController {
 	
 	@CrossOrigin(value = "*")
 	@GetMapping(value="/getAvgNumberOfFriends")
-	public BigDecimal getAvgNumberOfFriends() {
+	public double getAvgNumberOfFriends() {
 		
 		return analyticsService.getAvgNumberOfFriends();
 	}
