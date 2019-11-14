@@ -30,7 +30,7 @@ public class AnalyticsService {
 	public BigDecimal getAvgNumberOfFriends() {
 		
 		NumberFormat nf = NumberFormat.getInstance();
-		nf.setMinimumFractionDigits(1);
+		nf.setMinimumFractionDigits(0);
 		
 		double numberOfProfessionals = professionalDAO.count();
 		
