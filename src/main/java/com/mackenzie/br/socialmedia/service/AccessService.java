@@ -13,6 +13,7 @@ import com.mackenzie.br.socialmedia.DAO.PaymentInfoDAO;
 import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
 import com.mackenzie.br.socialmedia.domain.PaymentInfoDomain;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
+import com.mackenzie.br.socialmedia.utils.NameUtils;
 import com.mackenzie.br.socialmedia.utils.ValidationUtils;
 
 @Service
@@ -26,14 +27,18 @@ public class AccessService {
 
 	@Autowired
 	private ValidationUtils validationUtils;
-
+	
+	@Autowired
+	private NameUtils nameUtils;
+	
 	public ProfessionalDomain signUp(ProfessionalDomain professional) throws IllegalArgumentException {
 
 		if (validateUser(professional.getUserLogin())) {
 
 			throw new IllegalArgumentException("Usuário já em uso");
 		}
-
+		
+		professional.setName(nameUtils.capitailizeWord(professional.getName().toLowerCase()));
 		ProfessionalDomain databaseProfessional = professionalDAO.insert(professional);
 		PaymentInfoDomain paymentInfo = professional.getPaymentInfo();
 
@@ -64,7 +69,7 @@ public class AccessService {
 		ProfessionalDomain databaseProfessional = professionalDAO
 				.findByProfessionalID(professional.getProfessionalID());
 
-		databaseProfessional.setName(professional.getName());
+		databaseProfessional.setName(nameUtils.capitailizeWord(professional.getName().toLowerCase()));
 		databaseProfessional.setBirthDate(professional.getBirthDate());
 		databaseProfessional.setCareerDate(professional.getCareerDate());
 		databaseProfessional.setCity(professional.getCity());

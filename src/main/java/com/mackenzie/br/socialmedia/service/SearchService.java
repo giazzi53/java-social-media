@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mackenzie.br.socialmedia.DAO.ProfessionalDAO;
 import com.mackenzie.br.socialmedia.domain.ProfessionalDomain;
+import com.mackenzie.br.socialmedia.utils.NameUtils;
 
 @Service
 public class SearchService {
@@ -14,9 +15,12 @@ public class SearchService {
 	@Autowired
 	private ProfessionalDAO professionalDAO;
 	
+	@Autowired
+	private NameUtils nameUtils;
+	
 	public List<ProfessionalDomain> search(String professionalName){
 		
-		return professionalDAO.findByNameLike(professionalName.substring(0,1).toUpperCase());
+		return professionalDAO.findByNameLike(nameUtils.capitailizeWord(professionalName.toLowerCase()));
 	}
 	
 }
